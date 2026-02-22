@@ -1,0 +1,16 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.header {
+    background-color: white;
+}
+
+.header-list {
+    display: flex;
+    gap: $space10;
+    justify-content: space-between;
+    
+    &__link {
+        color: rgb(2, 141, 2);
+    }
+}
