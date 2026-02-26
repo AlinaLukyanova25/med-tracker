@@ -1,0 +1,33 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.reception-list {
+    padding: 0;
+    margin: 0 0 20px;
+
+    &__item {
+        @include section-list-item;
+        transition: $transition;
+
+        &:hover {
+            box-shadow: $box-shadow-hover;
+        }
+
+        @include flex-bassis-title;
+    }
+
+    @include time-and-dosage-style;
+
+    .item-button {
+        margin: 10px 0 0;
+    }
+
+    &__stock {
+        display: inline-block;
+        background-color: $color-background;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: $color-text-light;
+    }
+}

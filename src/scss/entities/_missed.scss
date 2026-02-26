@@ -1,0 +1,18 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.missed-list {
+    padding: 0;
+
+    &__item {
+        @include section-list-item;
+
+        @include flex-bassis-title;
+    }
+
+    @include time-and-dosage-style;
+
+    .item-button {
+        margin-top: 10px;
+    }
+}

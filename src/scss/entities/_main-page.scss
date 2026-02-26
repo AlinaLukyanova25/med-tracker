@@ -1,0 +1,27 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.main-page {
+    max-width: 800px;
+    margin: 0 auto;
+
+    &__button {
+        display: block;
+        width: fit-content;
+        margin: 40px auto 0;
+        padding: 14px 32px;
+        font-size: 1.1rem;
+        font-weight: 500;
+        cursor: pointer;
+        background-color: $color-primary;
+        color: $color-white;
+        border: none;
+        border-radius: $border-radius-small;
+        box-shadow: $box-shadow;
+        transition: $transition;
+
+        &:hover {
+            background-color: lighten($color-primary, 10%);
+        }
+    }
+}
