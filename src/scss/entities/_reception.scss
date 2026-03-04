@@ -3,7 +3,7 @@
 
 .reception-list {
     padding: 0;
-    margin: 0 0 20px;
+    margin: 0 0 $space20;
 
     &__item {
         @include section-list-item;
@@ -25,9 +25,9 @@
     &__stock {
         display: inline-block;
         background-color: $color-background;
-        padding: 4px 10px;
+        padding: $space5 10px;
         border-radius: 20px;
-        font-size: 0.85rem;
+        font-size: $font-size15;
         color: $color-text-light;
     }
 }

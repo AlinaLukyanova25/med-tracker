@@ -6,7 +6,7 @@
     border-radius: $border-radius;
     box-shadow: $box-shadow;
     padding: 12px 24px;
-    margin-bottom: 30px;
+    margin-bottom: $space30;
 
     &__nav {
         display: flex;
@@ -20,8 +20,9 @@
 
     &__link {
         color: $color-text;
-        font-weight: 500;
-        padding: 8px 0;
+        font-weight: 600;
+        font-size: $font-size18;
+        padding: $space8 0;
         border-bottom: 2px solid transparent;
         transition: $transition;
 
