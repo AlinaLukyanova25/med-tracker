@@ -507,6 +507,7 @@ body {
 .active {
   max-width: 800px;
   margin: 0 auto;
+  padding-bottom: 30px;
 }
 .active__list {
   display: flex;
@@ -547,6 +548,57 @@ body {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
+}
+
+.calendar {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+.calendar__header {
+  display: flex;
+  justify-content: space-between;
+}
+.calendar__weekdays {
+  display: flex;
+  justify-content: space-around;
+}
+
+.archive {
+  max-width: 800px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+.archive__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.archive__card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: start;
+}
+.archive__card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.archive__card-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.archive__date {
+  color: #ed6c02;
+  font-weight: 500;
 }
 
 /*# sourceMappingURL=main.css.map */

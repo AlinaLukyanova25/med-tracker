@@ -1,5 +1,11 @@
 @import './variables';
 
+@mixin section-style {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: $space30;
+}
+
 @mixin section-list-item {
     background-color: $color-white;
     border-radius: $border-radius;

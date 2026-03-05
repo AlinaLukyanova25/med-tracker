@@ -1,7 +1,7 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
-.active {
+.archive {
     @include section-style;
 
     &__list {
@@ -20,15 +20,6 @@
         }
     }
 
-    &__date {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        color: $color-warning;
-        margin: $space8 0;
-        font-weight: 500;
-    }
-
     &__card-bottom {
         width: 100%;
         display: flex;
@@ -36,5 +27,8 @@
         justify-content: space-between;
     }
 
-    @include time-and-dosage-style;
+    &__date {
+        color: $color-warning;
+        font-weight: 500;
+    }
 }

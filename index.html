@@ -88,6 +88,50 @@
             </ul>
             <button class="add-button active__button">Добавить приём</button>
         </section>
+        <section class="calendar" id="section-calendar">
+            <div class="calendar__header">
+            <button class="arrow" id="prev-month" type="button" aria-label="Предыдущий месяц"><img src="img/arrow-left.svg" alt=""></button>
+            <h2 class="list-title" id="current-month">Календарь</h2>
+            <button class="arrow" id="next-month" type="button" aria-label="Следующий месяц"><img src="img/arrow-right.svg" alt=""></button>
+            </div>
+
+            <div class="calendar__weekdays">
+                <div class="item-title">ПН</div>
+                <div class="item-title">ВТ</div>
+                <div class="item-title">СР</div>
+                <div class="item-title">ЧТ</div>
+                <div class="item-title">ПТ</div>
+                <div class="item-title">СБ</div>
+                <div class="item-title">ВС</div>
+            </div>
+
+            <div id="calendar" class="calendar__grid">
+      
+            </div>
+        </section>
+        <section class="archive">
+            <h2 hidden>Архив</h2>
+            <ul class="archive__list">
+                <li class="archive__card">
+                    <h3 class="list-title">Пополнение витаминами</h3>
+                    <h4 class="item-title">Витамин В2</h4>
+                    <div class="archive__card-bottom">
+                        <p class="archive__date">Завершен: 15 марта</p>
+                        <button class="item-button archive__btn-return">Назначить снова</button>
+                        <button class="item-button archive__card-delete">Удалить</button>
+                    </div>
+                </li>
+                <li class="archive__card">
+                    <h3 class="list-title">Боль в горле</h3>
+                    <h4 class="item-title">Каметон</h4>
+                    <div class="archive__card-bottom">
+                        <p class="archive__date">Завершен: 7 марта</p>
+                        <button class="item-button archive__btn-return">Назначить снова</button>
+                        <button class="item-button archive__card-delete">Удалить</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </main>
 </body>
 </html>

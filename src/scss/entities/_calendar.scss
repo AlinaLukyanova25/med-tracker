@@ -1,0 +1,16 @@
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.calendar {
+    @include section-style;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__weekdays {
+        display: flex;
+        justify-content: space-around;
+    }
+}
