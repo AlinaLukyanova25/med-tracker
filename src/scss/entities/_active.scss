@@ -2,39 +2,40 @@
 @import '../abstracts/mixins';
 
 .active {
-    @include section-style;
+  @include section-style;
 
-    &__list {
-        display: flex;
-        flex-direction: column;
-        gap: $space16;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $space16;
+  }
+
+  &__card {
+    @include section-list-item;
+
+    flex-direction: column;
+    align-items: start;
+
+    &:hover {
+      box-shadow: $box-shadow-hover;
     }
+  }
 
-    &__card {
-        @include section-list-item;
-        flex-direction: column;
-        align-items: start;
+  &__date {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: $color-warning;
+    margin: $space8 0;
+    font-weight: 500;
+  }
 
-        &:hover {
-            box-shadow: $box-shadow-hover;
-        }
-    }
+  &__card-bottom {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-    &__date {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        color: $color-warning;
-        margin: $space8 0;
-        font-weight: 500;
-    }
-
-    &__card-bottom {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    @include time-and-dosage-style;
+  @include time-and-dosage-style;
 }

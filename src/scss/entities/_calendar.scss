@@ -2,15 +2,15 @@
 @import '../abstracts/mixins';
 
 .calendar {
-    @include section-style;
+  @include section-style;
 
-    &__header {
-        display: flex;
-        justify-content: space-between;
-    }
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
 
-    &__weekdays {
-        display: flex;
-        justify-content: space-around;
-    }
+  &__weekdays {
+    display: flex;
+    justify-content: space-around;
+  }
 }

@@ -7,7 +7,7 @@
  */
 html {
   line-height: 1.15; /* 1 */
-  -webkit-text-size-adjust: 100%; /* 2 */
+  text-size-adjust: 100%; /* 2 */
 }
 
 /* Sections
@@ -52,7 +52,7 @@ hr {
  * 2. Correct the odd `em` font sizing in all browsers.
  */
 pre {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -90,7 +90,7 @@ strong {
 code,
 kbd,
 samp {
-  font-family: monospace, monospace; /* 1 */
+  font-family: monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -172,7 +172,7 @@ button,
 [type=button],
 [type=reset],
 [type=submit] {
-  -webkit-appearance: button;
+  appearance: button;
 }
 
 /**
@@ -255,7 +255,7 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 [type=search] {
-  -webkit-appearance: textfield; /* 1 */
+  appearance: textfield; /* 1 */
   outline-offset: -2px; /* 2 */
 }
 
@@ -263,7 +263,7 @@ textarea {
  * Remove the inner padding in Chrome and Safari on macOS.
  */
 [type=search]::-webkit-search-decoration {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 /**
@@ -271,7 +271,7 @@ textarea {
  * 2. Change font properties to `inherit` in Safari.
  */
 ::-webkit-file-upload-button {
-  -webkit-appearance: button; /* 1 */
+  appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
 
@@ -323,7 +323,7 @@ li {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, oxygen, ubuntu, cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #f8fafc;
   color: #1e293b;
   font-size: 15px;
@@ -350,7 +350,7 @@ body {
 
 .item-button {
   background-color: #4caf50;
-  color: #ffffff;
+  color: #fff;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
@@ -374,18 +374,18 @@ body {
   font-weight: 500;
   cursor: pointer;
   background-color: #2e7d32;
-  color: #ffffff;
+  color: #fff;
   border: none;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: 0.2s ease;
 }
 .add-button:hover {
-  background-color: rgb(59.7192982456, 162.2807017544, 64.9122807018);
+  background-color: rgb(66.9, 138, 70.5);
 }
 
 .header {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 12px 24px;
@@ -424,7 +424,7 @@ body {
   margin: 0 0 20px;
 }
 .reception-list__item {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
@@ -462,7 +462,7 @@ body {
   padding: 0;
 }
 .missed-list__item {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
@@ -488,7 +488,7 @@ body {
   padding: 0;
 }
 .stock-list__item {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
@@ -515,7 +515,7 @@ body {
   gap: 16px;
 }
 .active__card {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;
@@ -575,7 +575,7 @@ body {
   gap: 16px;
 }
 .archive__card {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 20px;

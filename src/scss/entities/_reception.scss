@@ -2,32 +2,33 @@
 @import '../abstracts/mixins';
 
 .reception-list {
-    padding: 0;
-    margin: 0 0 $space20;
+  padding: 0;
+  margin: 0 0 $space20;
 
-    &__item {
-        @include section-list-item;
-        transition: $transition;
+  &__item {
+    @include section-list-item;
 
-        &:hover {
-            box-shadow: $box-shadow-hover;
-        }
+    transition: $transition;
 
-        @include flex-bassis-title;
+    &:hover {
+      box-shadow: $box-shadow-hover;
     }
 
-    @include time-and-dosage-style;
+    @include flex-bassis-title;
+  }
 
-    .item-button {
-        margin: 10px 0 0;
-    }
+  @include time-and-dosage-style;
 
-    &__stock {
-        display: inline-block;
-        background-color: $color-background;
-        padding: $space5 10px;
-        border-radius: 20px;
-        font-size: $font-size15;
-        color: $color-text-light;
-    }
+  .item-button {
+    margin: 10px 0 0;
+  }
+
+  &__stock {
+    display: inline-block;
+    background-color: $color-background;
+    padding: $space5 10px;
+    border-radius: 20px;
+    font-size: $font-size15;
+    color: $color-text-light;
+  }
 }
