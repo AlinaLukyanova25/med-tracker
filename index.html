@@ -10,10 +10,10 @@
     <header class="header">
         <nav class="header__nav">
             <ul class="header-list">
-                <li class="header-list__item"><a href="#" class="header-list__link">Главная</a></li>
-                <li class="header-list__item"><a href="#" class="header-list__link">Активные</a></li>
-                <li class="header-list__item"><a href="#" class="header-list__link">Календарь</a></li>
-                <li class="header-list__item"><a href="#" class="header-list__link">Архив</a></li>
+                <li class="header-list__item"><a href="#" data-page="main-page" class="header-list__link">Главная</a></li>
+                <li class="header-list__item"><a href="#" data-page="active" class="header-list__link">Активные</a></li>
+                <li class="header-list__item"><a href="#" data-page="calendar" class="header-list__link">Календарь</a></li>
+                <li class="header-list__item"><a href="#" data-page="archive" class="header-list__link">Архив</a></li>
             </ul>
         </nav>
     </header>
@@ -133,5 +133,9 @@
             </ul>
         </section>
     </main>
+
+    <div id="modal" class="modal hidden"></div>
+
+    <script type="module" src="dist/js/main.js"></script>
 </body>
 </html>
