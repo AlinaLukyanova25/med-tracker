@@ -1,14 +1,6 @@
-import { getElement, querySelectorEl } from "./types.js";
+import { getElement, querySelectorEl, Reception } from "./types.js";
+import { saveToStorage, loadFromStorage } from "./storage.js";
 import { ModalManager } from "./modal.js";
-
-interface Reception {
-    diseaseName: string;
-    medicationName: string;
-    dosage: number;
-    stock: number;
-    dateStart: Date;
-    dateEnd: Date;
-}
 
 export class ReceptionManager {
     private receptions: Reception[] = [];
@@ -24,23 +16,27 @@ export class ReceptionManager {
     constructor(modal: ModalManager) {
         this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
         this.addForm = getElement<HTMLFormElement>('add-reception');
-            this.diseaseName = getElement<HTMLInputElement>('disease-name');
-            this.medicationName = getElement<HTMLInputElement>('medication-name');
-            this.dosage = getElement<HTMLInputElement>('reception-dosage');
-            this.stock = getElement<HTMLInputElement>('reception-stock');
+        this.diseaseName = getElement<HTMLInputElement>('disease-name');
+        this.medicationName = getElement<HTMLInputElement>('medication-name');
+        this.dosage = getElement<HTMLInputElement>('reception-dosage');
+        this.stock = getElement<HTMLInputElement>('reception-stock');
         this.dateEnd = getElement<HTMLInputElement>('reception-end');
         this.modal = modal
         
+        this.receptions = loadFromStorage()
         this.init()
     }
 
     init() {
         this.setupEventListeners()
+        this.renderReceptions()
     }
 
     setupEventListeners() {
         console.log('Обработчик submit в reception')
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e))
+
+        this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e))
     }
 
     handleAddFormSubmit(e: Event) {
@@ -63,6 +59,7 @@ export class ReceptionManager {
         }
 
         const reception: Reception = {
+            id: Date.now(),
             diseaseName: disName,
             medicationName: medName,
             dosage: dosage,
@@ -73,6 +70,7 @@ export class ReceptionManager {
 
         this.receptions.push(reception)
         console.log(this.receptions)
+        saveToStorage(this.receptions)
         this.renderReceptions()
         this.modal.addHidden()
         this.addForm.reset()
@@ -81,7 +79,10 @@ export class ReceptionManager {
     renderReceptions() {
         this.activeList.innerHTML = ''
 
-        if (this.receptions.length === 0) return
+        if (this.receptions.length === 0) {
+            this.activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
+            return
+        }
 
         for (let reception of this.receptions) {
             const li = this.createReceptionComponent(reception)
@@ -101,7 +102,7 @@ export class ReceptionManager {
             <div class="active__card-bottom">
                 <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
                 <p class="active__time">Время приёма: <span>Утро</span></p>
-                <button class="item-button active__card-delete">Удалить приём</button>
+                <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
             </div>
         </li>
         `
@@ -109,5 +110,19 @@ export class ReceptionManager {
 
     formatDateRu(date: Date): string {
         return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+    }
+
+    removeReceptionCard(e: Event) {
+        const target = e.target as HTMLElement
+
+        const button = target.closest('.active__card-delete')
+        if (!button) return
+
+        const dataId = button.getAttribute('data-id')
+        if (!dataId) return
+
+        this.receptions = this.receptions.filter(reception => reception.id !== Number(dataId))
+        saveToStorage(this.receptions)
+        this.renderReceptions()
     }
 }

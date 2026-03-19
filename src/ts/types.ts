@@ -9,3 +9,13 @@ export function querySelectorEl<T extends HTMLElement>(selector: string): T {
     if (!el) throw new Error(`Элемент "${selector}" не найден`)
     return el as T
 }
+
+export interface Reception {
+    id: number;
+    diseaseName: string;
+    medicationName: string;
+    dosage: number;
+    stock: number;
+    dateStart: Date;
+    dateEnd: Date;
+}

@@ -63,7 +63,7 @@ body {
 .add-button {
   display: block;
   width: fit-content;
-  margin: 40px auto 0;
+  margin: $space30 auto 0;
   padding: 14px 32px;
   font-size: $font-size18;
   font-weight: 500;
@@ -79,4 +79,8 @@ body {
     background-color: color.mix(white, $color-primary, 10%);
 
   }
+}
+
+.descr-not {
+  text-align: center;
 }

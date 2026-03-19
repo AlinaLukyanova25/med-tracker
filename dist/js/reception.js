@@ -1,4 +1,5 @@
 import { getElement, querySelectorEl } from "./types.js";
+import { saveToStorage, loadFromStorage } from "./storage.js";
 export class ReceptionManager {
     constructor(modal) {
         this.receptions = [];
@@ -10,14 +11,17 @@ export class ReceptionManager {
         this.stock = getElement('reception-stock');
         this.dateEnd = getElement('reception-end');
         this.modal = modal;
+        this.receptions = loadFromStorage();
         this.init();
     }
     init() {
         this.setupEventListeners();
+        this.renderReceptions();
     }
     setupEventListeners() {
         console.log('Обработчик submit в reception');
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e));
+        this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e));
     }
     handleAddFormSubmit(e) {
         var _a;
@@ -36,6 +40,7 @@ export class ReceptionManager {
             return;
         }
         const reception = {
+            id: Date.now(),
             diseaseName: disName,
             medicationName: medName,
             dosage: dosage,
@@ -45,14 +50,17 @@ export class ReceptionManager {
         };
         this.receptions.push(reception);
         console.log(this.receptions);
+        saveToStorage(this.receptions);
         this.renderReceptions();
         this.modal.addHidden();
         this.addForm.reset();
     }
     renderReceptions() {
         this.activeList.innerHTML = '';
-        if (this.receptions.length === 0)
+        if (this.receptions.length === 0) {
+            this.activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
             return;
+        }
         for (let reception of this.receptions) {
             const li = this.createReceptionComponent(reception);
             this.activeList.insertAdjacentHTML('beforeend', li);
@@ -70,12 +78,24 @@ export class ReceptionManager {
             <div class="active__card-bottom">
                 <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
                 <p class="active__time">Время приёма: <span>Утро</span></p>
-                <button class="item-button active__card-delete">Удалить приём</button>
+                <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
             </div>
         </li>
         `;
     }
     formatDateRu(date) {
         return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+    }
+    removeReceptionCard(e) {
+        const target = e.target;
+        const button = target.closest('.active__card-delete');
+        if (!button)
+            return;
+        const dataId = button.getAttribute('data-id');
+        if (!dataId)
+            return;
+        this.receptions = this.receptions.filter(reception => reception.id !== Number(dataId));
+        saveToStorage(this.receptions);
+        this.renderReceptions();
     }
 }

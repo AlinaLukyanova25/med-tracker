@@ -1,0 +1,20 @@
+export function saveToStorage(arr) {
+    localStorage.setItem('receptions', JSON.stringify(arr));
+    console.log(JSON.stringify(arr));
+}
+export function loadFromStorage() {
+    const stored = localStorage.getItem('receptions');
+    if (stored) {
+        try {
+            const parsed = JSON.parse(stored);
+            if (!Array.isArray(parsed))
+                return [];
+            return parsed.map((item) => (Object.assign(Object.assign({}, item), { dateStart: new Date(item.dateStart), dateEnd: new Date(item.dateEnd) })));
+        }
+        catch (e) {
+            console.error('Ошибка загрузки', e);
+            return [];
+        }
+    }
+    return [];
+}
