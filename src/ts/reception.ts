@@ -1,13 +1,17 @@
 import { getElement, querySelectorEl, Reception } from "./types.js";
 import { saveToStorage, loadFromStorage } from "./storage.js";
 import { ModalManager } from "./modal.js";
+import { baseFunctions } from "./base.js";
 
 export class ReceptionManager {
     private receptions: Reception[] = [];
+    private times: string[] = [];
     private activeList: HTMLUListElement;
     private addForm: HTMLFormElement;
     private diseaseName: HTMLInputElement;
     private medicationName: HTMLInputElement;
+    private time: HTMLInputElement;
+    private timeLabel: HTMLLabelElement;
     private dosage: HTMLInputElement;
     private stock: HTMLInputElement;
     private dateEnd: HTMLInputElement;
@@ -18,6 +22,8 @@ export class ReceptionManager {
         this.addForm = getElement<HTMLFormElement>('add-reception');
         this.diseaseName = getElement<HTMLInputElement>('disease-name');
         this.medicationName = getElement<HTMLInputElement>('medication-name');
+        this.time = getElement<HTMLInputElement>('reception-time');
+        this.timeLabel = getElement<HTMLLabelElement>('time-label');
         this.dosage = getElement<HTMLInputElement>('reception-dosage');
         this.stock = getElement<HTMLInputElement>('reception-stock');
         this.dateEnd = getElement<HTMLInputElement>('reception-end');
@@ -37,6 +43,12 @@ export class ReceptionManager {
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e))
 
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e))
+
+        this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e))
+    }
+
+    getReceptions(): Reception[] {
+        return this.receptions
     }
 
     handleAddFormSubmit(e: Event) {
@@ -47,6 +59,7 @@ export class ReceptionManager {
         const dosage = Number(this.dosage.value)
         const stock = Number(this.stock.value)
         const dateEnd = new Date(this.dateEnd?.value)
+        const time = this.time.value
 
         if (!disName || !medName) {
             alert('Введите корректные названия')
@@ -58,22 +71,50 @@ export class ReceptionManager {
             return
         }
 
+        if (!time && this.times.length === 0) {
+            alert('Введите время приёма')
+            return
+        }
+
+        if (time) this.times.push(time)
+
         const reception: Reception = {
             id: Date.now(),
             diseaseName: disName,
             medicationName: medName,
+            time: this.times,
             dosage: dosage,
             stock: stock,
             dateStart: new Date(),
-            dateEnd: dateEnd
+            dateEnd: dateEnd,
+            taken: false
         }
 
         this.receptions.push(reception)
+        this.times = [];
         console.log(this.receptions)
         saveToStorage(this.receptions)
         this.renderReceptions()
+        baseFunctions.renderReceptionList(this.receptions)
         this.modal.addHidden()
         this.addForm.reset()
+    }
+
+    handleLabelTimeClick(e: Event) {
+        const target = e.target as HTMLElement
+
+        const addMore = target.closest('.modal__add-more')
+        if (!addMore) return
+
+        if (!this.time.value) return
+
+        alert(this.time.value)
+
+        this.times.push(this.time.value)
+
+        console.log(this.times)
+
+        this.time.value = ''
     }
 
     renderReceptions() {
@@ -101,7 +142,7 @@ export class ReceptionManager {
             </p>
             <div class="active__card-bottom">
                 <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
-                <p class="active__time">Время приёма: <span>Утро</span></p>
+                <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
                 <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
             </div>
         </li>

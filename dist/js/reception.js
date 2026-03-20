@@ -1,12 +1,16 @@
 import { getElement, querySelectorEl } from "./types.js";
 import { saveToStorage, loadFromStorage } from "./storage.js";
+import { baseFunctions } from "./base.js";
 export class ReceptionManager {
     constructor(modal) {
         this.receptions = [];
+        this.times = [];
         this.activeList = querySelectorEl('.active__list');
         this.addForm = getElement('add-reception');
         this.diseaseName = getElement('disease-name');
         this.medicationName = getElement('medication-name');
+        this.time = getElement('reception-time');
+        this.timeLabel = getElement('time-label');
         this.dosage = getElement('reception-dosage');
         this.stock = getElement('reception-stock');
         this.dateEnd = getElement('reception-end');
@@ -22,6 +26,10 @@ export class ReceptionManager {
         console.log('Обработчик submit в reception');
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e));
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e));
+        this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e));
+    }
+    getReceptions() {
+        return this.receptions;
     }
     handleAddFormSubmit(e) {
         var _a;
@@ -31,6 +39,7 @@ export class ReceptionManager {
         const dosage = Number(this.dosage.value);
         const stock = Number(this.stock.value);
         const dateEnd = new Date((_a = this.dateEnd) === null || _a === void 0 ? void 0 : _a.value);
+        const time = this.time.value;
         if (!disName || !medName) {
             alert('Введите корректные названия');
             return;
@@ -39,21 +48,43 @@ export class ReceptionManager {
             alert('Укажите корректную дату окончания');
             return;
         }
+        if (!time && this.times.length === 0) {
+            alert('Введите время приёма');
+            return;
+        }
+        if (time)
+            this.times.push(time);
         const reception = {
             id: Date.now(),
             diseaseName: disName,
             medicationName: medName,
+            time: this.times,
             dosage: dosage,
             stock: stock,
             dateStart: new Date(),
-            dateEnd: dateEnd
+            dateEnd: dateEnd,
+            taken: false
         };
         this.receptions.push(reception);
+        this.times = [];
         console.log(this.receptions);
         saveToStorage(this.receptions);
         this.renderReceptions();
+        baseFunctions.renderReceptionList(this.receptions);
         this.modal.addHidden();
         this.addForm.reset();
+    }
+    handleLabelTimeClick(e) {
+        const target = e.target;
+        const addMore = target.closest('.modal__add-more');
+        if (!addMore)
+            return;
+        if (!this.time.value)
+            return;
+        alert(this.time.value);
+        this.times.push(this.time.value);
+        console.log(this.times);
+        this.time.value = '';
     }
     renderReceptions() {
         this.activeList.innerHTML = '';
@@ -77,7 +108,7 @@ export class ReceptionManager {
             </p>
             <div class="active__card-bottom">
                 <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
-                <p class="active__time">Время приёма: <span>Утро</span></p>
+                <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
                 <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
             </div>
         </li>

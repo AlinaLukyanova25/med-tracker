@@ -11,11 +11,13 @@ export function querySelectorEl<T extends HTMLElement>(selector: string): T {
 }
 
 export interface Reception {
-    id: number;
+    readonly id: number;
     diseaseName: string;
     medicationName: string;
+    time: string[];
     dosage: number;
     stock: number;
     dateStart: Date;
     dateEnd: Date;
+    taken: boolean;
 }

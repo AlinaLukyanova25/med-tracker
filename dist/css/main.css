@@ -656,6 +656,10 @@ body {
   cursor: pointer;
   font-size: 20px;
 }
+.modal__add-more {
+  cursor: pointer;
+  color: #64748b;
+}
 
 .modal.hidden {
   display: none;
