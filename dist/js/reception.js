@@ -1,8 +1,8 @@
 import { getElement, querySelectorEl } from "./types.js";
-import { saveToStorage, loadFromStorage } from "./storage.js";
-import { baseFunctions } from "./base.js";
+import { renderReceptionList, renderStockList } from "./renderService.js";
+import { shouldUpdateTaken } from "./timeUtils.js";
 export class ReceptionManager {
-    constructor(modal) {
+    constructor(modal, dataService) {
         this.receptions = [];
         this.times = [];
         this.activeList = querySelectorEl('.active__list');
@@ -15,7 +15,11 @@ export class ReceptionManager {
         this.stock = getElement('reception-stock');
         this.dateEnd = getElement('reception-end');
         this.modal = modal;
-        this.receptions = loadFromStorage();
+        this.dataService = dataService;
+        this.receptionList = querySelectorEl('.reception-list');
+        this.missedList = querySelectorEl('.missed-list');
+        this.stockList = querySelectorEl('.stock-list');
+        this.dataService.load();
         this.init();
     }
     init() {
@@ -63,14 +67,16 @@ export class ReceptionManager {
             stock: stock,
             dateStart: new Date(),
             dateEnd: dateEnd,
-            taken: false
+            taken: false,
+            lastTakenUpdate: new Date().toISOString()
         };
-        this.receptions.push(reception);
+        this.dataService.addReception(reception);
         this.times = [];
         console.log(this.receptions);
-        saveToStorage(this.receptions);
+        this.dataService.saveLocalStorage();
         this.renderReceptions();
-        baseFunctions.renderReceptionList(this.receptions);
+        renderReceptionList(this.dataService.getReceprions(), this.receptionList, this.missedList);
+        renderStockList(this.dataService.getReceprions(), this.stockList);
         this.modal.addHidden();
         this.addForm.reset();
     }
@@ -88,11 +94,11 @@ export class ReceptionManager {
     }
     renderReceptions() {
         this.activeList.innerHTML = '';
-        if (this.receptions.length === 0) {
+        if (this.dataService.getReceprions().length === 0) {
             this.activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
             return;
         }
-        for (let reception of this.receptions) {
+        for (let reception of this.dataService.getReceprions()) {
             const li = this.createReceptionComponent(reception);
             this.activeList.insertAdjacentHTML('beforeend', li);
         }
@@ -125,8 +131,15 @@ export class ReceptionManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        this.receptions = this.receptions.filter(reception => reception.id !== Number(dataId));
-        saveToStorage(this.receptions);
+        this.dataService.removeReception(Number(dataId));
+        this.dataService.saveLocalStorage();
         this.renderReceptions();
+    }
+    updateTakenOncePerDay(reception) {
+        if (shouldUpdateTaken(reception)) {
+            reception.taken = false;
+            reception.lastTakenUpdate = new Date().toISOString();
+            this.dataService.saveLocalStorage();
+        }
     }
 }

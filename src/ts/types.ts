@@ -20,4 +20,5 @@ export interface Reception {
     dateStart: Date;
     dateEnd: Date;
     taken: boolean;
+    lastTakenUpdate: string;
 }
