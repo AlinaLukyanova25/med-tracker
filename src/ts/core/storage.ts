@@ -1,4 +1,4 @@
-import { Reception } from "./types.js"
+import { Reception } from "../types/types.js"
 
 export function saveToStorage(arr: Reception[]) {
     localStorage.setItem('receptions', JSON.stringify(arr))

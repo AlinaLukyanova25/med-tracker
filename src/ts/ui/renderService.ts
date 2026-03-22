@@ -1,5 +1,37 @@
-import { Reception } from "./types.js"
-import { getTimeReception, isDatePassed } from "./timeUtils.js"
+import { Reception } from "../types/types.js"
+import { getTimeReception, isDatePassed, formatDateRu } from "../core/timeUtils.js"
+
+export function renderActiveList(arr: Reception[], activeList: HTMLUListElement) {
+        activeList.innerHTML = ''
+
+        if (arr.length === 0) {
+            activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
+            return
+        }
+
+        for (let reception of arr) {
+            const li = createReceptionComponent(reception)
+            activeList.insertAdjacentHTML('beforeend', li)
+        }
+}
+
+export function createReceptionComponent(reception: Reception): string {
+    return `
+    <li class="active__card">
+        <h3 class="list-title">${reception.diseaseName}</h3>
+        <h4 class="item-title">${reception.medicationName}</h4>
+        <p class="active__date">
+            <span class="active__date--start">Назначен: ${formatDateRu(reception.dateStart)}</span>
+            <span class="active__date--end">Окончание приёма: ${formatDateRu(reception.dateEnd)}</span>
+        </p>
+        <div class="active__card-bottom">
+            <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
+            <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
+            <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
+        </div>
+    </li>
+    `
+}
 
 export function renderReceptionList(arr: Reception[], receptionList: HTMLUListElement, missedList: HTMLUListElement): void {
 
@@ -23,7 +55,7 @@ export function renderReceptionList(arr: Reception[], receptionList: HTMLUListEl
         const diff = today.getTime() - now.getTime()
 
         if (diff > 0) {
-            const li = createReceptionComponent(reception)
+            const li = createReceptionMainComponent(reception)
             receptionList.insertAdjacentHTML('beforeend', li)
         } else {
             const li = createMissedReceptionComponent(reception)
@@ -45,7 +77,7 @@ export function renderStockList(arr: Reception[], stockList: HTMLUListElement): 
     }
 }
 
-function createReceptionComponent(reception: Reception): string {
+function createReceptionMainComponent(reception: Reception): string {
     return `
     <li class="reception-list__item">
         <h4 class="item-title">${reception.medicationName}</h4>

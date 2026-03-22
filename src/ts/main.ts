@@ -1,8 +1,8 @@
-import { MenuManager } from "./menu.js";
-import { ModalManager } from "./modal.js";
-import { ReceptionManager } from './reception.js';
-import { MainPageManager } from "./mainPage.js";
-import { DataService } from "./dataService.js";
+import { MenuManager } from "./managers/menu.js";
+import { ModalManager } from "./managers/modal.js";
+import { ReceptionManager } from './managers/reception.js';
+import { MainPageManager } from "./managers/mainPage.js";
+import { DataService } from "./core/dataService.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService()

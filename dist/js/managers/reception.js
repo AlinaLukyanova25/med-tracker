@@ -1,9 +1,7 @@
-import { getElement, querySelectorEl } from "./types.js";
-import { renderReceptionList, renderStockList } from "./renderService.js";
-import { shouldUpdateTaken } from "./timeUtils.js";
+import { getElement, querySelectorEl } from "../types/types.js";
+import { renderActiveList } from "../ui/renderService.js";
 export class ReceptionManager {
     constructor(modal, dataService) {
-        this.receptions = [];
         this.times = [];
         this.activeList = querySelectorEl('.active__list');
         this.addForm = getElement('add-reception');
@@ -16,24 +14,23 @@ export class ReceptionManager {
         this.dateEnd = getElement('reception-end');
         this.modal = modal;
         this.dataService = dataService;
-        this.receptionList = querySelectorEl('.reception-list');
-        this.missedList = querySelectorEl('.missed-list');
-        this.stockList = querySelectorEl('.stock-list');
-        this.dataService.load();
         this.init();
     }
     init() {
         this.setupEventListeners();
-        this.renderReceptions();
+        this.dataService.subscribe(() => {
+            this.render();
+        });
+        this.render();
+    }
+    render() {
+        renderActiveList(this.dataService.getReceptions(), this.activeList);
     }
     setupEventListeners() {
         console.log('Обработчик submit в reception');
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e));
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e));
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e));
-    }
-    getReceptions() {
-        return this.receptions;
     }
     handleAddFormSubmit(e) {
         var _a;
@@ -72,11 +69,6 @@ export class ReceptionManager {
         };
         this.dataService.addReception(reception);
         this.times = [];
-        console.log(this.receptions);
-        this.dataService.saveLocalStorage();
-        this.renderReceptions();
-        renderReceptionList(this.dataService.getReceprions(), this.receptionList, this.missedList);
-        renderStockList(this.dataService.getReceprions(), this.stockList);
         this.modal.addHidden();
         this.addForm.reset();
     }
@@ -92,37 +84,6 @@ export class ReceptionManager {
         console.log(this.times);
         this.time.value = '';
     }
-    renderReceptions() {
-        this.activeList.innerHTML = '';
-        if (this.dataService.getReceprions().length === 0) {
-            this.activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
-            return;
-        }
-        for (let reception of this.dataService.getReceprions()) {
-            const li = this.createReceptionComponent(reception);
-            this.activeList.insertAdjacentHTML('beforeend', li);
-        }
-    }
-    createReceptionComponent(reception) {
-        return `
-        <li class="active__card">
-            <h3 class="list-title">${reception.diseaseName}</h3>
-            <h4 class="item-title">${reception.medicationName}</h4>
-            <p class="active__date">
-                <span class="active__date--start">Назначен: ${this.formatDateRu(reception.dateStart)}</span>
-                <span class="active__date--end">Окончание приёма: ${this.formatDateRu(reception.dateEnd)}</span>
-            </p>
-            <div class="active__card-bottom">
-                <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
-                <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
-                <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
-            </div>
-        </li>
-        `;
-    }
-    formatDateRu(date) {
-        return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
-    }
     removeReceptionCard(e) {
         const target = e.target;
         const button = target.closest('.active__card-delete');
@@ -132,14 +93,5 @@ export class ReceptionManager {
         if (!dataId)
             return;
         this.dataService.removeReception(Number(dataId));
-        this.dataService.saveLocalStorage();
-        this.renderReceptions();
-    }
-    updateTakenOncePerDay(reception) {
-        if (shouldUpdateTaken(reception)) {
-            reception.taken = false;
-            reception.lastTakenUpdate = new Date().toISOString();
-            this.dataService.saveLocalStorage();
-        }
     }
 }

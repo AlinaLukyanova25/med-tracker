@@ -1,4 +1,4 @@
-import { Reception } from "./types.js"
+import { Reception } from "../types/types.js"
 
 export function getTimeReception(time: string[]): Date[]{
     const date = new Date()
@@ -40,3 +40,7 @@ export function isDatePassed(date1: Date, date2: Date): boolean {
     console.log(d1, d2)
     return d2 > d1
 }
+
+export function formatDateRu(date: Date): string {
+    return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+} 

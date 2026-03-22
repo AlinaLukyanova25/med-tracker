@@ -1,4 +1,32 @@
-import { getTimeReception, isDatePassed } from "./timeUtils.js";
+import { getTimeReception, isDatePassed, formatDateRu } from "../core/timeUtils.js";
+export function renderActiveList(arr, activeList) {
+    activeList.innerHTML = '';
+    if (arr.length === 0) {
+        activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
+        return;
+    }
+    for (let reception of arr) {
+        const li = createReceptionComponent(reception);
+        activeList.insertAdjacentHTML('beforeend', li);
+    }
+}
+export function createReceptionComponent(reception) {
+    return `
+    <li class="active__card">
+        <h3 class="list-title">${reception.diseaseName}</h3>
+        <h4 class="item-title">${reception.medicationName}</h4>
+        <p class="active__date">
+            <span class="active__date--start">Назначен: ${formatDateRu(reception.dateStart)}</span>
+            <span class="active__date--end">Окончание приёма: ${formatDateRu(reception.dateEnd)}</span>
+        </p>
+        <div class="active__card-bottom">
+            <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
+            <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
+            <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
+        </div>
+    </li>
+    `;
+}
 export function renderReceptionList(arr, receptionList, missedList) {
     const now = new Date();
     receptionList.innerHTML = '';
@@ -17,7 +45,7 @@ export function renderReceptionList(arr, receptionList, missedList) {
             continue;
         const diff = today.getTime() - now.getTime();
         if (diff > 0) {
-            const li = createReceptionComponent(reception);
+            const li = createReceptionMainComponent(reception);
             receptionList.insertAdjacentHTML('beforeend', li);
         }
         else {
@@ -37,7 +65,7 @@ export function renderStockList(arr, stockList) {
         }
     }
 }
-function createReceptionComponent(reception) {
+function createReceptionMainComponent(reception) {
     return `
     <li class="reception-list__item">
         <h4 class="item-title">${reception.medicationName}</h4>

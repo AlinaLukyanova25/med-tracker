@@ -25,3 +25,6 @@ export function isDatePassed(date1, date2) {
     console.log(d1, d2);
     return d2 > d1;
 }
+export function formatDateRu(date) {
+    return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+}

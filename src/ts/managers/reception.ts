@@ -1,11 +1,9 @@
-import { getElement, querySelectorEl, Reception } from "./types.js";
+import { getElement, querySelectorEl, Reception } from "../types/types.js";
 import { ModalManager } from "./modal.js";
-import { renderReceptionList, renderStockList } from "./renderService.js";
-import { DataService } from "./dataService.js";
-import { shouldUpdateTaken } from "./timeUtils.js";
+import { renderReceptionList, renderStockList, renderActiveList } from "../ui/renderService.js";
+import { DataService } from "../core/dataService.js";
 
 export class ReceptionManager {
-    private receptions: Reception[] = [];
     private times: string[] = [];
     private activeList: HTMLUListElement;
     private addForm: HTMLFormElement;
@@ -19,10 +17,6 @@ export class ReceptionManager {
     private dataService: DataService;
     private modal: ModalManager
 
-    private receptionList: HTMLUListElement;
-    private missedList: HTMLUListElement;
-    private stockList: HTMLUListElement
-
     constructor(modal: ModalManager, dataService: DataService) {
         this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
         this.addForm = getElement<HTMLFormElement>('add-reception');
@@ -35,18 +29,22 @@ export class ReceptionManager {
         this.dateEnd = getElement<HTMLInputElement>('reception-end');
         this.modal = modal
         this.dataService = dataService
-
-        this.receptionList = querySelectorEl<HTMLUListElement>('.reception-list');
-        this.missedList = querySelectorEl<HTMLUListElement>('.missed-list');
-        this.stockList = querySelectorEl<HTMLUListElement>('.stock-list')
-        
-        this.dataService.load()
+    
         this.init()
     }
 
     init() {
         this.setupEventListeners()
-        this.renderReceptions()
+
+        this.dataService.subscribe(() => {
+            this.render()
+        })
+
+        this.render()
+    }
+
+    render() {
+        renderActiveList(this.dataService.getReceptions(), this.activeList)
     }
 
     setupEventListeners() {
@@ -56,10 +54,6 @@ export class ReceptionManager {
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e))
 
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e))
-    }
-
-    getReceptions(): Reception[] {
-        return this.receptions
     }
 
     handleAddFormSubmit(e: Event) {
@@ -104,11 +98,6 @@ export class ReceptionManager {
 
         this.dataService.addReception(reception)
         this.times = [];
-        console.log(this.receptions)
-        this.dataService.saveLocalStorage()
-        this.renderReceptions()
-        renderReceptionList(this.dataService.getReceprions(), this.receptionList, this.missedList)
-        renderStockList(this.dataService.getReceprions(), this.stockList)
         this.modal.addHidden()
         this.addForm.reset()
     }
@@ -130,41 +119,6 @@ export class ReceptionManager {
         this.time.value = ''
     }
 
-    renderReceptions() {
-        this.activeList.innerHTML = ''
-
-        if (this.dataService.getReceprions().length === 0) {
-            this.activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
-            return
-        }
-
-        for (let reception of this.dataService.getReceprions()) {
-            const li = this.createReceptionComponent(reception)
-            this.activeList.insertAdjacentHTML('beforeend', li)
-        }
-    }
-
-    createReceptionComponent(reception: Reception): string {
-        return `
-        <li class="active__card">
-            <h3 class="list-title">${reception.diseaseName}</h3>
-            <h4 class="item-title">${reception.medicationName}</h4>
-            <p class="active__date">
-                <span class="active__date--start">Назначен: ${this.formatDateRu(reception.dateStart)}</span>
-                <span class="active__date--end">Окончание приёма: ${this.formatDateRu(reception.dateEnd)}</span>
-            </p>
-            <div class="active__card-bottom">
-                <p class="active__dosage">Доза: <span>${reception.dosage} мг.</span></p>
-                <p class="active__time">Время приёма: <span>${reception.time.join(', ')}</span></p>
-                <button class="item-button active__card-delete" data-id="${reception.id}">Удалить приём</button>
-            </div>
-        </li>
-        `
-    }
-
-    formatDateRu(date: Date): string {
-        return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
-    }
 
     removeReceptionCard(e: Event) {
         const target = e.target as HTMLElement
@@ -176,15 +130,7 @@ export class ReceptionManager {
         if (!dataId) return
 
         this.dataService.removeReception(Number(dataId))
-        this.dataService.saveLocalStorage()
-        this.renderReceptions()
     }
 
-    updateTakenOncePerDay(reception: Reception): void {
-        if (shouldUpdateTaken(reception)) {
-            reception.taken = false;
-            reception.lastTakenUpdate = new Date().toISOString();
-            this.dataService.saveLocalStorage()
-        }
-    }
+    
 }

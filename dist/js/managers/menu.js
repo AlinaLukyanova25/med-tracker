@@ -1,4 +1,4 @@
-import { querySelectorEl } from "./types.js";
+import { querySelectorEl } from "../types/types.js";
 export class MenuManager {
     constructor() {
         this.headerList = querySelectorEl('.header-list');

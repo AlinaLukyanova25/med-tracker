@@ -1,4 +1,4 @@
-import { getElement } from "./types.js";
+import { getElement } from "../types/types.js";
 
 export class ModalManager {
     private modalForm: HTMLDivElement;
