@@ -1,5 +1,5 @@
 import { loadFromStorage, saveToStorage } from "./storage.js";
-import { shouldUpdateTaken } from "./timeUtils.js";
+import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
 import { Reception } from "../types/types.js";
 
 export class DataService {
@@ -53,6 +53,11 @@ export class DataService {
             if (shouldUpdateTaken(r)) {
                 r.taken = false;
                 r.lastTakenUpdate = new Date().toISOString();
+                changed = true
+            }
+
+            if (r.archive === false && isDatePassed(r.dateEnd)) {
+                r.archive = true
                 changed = true
             }
         })

@@ -1,4 +1,4 @@
-import { getTimeReception, isDatePassed, formatDateRu } from "../core/timeUtils.js";
+import { getTimeReception, formatDateRu } from "../core/timeUtils.js";
 export function renderActiveList(arr, activeList) {
     activeList.innerHTML = '';
     if (arr.length === 0) {
@@ -6,6 +6,8 @@ export function renderActiveList(arr, activeList) {
         return;
     }
     for (let reception of arr) {
+        if (reception.archive)
+            continue;
         const li = createReceptionComponent(reception);
         activeList.insertAdjacentHTML('beforeend', li);
     }
@@ -34,7 +36,7 @@ export function renderReceptionList(arr, receptionList, missedList) {
     for (let reception of arr) {
         if (reception.taken)
             continue;
-        if (isDatePassed(reception.dateEnd, now))
+        if (reception.archive)
             continue;
         const result = getTimeReception(reception.time);
         let today = result.length > 1 ? result.find(t => {
@@ -58,7 +60,10 @@ export function renderStockList(arr, stockList) {
     stockList.innerHTML = '';
     if (arr.length === 0)
         return;
+    const now = new Date();
     for (const reception of arr) {
+        if (reception.archive)
+            continue;
         if (reception.stock <= 5) {
             const li = createStockReceptionComponent(reception);
             stockList.insertAdjacentHTML('beforeend', li);
@@ -91,6 +96,32 @@ function createStockReceptionComponent(reception) {
     <li class="stock-list__item">
         <h4 class="item-title">${reception.medicationName}</h4>
         <p class="stock-list__stock">Осталось ${reception.stock} таблеток!!!</p>
+    </li>
+    `;
+}
+export function renderArchiveList(arr, archiveList) {
+    archiveList.innerHTML = '';
+    if (arr.length === 0) {
+        archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>';
+        return;
+    }
+    for (let reception of arr) {
+        if (!reception.archive)
+            continue;
+        const li = createArchiveCardComponent(reception);
+        archiveList.insertAdjacentHTML('beforeend', li);
+    }
+}
+function createArchiveCardComponent(reception) {
+    return `
+    <li class="archive__card">
+        <h3 class="list-title">${reception.diseaseName}</h3>
+        <h4 class="item-title">${reception.medicationName}</h4>
+        <div class="archive__card-bottom">
+            <p class="archive__date">Завершен: ${formatDateRu(reception.dateEnd)}</p>
+            <button class="item-button archive__btn-return" data-id="${reception.id}">Назначить снова</button>
+            <button class="item-button archive__card-delete" data-id="${reception.id}">Удалить</button>
+        </div>
     </li>
     `;
 }

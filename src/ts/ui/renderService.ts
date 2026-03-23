@@ -10,6 +10,7 @@ export function renderActiveList(arr: Reception[], activeList: HTMLUListElement)
         }
 
         for (let reception of arr) {
+            if (reception.archive) continue
             const li = createReceptionComponent(reception)
             activeList.insertAdjacentHTML('beforeend', li)
         }
@@ -42,7 +43,7 @@ export function renderReceptionList(arr: Reception[], receptionList: HTMLUListEl
 
     for (let reception of arr) {
         if (reception.taken) continue
-        if (isDatePassed(reception.dateEnd, now)) continue
+        if (reception.archive) continue
 
         const result = getTimeReception(reception.time)
 
@@ -69,7 +70,10 @@ export function renderStockList(arr: Reception[], stockList: HTMLUListElement): 
 
     if (arr.length === 0) return
 
+    const now: Date = new Date()
+
     for (const reception of arr) {
+        if (reception.archive) continue
         if (reception.stock <= 5) {
             const li = createStockReceptionComponent(reception)
             stockList.insertAdjacentHTML('beforeend', li)
@@ -105,6 +109,35 @@ function createStockReceptionComponent(reception: Reception): string {
     <li class="stock-list__item">
         <h4 class="item-title">${reception.medicationName}</h4>
         <p class="stock-list__stock">Осталось ${reception.stock} таблеток!!!</p>
+    </li>
+    `
+}
+
+export function renderArchiveList(arr: Reception[], archiveList: HTMLUListElement) {
+        archiveList.innerHTML = ''
+
+        if (arr.length === 0) {
+            archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>'
+            return
+        }
+
+        for (let reception of arr) {
+            if (!reception.archive) continue
+            const li = createArchiveCardComponent(reception)
+            archiveList.insertAdjacentHTML('beforeend', li)
+        }
+}
+
+function createArchiveCardComponent(reception: Reception): string {
+    return `
+    <li class="archive__card">
+        <h3 class="list-title">${reception.diseaseName}</h3>
+        <h4 class="item-title">${reception.medicationName}</h4>
+        <div class="archive__card-bottom">
+            <p class="archive__date">Завершен: ${formatDateRu(reception.dateEnd)}</p>
+            <button class="item-button archive__btn-return" data-id="${reception.id}">Назначить снова</button>
+            <button class="item-button archive__card-delete" data-id="${reception.id}">Удалить</button>
+        </div>
     </li>
     `
 }

@@ -1,7 +1,8 @@
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
-.modal {
+.modal,
+.modal-assign-again {
     position: fixed;
     top: 0;
     left: 0;
@@ -46,18 +47,19 @@
         }
     }
 
-    &__close {
-        float: right;
-        cursor: pointer;
-        font-size: 20px;
-    }
-
     &__add-more {
         cursor: pointer;
         color: $color-text-light;
     }
 }
 
-.modal.hidden {
+.modal.hidden,
+.modal-assign-again.hidden {
     display: none;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
 }

@@ -1,15 +1,37 @@
 import { Reception } from "../types/types.js"
 
+export const DateUtils = {
+    getTodayDate() {
+        return new Date();
+    },
+
+    getTomorrowDate() {
+        const today = this.getTodayDate();
+        const nextDay = new Date(today);
+        nextDay.setDate(today.getDate() + 1);
+        return nextDay;
+    },
+
+    getTomorrowDateString() {
+        const nextDay = this.getTomorrowDate();
+        const year = nextDay.getFullYear();
+        const month = String(nextDay.getMonth() + 1).padStart(2, '0');
+        const day = String(nextDay.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    },
+
+    setMinDate(element: HTMLInputElement) {
+        if (!element) {
+        console.warn('Элемент не найден');
+        return;
+        }
+
+        element.setAttribute('min', this.getTomorrowDateString());
+    },
+}
+
 export function getTimeReception(time: string[]): Date[]{
     const date = new Date()
-    // if (time.length === 1) {
-    //     return new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(time[0].slice(0, 2)), Number(time[0].slice(3)))
-    // } else {
-    //     const newTime = time.map(t => {
-    //         return new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(t.slice(0, 2)), Number(t.slice(3)))
-    //     })
-    //     return newTime
-    // }
     return time.map(t => new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -30,9 +52,9 @@ export function shouldUpdateTaken(reception: Reception): boolean {
     );
 }
 
-export function isDatePassed(date1: Date, date2: Date): boolean {
+export function isDatePassed(date1: Date): boolean {
     const d1 = new Date(date1)
-    const d2 = new Date(date2)
+    const d2 = new Date()
 
     d1.setHours(0, 0, 0, 0)
     d2.setHours(0, 0, 0, 0)

@@ -20,5 +20,8 @@ export interface Reception {
     dateStart: Date;
     dateEnd: Date;
     taken: boolean;
+    archive: boolean;
     lastTakenUpdate: string;
 }
+
+export type ModalType = "modal" | "again"

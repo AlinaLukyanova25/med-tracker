@@ -136,7 +136,7 @@
 
     <div id="modal" class="modal hidden">
         <div class="modal__content">
-            <span class="modal__close">&times;</span>
+            <span class="close modal__close">&times;</span>
             <h3 class="list-title">Добавить приём</h3>
             <form id="add-reception">
                 <label for="disease-name">Название болезни</label>
@@ -151,6 +151,18 @@
                 <input type="number" id="reception-stock" placeholder="Введите количество, напр. 20" min="1" required>
                 <label for="reception-end">Окончание приема</label>
                 <input type="date" id="reception-end" required>
+                <button type="submit" class="item-button">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-assign-again" class="modal-assign-again hidden">
+        <div class="modal-assign-again__content">
+            <span class="close modal-again__close">&times;</span>
+            <h3 class="list-title">Назначьте приём</h3>
+            <form id="add-again">
+                <label for="reception-again-end">Окончание приема</label>
+                <input type="date" id="reception-again-end" required>
                 <button type="submit" class="item-button">Добавить</button>
             </form>
         </div>

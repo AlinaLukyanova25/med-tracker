@@ -1,7 +1,8 @@
 import { getElement, querySelectorEl, Reception } from "../types/types.js";
 import { ModalManager } from "./modal.js";
-import { renderReceptionList, renderStockList, renderActiveList } from "../ui/renderService.js";
+import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
+import { DateUtils } from "../core/timeUtils.js";
 
 export class ReceptionManager {
     private times: string[] = [];
@@ -15,6 +16,8 @@ export class ReceptionManager {
     private stock: HTMLInputElement;
     private dateEnd: HTMLInputElement;
     private dataService: DataService;
+    private addAgain: HTMLFormElement;
+    private againDateEnd: HTMLInputElement;
     private modal: ModalManager
 
     constructor(modal: ModalManager, dataService: DataService) {
@@ -27,6 +30,10 @@ export class ReceptionManager {
         this.dosage = getElement<HTMLInputElement>('reception-dosage');
         this.stock = getElement<HTMLInputElement>('reception-stock');
         this.dateEnd = getElement<HTMLInputElement>('reception-end');
+        
+        this.addAgain = getElement<HTMLFormElement>('add-again')
+        this.againDateEnd = getElement<HTMLInputElement>('reception-again-end')
+
         this.modal = modal
         this.dataService = dataService
     
@@ -35,6 +42,9 @@ export class ReceptionManager {
 
     init() {
         this.setupEventListeners()
+
+        DateUtils.setMinDate(this.dateEnd)
+        DateUtils.setMinDate(this.againDateEnd)
 
         this.dataService.subscribe(() => {
             this.render()
@@ -50,6 +60,7 @@ export class ReceptionManager {
     setupEventListeners() {
         console.log('Обработчик submit в reception')
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e))
+        this.addAgain.addEventListener('submit', (e) => this.handleAgainFormSubmit(e))
 
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e))
 
@@ -93,13 +104,36 @@ export class ReceptionManager {
             dateStart: new Date(),
             dateEnd: dateEnd,
             taken: false,
+            archive: false,
             lastTakenUpdate: new Date().toISOString()
         }
 
         this.dataService.addReception(reception)
         this.times = [];
-        this.modal.addHidden()
+        this.modal.addHidden('modal')
         this.addForm.reset()
+    }
+
+    handleAgainFormSubmit(e: Event) {
+        e.preventDefault()
+
+        const dateEnd = new Date(this.againDateEnd.value)
+
+        if (isNaN(dateEnd.getTime())) {
+            alert('Укажите корректную дату окончания')
+            return
+        }
+
+        const id = this.addAgain.getAttribute('data-id')
+        if (!id) return
+
+        this.dataService.updateReception(Number(id), (rec) => {
+            rec.dateEnd = dateEnd;
+            rec.archive = false;
+        })
+
+        this.modal.addHidden('again')
+        this.addAgain.reset()
     }
 
     handleLabelTimeClick(e: Event) {
@@ -118,7 +152,6 @@ export class ReceptionManager {
 
         this.time.value = ''
     }
-
 
     removeReceptionCard(e: Event) {
         const target = e.target as HTMLElement

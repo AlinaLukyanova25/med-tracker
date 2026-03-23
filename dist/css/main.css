@@ -609,7 +609,8 @@ body {
   font-weight: 500;
 }
 
-.modal {
+.modal,
+.modal-assign-again {
   position: fixed;
   top: 0;
   left: 0;
@@ -620,7 +621,8 @@ body {
   align-items: center;
   justify-content: center;
 }
-.modal__content {
+.modal__content,
+.modal-assign-again__content {
   width: 400px;
   background-color: #fff;
   border-radius: 16px;
@@ -629,7 +631,9 @@ body {
   text-align: center;
 }
 .modal__content input,
-.modal__content select {
+.modal__content select,
+.modal-assign-again__content input,
+.modal-assign-again__content select {
   border: none;
   width: 100%;
   margin: 8px 0;
@@ -640,29 +644,35 @@ body {
   color: #1e293b;
 }
 .modal__content input:focus,
-.modal__content select:focus {
+.modal__content select:focus,
+.modal-assign-again__content input:focus,
+.modal-assign-again__content select:focus {
   outline: 1px solid #2e7d32;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-.modal__content label {
+.modal__content label,
+.modal-assign-again__content label {
   color: #2e7d32;
   font-weight: 500;
   padding-left: 16px;
   display: block;
   text-align: start;
 }
-.modal__close {
-  float: right;
-  cursor: pointer;
-  font-size: 20px;
-}
-.modal__add-more {
+.modal__add-more,
+.modal-assign-again__add-more {
   cursor: pointer;
   color: #64748b;
 }
 
-.modal.hidden {
+.modal.hidden,
+.modal-assign-again.hidden {
   display: none;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=main.css.map */

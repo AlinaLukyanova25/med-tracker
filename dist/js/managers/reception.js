@@ -1,5 +1,6 @@
 import { getElement, querySelectorEl } from "../types/types.js";
 import { renderActiveList } from "../ui/renderService.js";
+import { DateUtils } from "../core/timeUtils.js";
 export class ReceptionManager {
     constructor(modal, dataService) {
         this.times = [];
@@ -12,12 +13,16 @@ export class ReceptionManager {
         this.dosage = getElement('reception-dosage');
         this.stock = getElement('reception-stock');
         this.dateEnd = getElement('reception-end');
+        this.addAgain = getElement('add-again');
+        this.againDateEnd = getElement('reception-again-end');
         this.modal = modal;
         this.dataService = dataService;
         this.init();
     }
     init() {
         this.setupEventListeners();
+        DateUtils.setMinDate(this.dateEnd);
+        DateUtils.setMinDate(this.againDateEnd);
         this.dataService.subscribe(() => {
             this.render();
         });
@@ -29,6 +34,7 @@ export class ReceptionManager {
     setupEventListeners() {
         console.log('Обработчик submit в reception');
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e));
+        this.addAgain.addEventListener('submit', (e) => this.handleAgainFormSubmit(e));
         this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e));
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e));
     }
@@ -65,12 +71,30 @@ export class ReceptionManager {
             dateStart: new Date(),
             dateEnd: dateEnd,
             taken: false,
+            archive: false,
             lastTakenUpdate: new Date().toISOString()
         };
         this.dataService.addReception(reception);
         this.times = [];
-        this.modal.addHidden();
+        this.modal.addHidden('modal');
         this.addForm.reset();
+    }
+    handleAgainFormSubmit(e) {
+        e.preventDefault();
+        const dateEnd = new Date(this.againDateEnd.value);
+        if (isNaN(dateEnd.getTime())) {
+            alert('Укажите корректную дату окончания');
+            return;
+        }
+        const id = this.addAgain.getAttribute('data-id');
+        if (!id)
+            return;
+        this.dataService.updateReception(Number(id), (rec) => {
+            rec.dateEnd = dateEnd;
+            rec.archive = false;
+        });
+        this.modal.addHidden('again');
+        this.addAgain.reset();
     }
     handleLabelTimeClick(e) {
         const target = e.target;

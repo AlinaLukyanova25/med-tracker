@@ -1,10 +1,12 @@
-import { getElement } from "../types/types.js";
+import { getElement, ModalType } from "../types/types.js";
 
 export class ModalManager {
     private modalForm: HTMLDivElement;
+    private modalAssignAgain: HTMLDivElement;
 
     constructor() {
         this.modalForm = getElement<HTMLDivElement>('modal')
+        this.modalAssignAgain = getElement<HTMLDivElement>('modal-assign-again')
 
         this.init()
     }
@@ -24,8 +26,9 @@ export class ModalManager {
         this.modalForm.classList.remove('hidden')
     }
 
-    addHidden() {
-        this.modalForm.classList.add('hidden')
+    addHidden(modal: ModalType) {
+        if (modal === 'modal') this.modalForm.classList.add('hidden')
+        if (modal === 'again') this.modalAssignAgain.classList.add('hidden')
     }
 
     closeModal(e: Event) {
@@ -33,5 +36,13 @@ export class ModalManager {
         if (target.closest('.modal') && !target.closest('.modal__content') || target.closest('.modal__close')) {
             this.modalForm.classList.add('hidden')
         }
+        if (target.closest('.modal-assign-again') && !target.closest('.modal-assign-again__content') || target.closest('.modal-again__close')) {
+            this.modalAssignAgain.classList.add('hidden')
+        }
+    }
+
+    openModalAssignAgain(id: string) {
+        this.modalAssignAgain.classList.remove('hidden')
+        this.modalAssignAgain.querySelector('form')?.setAttribute('data-id', id)
     }
 }
