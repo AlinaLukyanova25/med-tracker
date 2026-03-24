@@ -675,4 +675,30 @@ body {
   font-size: 20px;
 }
 
+@media (max-width: 500px) {
+  .header__nav {
+    display: block;
+  }
+  .header-list {
+    justify-content: space-between;
+  }
+  .header-list__open {
+    position: relative;
+    display: flex;
+    width: 30px;
+    height: 30px;
+  }
+  .header-list__mobile {
+    position: absolute;
+    right: 30px;
+    background-color: rgb(237.29, 242.35, 247.41);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 8px;
+  }
+}
+
 /*# sourceMappingURL=main.css.map */
