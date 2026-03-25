@@ -9,11 +9,22 @@
 <body>
     <header class="header">
         <nav class="header__nav">
-            <ul class="header-list">
+            <ul class="header-list header-list-desktop">
                 <li class="header-list__item"><a href="#" data-page="main-page" class="header-list__link">Главная</a></li>
                 <li class="header-list__item"><a href="#" data-page="active" class="header-list__link">Активные</a></li>
                 <li class="header-list__item"><a href="#" data-page="calendar" class="header-list__link">Календарь</a></li>
                 <li class="header-list__item"><a href="#" data-page="archive" class="header-list__link">Архив</a></li>
+            </ul>
+            <ul class="header-list header-list-mobile">
+                <li class="header-list__item"><a href="#" data-page="main-page" class="header-list__link">Главная</a></li>
+                <div class="header-list__open">
+                    <img src="img/burger.svg" id="menu-img">
+                    <div class="header-list__mobile">
+                        <li class="header-list__item"><a href="#" data-page="active" class="header-list__link">Активные</a></li>
+                        <li class="header-list__item"><a href="#" data-page="calendar" class="header-list__link">Календарь</a></li>
+                        <li class="header-list__item"><a href="#" data-page="archive" class="header-list__link">Архив</a></li>
+                    </div>
+                </div>
             </ul>
         </nav>
     </header>

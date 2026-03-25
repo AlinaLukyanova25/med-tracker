@@ -2,63 +2,59 @@ import { getElement, querySelectorEl } from "../types/types.js";
 export class MenuManager {
     constructor() {
         this.openMenu = false;
-        this.imgMenu = null;
-        this.headerList = querySelectorEl('.header-list');
-        if (window.innerWidth < 500) {
-            this.mobileStyle();
-            this.imgMenu = getElement('menu-img');
-            document.addEventListener('click', (e) => this.handleOpenMenu(e));
-            document.addEventListener('click', (e) => this.closeMenu(e));
-        }
+        this.headerListDesktop = querySelectorEl('.header-list-desktop');
+        this.headerListMobile = querySelectorEl('.header-list-mobile');
+        this.menuList = querySelectorEl('.header-list__mobile');
+        this.imgMenu = getElement('menu-img');
         this.init();
     }
     init() {
-        this.headerList.addEventListener('click', (e) => this.handleLinkClick(e));
+        if (window.innerWidth > 500) {
+            this.headerListMobile.style.display = 'none';
+            this.headerListDesktop.style.display = 'flex';
+        }
+        else {
+            this.headerListDesktop.style.display = 'none';
+            this.headerListMobile.style.display = 'flex';
+        }
+        this.setupEventListeners();
         this.openSection('main-page');
     }
-    mobileStyle() {
-        this.headerList.innerHTML = this.createMobileHeaderComponent();
+    setupEventListeners() {
+        window.addEventListener('resize', () => this.handleResize());
+        document.addEventListener('click', (e) => this.handleLinkClick(e));
+        document.addEventListener('click', (e) => this.handleOpenMenu(e));
+        document.addEventListener('click', (e) => this.closeMenu(e));
     }
-    createMobileHeaderComponent() {
-        return `
-        <li class="header-list__item"><a href="#" data-page="main-page" class="header-list__link">Главная</a></li>
-        <div class="header-list__open">
-        <img src="./../../img/burger.svg" id="menu-img">
-        </div>
-        `;
+    handleResize() {
+        const isDesktop = window.innerWidth > 500;
+        this.headerListMobile.style.display = isDesktop ? 'none' : 'flex';
+        this.headerListDesktop.style.display = isDesktop ? 'flex' : 'none';
+        if (!isDesktop) {
+            this.menuList.style.display = 'none';
+            this.imgMenu.src = "/img/burger.svg";
+            this.openMenu = false;
+        }
     }
     handleOpenMenu(e) {
-        var _a;
         const target = e.target;
         const divOpen = target.closest('.header-list__open');
         if (!divOpen)
             return;
-        if (target.closest('.header-list__mobile'))
-            return;
+        this.openMenu = !this.openMenu;
+        this.updateBurgerIcon();
+        this.menuList.style.display = this.openMenu ? 'flex' : 'none';
+    }
+    updateBurgerIcon() {
         if (this.imgMenu) {
-            if (this.openMenu) {
-                this.imgMenu.src = "./../../img/burger.svg";
-                this.openMenu = false;
-            }
-            else {
-                this.imgMenu.src = "./../../img/x.svg";
-                this.openMenu = true;
-            }
+            this.imgMenu.src = this.openMenu ? "/img/x.svg" : "/img/burger.svg";
         }
-        const menu = `
-        <div class="header-list__mobile">
-            <li class="header-list__item"><a href="#" data-page="active" class="header-list__link">Активные</a></li>
-            <li class="header-list__item"><a href="#" data-page="calendar" class="header-list__link">Календарь</a></li>
-            <li class="header-list__item"><a href="#" data-page="archive" class="header-list__link">Архив</a></li>
-        </div>
-        `;
-        this.openMenu ? divOpen.insertAdjacentHTML('beforeend', menu) : (_a = divOpen.querySelector('.header-list__mobile')) === null || _a === void 0 ? void 0 : _a.remove();
     }
     closeMenu(e) {
-        var _a;
         const target = e.target;
         if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
-            (_a = document.querySelector('.header-list__mobile')) === null || _a === void 0 ? void 0 : _a.remove();
+            this.menuList.style.display = 'none';
+            this.imgMenu.src = "/img/burger.svg";
             this.openMenu = false;
         }
     }

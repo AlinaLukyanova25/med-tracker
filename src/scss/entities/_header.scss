@@ -15,7 +15,6 @@
 }
 
 .header-list {
-  display: flex;
   gap: $space30;
 
   &__link {
@@ -31,4 +30,9 @@
       border-bottom-color: $color-primary-light;
     }
   }
+}
+
+.header-list-desktop,
+.header-list-mobile {
+  display: none;
 }
