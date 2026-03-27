@@ -30,8 +30,8 @@ export const DateUtils = {
     },
 }
 
-export function getTimeReception(time: string[]): Date[]{
-    const date = new Date()
+export function getTimeReception(time: string[], date = new Date()): Date[] {
+    // const date = new Date()
     return time.map(t => new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -59,7 +59,6 @@ export function isDatePassed(date1: Date): boolean {
     d1.setHours(0, 0, 0, 0)
     d2.setHours(0, 0, 0, 0)
 
-    console.log(d1, d2)
     return d2 > d1
 }
 

@@ -388,6 +388,12 @@ body {
   text-align: center;
 }
 
+.arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .header {
   background-color: #fff;
   border-radius: 16px;
@@ -570,9 +576,21 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.calendar__weekdays {
+.calendar__weekdays, .calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.calendar__day {
+  aspect-ratio: 1;
+  border: 4px solid #4caf50;
+  border-radius: 16px;
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
 }
 
 .archive {
@@ -643,7 +661,7 @@ body {
   margin: 8px 0;
   padding: 16px;
   background-color: rgb(240.86, 244.9, 248.94);
-  border-radius: 20px;
+  border-radius: 16px;
   font-size: 15px;
   color: #1e293b;
 }

@@ -23,6 +23,8 @@ export class CalendarManager {
         const dayInMonth = lastDay.getDate();
         const startingDay = firstDay.getDay();
         const startOffset = startingDay === 0 ? 6 : startingDay - 1;
+        const endDay = lastDay.getDay();
+        const endOffset = endDay === 0 ? 6 : endDay - 1;
         for (let day = 0; day < startOffset; day++) {
             const dayElement = this.createDayComponent();
             calendarElement.insertAdjacentHTML('beforeend', dayElement);
@@ -32,21 +34,25 @@ export class CalendarManager {
             const dayElement = this.createDayComponent(date, day);
             calendarElement.insertAdjacentHTML('beforeend', dayElement);
         }
+        for (let day = endOffset; day < 6; day++) {
+            const dayElement = this.createDayComponent();
+            calendarElement.insertAdjacentHTML('beforeend', dayElement);
+        }
         this.updateMonthHeader();
     }
     createDayComponent(date, day) {
         if (!date || !day) {
             return `
-            <div tabindex="0" class="calendar__day empty" style="color: gray;">
+            <div tabindex="0" class="calendar__day" style="color: gray;">
             </div>
             `;
         }
         const dayNumber = date.getDate();
         const dateToString = this.formatDateToString(date);
+        // ${dateToString}
         return `
-        <div tabindex="0" class="calendar__day empty" style="color: gray;" data-date="${dateToString}">
+        <div tabindex="0" class="calendar__day" style="color: #1e293b;" data-date="${dateToString}">
         ${dayNumber}
-        ${dateToString}
         </div>
         `;
     }

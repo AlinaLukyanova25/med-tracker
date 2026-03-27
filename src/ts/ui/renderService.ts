@@ -8,8 +8,10 @@ export function renderActiveList(arr: Reception[], activeList: HTMLUListElement)
             activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
             return
         }
+    
+        const sorted = sortByOrder(arr)
 
-        for (let reception of arr) {
+        for (let reception of sorted) {
             if (reception.archive) continue
             const li = createReceptionComponent(reception)
             activeList.insertAdjacentHTML('beforeend', li)
@@ -41,9 +43,9 @@ export function renderReceptionList(arr: Reception[], receptionList: HTMLUListEl
     receptionList.innerHTML = ''
     missedList.innerHTML = ''
 
-    for (let reception of arr) {
-        if (reception.taken) continue
-        if (reception.archive) continue
+    const sorted = sortByOrderHours(arr)
+
+    for (let reception of sorted) {
 
         const result = getTimeReception(reception.time)
 
@@ -70,14 +72,11 @@ export function renderStockList(arr: Reception[], stockList: HTMLUListElement): 
 
     if (arr.length === 0) return
 
-    const now: Date = new Date()
+    const sorted = sortStock(arr)
 
-    for (const reception of arr) {
-        if (reception.archive) continue
-        if (reception.stock <= 5) {
-            const li = createStockReceptionComponent(reception)
-            stockList.insertAdjacentHTML('beforeend', li)
-        }
+    for (const reception of sorted) {
+        const li = createStockReceptionComponent(reception)
+        stockList.insertAdjacentHTML('beforeend', li)
     }
 }
 
@@ -114,9 +113,9 @@ function createStockReceptionComponent(reception: Reception): string {
 }
 
 export function renderArchiveList(arr: Reception[], archiveList: HTMLUListElement) {
-        archiveList.innerHTML = ''
+    archiveList.innerHTML = ''
 
-        if (arr.length === 0) {
+        if (arr.length === 0 || arr.filter(r => r.archive).length === 0) {
             archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>'
             return
         }
@@ -141,6 +140,43 @@ function createArchiveCardComponent(reception: Reception): string {
     </li>
     `
 }
+
+function sortByOrder(arr: Reception[]): Reception[] {
+    const items = arr
+        .filter(r => !r.archive)
+        .map(r => {
+            const times = getTimeReception(r.time, r.dateStart)
+            const nextTime = times[0]
+            return {r, nextTime}
+        })
+        .filter(item => item.nextTime !== undefined)
+        .sort((a, b) => a.nextTime!.getTime() - b.nextTime!.getTime())
+        .map(item => item.r)
+    return items
+}
+
+function sortByOrderHours(arr: Reception[]): Reception[] {
+    const items = arr
+        .filter(r => !r.archive && !r.taken)
+        .map(r => {
+            const times = getTimeReception(r.time)
+            const nextTime = times[0]
+            return {r, nextTime}
+        })
+        .filter(item => item.nextTime !== undefined)
+        .sort((a, b) => a.nextTime!.getTime() - b.nextTime!.getTime())
+        .map(item => item.r)
+    return items
+}
+
+function sortStock(arr: Reception[]): Reception[] {
+    const items = arr
+        .filter(r => !r.archive && r.stock <= 5)
+        .sort((a, b) => a.stock - b.stock)
+    return items
+}
+
+
 
 
 

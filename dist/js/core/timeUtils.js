@@ -23,8 +23,8 @@ export const DateUtils = {
         element.setAttribute('min', this.getTomorrowDateString());
     },
 };
-export function getTimeReception(time) {
-    const date = new Date();
+export function getTimeReception(time, date = new Date()) {
+    // const date = new Date()
     return time.map(t => new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(t.slice(0, 2)), Number(t.slice(3))));
 }
 export function shouldUpdateTaken(reception) {
@@ -39,7 +39,6 @@ export function isDatePassed(date1) {
     const d2 = new Date();
     d1.setHours(0, 0, 0, 0);
     d2.setHours(0, 0, 0, 0);
-    console.log(d1, d2);
     return d2 > d1;
 }
 export function formatDateRu(date) {

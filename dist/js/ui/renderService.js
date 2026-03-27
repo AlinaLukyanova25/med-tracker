@@ -5,7 +5,8 @@ export function renderActiveList(arr, activeList) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;
     }
-    for (let reception of arr) {
+    const sorted = sortByOrder(arr);
+    for (let reception of sorted) {
         if (reception.archive)
             continue;
         const li = createReceptionComponent(reception);
@@ -33,11 +34,8 @@ export function renderReceptionList(arr, receptionList, missedList) {
     const now = new Date();
     receptionList.innerHTML = '';
     missedList.innerHTML = '';
-    for (let reception of arr) {
-        if (reception.taken)
-            continue;
-        if (reception.archive)
-            continue;
+    const sorted = sortByOrderHours(arr);
+    for (let reception of sorted) {
         const result = getTimeReception(reception.time);
         let today = result.length > 1 ? result.find(t => {
             if ((t.getTime() - now.getTime()) > 0)
@@ -60,14 +58,10 @@ export function renderStockList(arr, stockList) {
     stockList.innerHTML = '';
     if (arr.length === 0)
         return;
-    const now = new Date();
-    for (const reception of arr) {
-        if (reception.archive)
-            continue;
-        if (reception.stock <= 5) {
-            const li = createStockReceptionComponent(reception);
-            stockList.insertAdjacentHTML('beforeend', li);
-        }
+    const sorted = sortStock(arr);
+    for (const reception of sorted) {
+        const li = createStockReceptionComponent(reception);
+        stockList.insertAdjacentHTML('beforeend', li);
     }
 }
 function createReceptionMainComponent(reception) {
@@ -101,7 +95,7 @@ function createStockReceptionComponent(reception) {
 }
 export function renderArchiveList(arr, archiveList) {
     archiveList.innerHTML = '';
-    if (arr.length === 0) {
+    if (arr.length === 0 || arr.filter(r => r.archive).length === 0) {
         archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>';
         return;
     }
@@ -124,4 +118,36 @@ function createArchiveCardComponent(reception) {
         </div>
     </li>
     `;
+}
+function sortByOrder(arr) {
+    const items = arr
+        .filter(r => !r.archive)
+        .map(r => {
+        const times = getTimeReception(r.time, r.dateStart);
+        const nextTime = times[0];
+        return { r, nextTime };
+    })
+        .filter(item => item.nextTime !== undefined)
+        .sort((a, b) => a.nextTime.getTime() - b.nextTime.getTime())
+        .map(item => item.r);
+    return items;
+}
+function sortByOrderHours(arr) {
+    const items = arr
+        .filter(r => !r.archive && !r.taken)
+        .map(r => {
+        const times = getTimeReception(r.time);
+        const nextTime = times[0];
+        return { r, nextTime };
+    })
+        .filter(item => item.nextTime !== undefined)
+        .sort((a, b) => a.nextTime.getTime() - b.nextTime.getTime())
+        .map(item => item.r);
+    return items;
+}
+function sortStock(arr) {
+    const items = arr
+        .filter(r => !r.archive && r.stock <= 5)
+        .sort((a, b) => a.stock - b.stock);
+    return items;
 }

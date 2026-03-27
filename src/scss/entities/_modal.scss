@@ -28,7 +28,7 @@
             margin: $space8 0;
             padding: $space16;
             background-color: darken($color-background, 2%);
-            border-radius: 20px;
+            border-radius: $border-radius;
             font-size: $font-size15;
             color: $color-text;
 

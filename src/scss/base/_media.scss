@@ -12,14 +12,14 @@
         &__open {
             position: relative;
             display: flex;
-            width: 30px;
-            height: 30px;
+            width: $space30;
+            height: $space30;
         }
 
         &__mobile {
             position: absolute;
             display: none;
-            right: 30px;
+            right: $space30;
             background-color: darken($color-background, 3%);
             box-shadow: $box-shadow;
             padding: $space16 $space8;
