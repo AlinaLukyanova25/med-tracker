@@ -43,7 +43,7 @@ export class MenuManager {
 
         if (!isDesktop) {
             this.menuList.style.display = 'none'
-            this.imgMenu.src = "/img/burger.svg"
+            this.imgMenu.src = "img/burger.svg"
             this.openMenu = false
         }
     }
@@ -62,7 +62,7 @@ export class MenuManager {
 
     updateBurgerIcon() {
         if (this.imgMenu) {
-            this.imgMenu.src = this.openMenu ? "/img/x.svg"  : "/img/burger.svg"
+            this.imgMenu.src = this.openMenu ? "img/x.svg"  : "img/burger.svg"
         }
     }
 
@@ -71,7 +71,7 @@ export class MenuManager {
     
         if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
             this.menuList.style.display = 'none'
-            this.imgMenu.src = "/img/burger.svg"
+            this.imgMenu.src = "img/burger.svg"
             this.openMenu = false
         }
     }
