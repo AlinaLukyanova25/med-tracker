@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const receptions = new ReceptionManager(modal, dataService)
 
-    const mainPage = new MainPageManager(dataService)
+    const mainPage = new MainPageManager(dataService, modal)
 
     const archive = new ArchiveManager(dataService, modal)
 

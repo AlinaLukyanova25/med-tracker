@@ -31,7 +31,6 @@ export const DateUtils = {
 }
 
 export function getTimeReception(time: string[], date = new Date()): Date[] {
-    // const date = new Date()
     return time.map(t => new Date(
         date.getFullYear(),
         date.getMonth(),
@@ -65,3 +64,11 @@ export function isDatePassed(date1: Date): boolean {
 export function formatDateRu(date: Date): string {
     return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
 } 
+
+export function checkRecedptionTime(reception: Reception): boolean {
+    const times = getTimeReception(reception.time)
+    const nextTime = times[0]
+    const now = new Date()
+
+    return (nextTime.getTime() - now.getTime()) < 900000
+}

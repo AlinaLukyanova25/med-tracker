@@ -55,7 +55,7 @@ export function renderReceptionList(arr: Reception[], receptionList: HTMLUListEl
 
         if (!today) continue
 
-        const diff = today.getTime() - now.getTime()
+        const diff = (today.getTime() + 900000) - now.getTime()
 
         if (diff > 0) {
             const li = createReceptionMainComponent(reception)

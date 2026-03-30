@@ -1,4 +1,3 @@
-@use "sass:color";
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
@@ -53,11 +52,6 @@ body {
   cursor: pointer;
   transition: $transition;
   box-shadow: $box-shadow;
-
-  &:hover {
-    background-color: $color-primary;
-    box-shadow: $box-shadow-hover;
-  }
 }
 
 .add-button {
@@ -74,11 +68,6 @@ body {
   border-radius: $border-radius-small;
   box-shadow: $box-shadow;
   transition: $transition;
-
-  &:hover {
-    background-color: color.mix(white, $color-primary, 10%);
-
-  }
 }
 
 .descr-not {

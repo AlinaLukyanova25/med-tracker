@@ -3,10 +3,12 @@ import { getElement, ModalType } from "../types/types.js";
 export class ModalManager {
     private modalForm: HTMLDivElement;
     private modalAssignAgain: HTMLDivElement;
+    private modalWarning: HTMLDivElement;
 
     constructor() {
         this.modalForm = getElement<HTMLDivElement>('modal')
         this.modalAssignAgain = getElement<HTMLDivElement>('modal-assign-again')
+        this.modalWarning = getElement<HTMLDivElement>('modal-warning')
 
         this.init()
     }
@@ -39,10 +41,17 @@ export class ModalManager {
         if (target.closest('.modal-assign-again') && !target.closest('.modal-assign-again__content') || target.closest('.modal-again__close')) {
             this.modalAssignAgain.classList.add('hidden')
         }
+        if (target.closest('.modal-warning') && !target.closest('.modal-warning__content') || target.closest('.modal-warning__close')) {
+            this.modalWarning.classList.add('hidden')
+        }
     }
 
     openModalAssignAgain(id: string) {
         this.modalAssignAgain.classList.remove('hidden')
         this.modalAssignAgain.querySelector('form')?.setAttribute('data-id', id)
+    }
+
+    openModalWarning() {
+        this.modalWarning.classList.remove('hidden')
     }
 }

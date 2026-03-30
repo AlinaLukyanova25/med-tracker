@@ -15,10 +15,6 @@
 
     flex-direction: column;
     align-items: start;
-
-    &:hover {
-      box-shadow: $box-shadow-hover;
-    }
   }
 
   &__date {
@@ -28,13 +24,11 @@
     color: $color-warning;
     margin: $space8 0;
     font-weight: 500;
+    column-gap: $space16;
   }
 
   &__card-bottom {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include card-bottom-style;
   }
 
   @include time-and-dosage-style;

@@ -20,6 +20,9 @@ export class DataService {
         this.receptions.push(reception);
         this.saveLocalStorage();
     }
+    findReception(id) {
+        return this.receptions.find(r => r.id === id);
+    }
     updateReception(id, updater) {
         const rec = this.receptions.find(r => r.id === id);
         if (rec) {

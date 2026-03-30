@@ -360,10 +360,6 @@ body {
   transition: 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-.item-button:hover {
-  background-color: #2e7d32;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
 
 .add-button {
   display: block;
@@ -379,9 +375,6 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: 0.2s ease;
-}
-.add-button:hover {
-  background-color: rgb(66.9, 138, 70.5);
 }
 
 .descr-not {
@@ -417,10 +410,6 @@ body {
   border-bottom: 2px solid transparent;
   transition: 0.2s ease;
 }
-.header-list__link:hover {
-  color: #2e7d32;
-  border-bottom-color: #4caf50;
-}
 
 .header-list-desktop,
 .header-list-mobile {
@@ -431,7 +420,6 @@ body {
   display: none;
   max-width: 800px;
   margin: 0 auto;
-  padding-bottom: 30px;
 }
 
 .reception-list {
@@ -448,10 +436,16 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  transition: 0.2s ease;
 }
-.reception-list__item:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+@media (max-width: 500px) {
+  .reception-list__item {
+    border-radius: 8px;
+    padding: 8px;
+    gap: 16px;
+  }
+}
+.reception-list__item {
+  transition: 0.2s ease;
 }
 .reception-list__item .item-title {
   flex-basis: 100%;
@@ -460,9 +454,6 @@ body {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
-}
-.reception-list .item-button {
-  margin: 10px 0 0;
 }
 .reception-list__stock {
   display: inline-block;
@@ -487,6 +478,13 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+@media (max-width: 500px) {
+  .missed-list__item {
+    border-radius: 8px;
+    padding: 8px;
+    gap: 16px;
+  }
+}
 .missed-list__item .item-title {
   flex-basis: 100%;
 }
@@ -494,9 +492,6 @@ body {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
-}
-.missed-list .item-button {
-  margin-top: 10px;
 }
 
 .stock-list {
@@ -523,7 +518,6 @@ body {
   display: none;
   max-width: 800px;
   margin: 0 auto;
-  padding-bottom: 30px;
 }
 .active__list {
   display: flex;
@@ -540,11 +534,17 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+}
+@media (max-width: 500px) {
+  .active__card {
+    border-radius: 8px;
+    padding: 8px;
+    gap: 16px;
+  }
+}
+.active__card {
   flex-direction: column;
   align-items: start;
-}
-.active__card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 .active__date {
   width: 100%;
@@ -553,6 +553,7 @@ body {
   color: #ed6c02;
   margin: 8px 0;
   font-weight: 500;
+  column-gap: 16px;
 }
 .active__card-bottom {
   width: 100%;
@@ -570,7 +571,6 @@ body {
   display: none;
   max-width: 800px;
   margin: 0 auto;
-  padding-bottom: 30px;
 }
 .calendar__header {
   display: flex;
@@ -597,7 +597,6 @@ body {
   display: none;
   max-width: 800px;
   margin: 0 auto;
-  padding-bottom: 30px;
 }
 .archive__list {
   display: flex;
@@ -614,17 +613,24 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+}
+@media (max-width: 500px) {
+  .archive__card {
+    border-radius: 8px;
+    padding: 8px;
+    gap: 16px;
+  }
+}
+.archive__card {
   flex-direction: column;
   align-items: start;
-}
-.archive__card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 .archive__card-bottom {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 .archive__date {
   color: #ed6c02;
@@ -646,11 +652,17 @@ body {
 .modal__content,
 .modal-assign-again__content {
   width: 400px;
+  padding: 20px;
   background-color: #fff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 20px;
   text-align: center;
+}
+@media (max-width: 500px) {
+  .modal__content,
+  .modal-assign-again__content {
+    max-width: 300px;
+  }
 }
 .modal__content input,
 .modal__content select,
@@ -660,7 +672,7 @@ body {
   width: 100%;
   margin: 8px 0;
   padding: 16px;
-  background-color: rgb(240.86, 244.9, 248.94);
+  background-color: rgb(241.46, 243.73, 246.21);
   border-radius: 16px;
   font-size: 15px;
   color: #1e293b;
@@ -686,8 +698,46 @@ body {
   color: #64748b;
 }
 
+.modal-warning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-warning__content {
+  position: absolute;
+  top: 30px;
+  width: 500px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  border: 8px solid #4caf50;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+@media (max-width: 500px) {
+  .modal-warning__content {
+    max-width: 300px;
+  }
+}
+.modal-warning__close {
+  text-align: end;
+}
+.modal-warning__descr {
+  font-size: 25px;
+  font-weight: 500;
+}
+
 .modal.hidden,
-.modal-assign-again.hidden {
+.modal-assign-again.hidden,
+.modal-warning.hidden {
   display: none;
 }
 
@@ -697,7 +747,28 @@ body {
   font-size: 20px;
 }
 
+@media (any-hover: hover) {
+  .item-button:hover {
+    background-color: #2e7d32;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  .add-button:hover {
+    background-color: rgb(66.9, 138, 70.5);
+  }
+  .active__card:hover,
+  .archive__card:hover,
+  .reception-list__item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  .header-list__link:hover {
+    color: #2e7d32;
+    border-bottom-color: #4caf50;
+  }
+}
 @media (max-width: 500px) {
+  body {
+    padding: 8px;
+  }
   .header__nav {
     display: block;
   }
@@ -714,12 +785,48 @@ body {
     position: absolute;
     display: none;
     right: 30px;
-    background-color: rgb(237.29, 242.35, 247.41);
+    background-color: rgb(232.74, 235.37, 238.49);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     padding: 16px 8px;
     flex-direction: column;
     gap: 8px;
     border-radius: 8px;
+  }
+  .reception-list__stock {
+    flex-basis: 100%;
+  }
+  .missed-list .item-button {
+    flex-basis: 100%;
+  }
+  .active .list-title {
+    margin: 8px auto;
+  }
+  .active__card {
+    gap: 0;
+  }
+  .active__card-bottom {
+    flex-wrap: wrap;
+  }
+  .active .item-button {
+    flex-basis: 100%;
+  }
+  .active__date {
+    flex-wrap: wrap;
+  }
+  .archive .list-title {
+    margin: 8px auto;
+  }
+  .archive__card {
+    gap: 0;
+  }
+  .archive__card-bottom {
+    flex-wrap: wrap;
+  }
+  .archive .item-button {
+    flex-basis: 100%;
+  }
+  .modal-warning__descr {
+    font-size: 18px;
   }
 }
 

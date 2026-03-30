@@ -1,18 +1,22 @@
-import { querySelectorEl } from "../types/types.js";
+import { querySelectorEl, Reception } from "../types/types.js";
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
+import { checkRecedptionTime } from "../core/timeUtils.js";
+import { ModalManager } from "./modal.js";
 
 export class MainPageManager {
     private receptionList: HTMLUListElement;
     private missedList: HTMLUListElement;
     private dataService: DataService;
     private stockList: HTMLUListElement
+    private modal: ModalManager;
 
-    constructor(dataService: DataService) {
+    constructor(dataService: DataService, modal: ModalManager) {
         this.receptionList = querySelectorEl<HTMLUListElement>('.reception-list');
         this.missedList = querySelectorEl<HTMLUListElement>('.missed-list');
         this.stockList = querySelectorEl<HTMLUListElement>('.stock-list')
         this.dataService = dataService
+        this.modal = modal
 
         this.init()
     }
@@ -47,10 +51,20 @@ export class MainPageManager {
         const dataId = button.getAttribute('data-id')
         if (!dataId) return
 
-        this.dataService.updateReception(Number(dataId), (rec) => {
+        const reception = this.dataService.findReception(Number(dataId))
+        if (!reception) return
+
+        const passedFifteenMinutes = checkRecedptionTime(reception)
+
+        if (passedFifteenMinutes) {
+            this.dataService.updateReception(Number(dataId), (rec) => {
             rec.taken = true;
             rec.stock -= (rec.stock > 0) ? 1 : 0;
-        })
+            })
+        } else {
+            this.modal.openModalWarning()
+            
+        }
     }
 
     handleButtonRemoveClick(e: Event) {

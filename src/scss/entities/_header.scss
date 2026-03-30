@@ -24,11 +24,6 @@
     padding: $space8 0;
     border-bottom: 2px solid transparent;
     transition: $transition;
-
-    &:hover {
-      color: $color-primary;
-      border-bottom-color: $color-primary-light;
-    }
   }
 }
 

@@ -1,31 +1,86 @@
+@use "sass:color";
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
+@media #{$has-hover} {
+  .item-button:hover {
+    background-color: $color-primary;
+    box-shadow: $box-shadow-hover;
+  }
+
+  .add-button:hover {
+    background-color: color.mix(white, $color-primary, 10%);
+  }
+
+  .active__card:hover,
+  .archive__card:hover,
+  .reception-list__item:hover {
+    box-shadow: $box-shadow-hover;
+  }
+
+  .header-list__link:hover {
+    color: $color-primary;
+    border-bottom-color: $color-primary-light;
+  }
+}
+
 @media (max-width: $breakpoint-tablet) {
-    .header__nav {
-        display: block;
+  body {
+    padding: $space8;
+  }
+
+  .header__nav {
+    display: block;
+  }
+
+  .header-list {
+    justify-content: space-between;
+
+    &__open {
+      position: relative;
+      display: flex;
+      width: $space30;
+      height: $space30;
     }
 
-    .header-list {
-        justify-content: space-between;
-
-        &__open {
-            position: relative;
-            display: flex;
-            width: $space30;
-            height: $space30;
-        }
-
-        &__mobile {
-            position: absolute;
-            display: none;
-            right: $space30;
-            background-color: darken($color-background, 3%);
-            box-shadow: $box-shadow;
-            padding: $space16 $space8;
-            flex-direction: column;
-            gap: $space8;
-            border-radius: $border-radius-small;
-        }
+    &__mobile {
+      position: absolute;
+      display: none;
+      right: $space30;
+      background-color: color.mix(#1e293b, $color-background, 7%);
+      box-shadow: $box-shadow;
+      padding: $space16 $space8;
+      flex-direction: column;
+      gap: $space8;
+      border-radius: $border-radius-small;
     }
+  }
+
+  .reception-list {
+    &__stock {
+      flex-basis: 100%;
+    }
+  }
+
+  .missed-list {
+    @include item-button-mobile;
+  }
+
+  .active {
+    @include section-style-mobile;
+
+    &__date {
+      flex-wrap: wrap;
+    }
+  }
+
+  .archive {
+    @include section-style-mobile;
+  }
+
+  .modal-warning {
+    &__descr {
+      font-size: $font-size18;
+    }
+  }
 }

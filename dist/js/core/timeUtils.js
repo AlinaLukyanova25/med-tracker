@@ -24,7 +24,6 @@ export const DateUtils = {
     },
 };
 export function getTimeReception(time, date = new Date()) {
-    // const date = new Date()
     return time.map(t => new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(t.slice(0, 2)), Number(t.slice(3))));
 }
 export function shouldUpdateTaken(reception) {
@@ -43,4 +42,10 @@ export function isDatePassed(date1) {
 }
 export function formatDateRu(date) {
     return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+}
+export function checkRecedptionTime(reception) {
+    const times = getTimeReception(reception.time);
+    const nextTime = times[0];
+    const now = new Date();
+    return (nextTime.getTime() - now.getTime()) < 900000;
 }

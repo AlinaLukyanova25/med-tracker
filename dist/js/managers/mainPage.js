@@ -1,11 +1,13 @@
 import { querySelectorEl } from "../types/types.js";
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
+import { checkRecedptionTime } from "../core/timeUtils.js";
 export class MainPageManager {
-    constructor(dataService) {
+    constructor(dataService, modal) {
         this.receptionList = querySelectorEl('.reception-list');
         this.missedList = querySelectorEl('.missed-list');
         this.stockList = querySelectorEl('.stock-list');
         this.dataService = dataService;
+        this.modal = modal;
         this.init();
     }
     init() {
@@ -31,10 +33,19 @@ export class MainPageManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        this.dataService.updateReception(Number(dataId), (rec) => {
-            rec.taken = true;
-            rec.stock -= (rec.stock > 0) ? 1 : 0;
-        });
+        const reception = this.dataService.findReception(Number(dataId));
+        if (!reception)
+            return;
+        const passedFifteenMinutes = checkRecedptionTime(reception);
+        if (passedFifteenMinutes) {
+            this.dataService.updateReception(Number(dataId), (rec) => {
+                rec.taken = true;
+                rec.stock -= (rec.stock > 0) ? 1 : 0;
+            });
+        }
+        else {
+            this.modal.openModalWarning();
+        }
     }
     handleButtonRemoveClick(e) {
         const target = e.target;

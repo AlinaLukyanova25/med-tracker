@@ -10,18 +10,10 @@
 
     transition: $transition;
 
-    &:hover {
-      box-shadow: $box-shadow-hover;
-    }
-
     @include flex-bassis-title;
   }
 
   @include time-and-dosage-style;
-
-  .item-button {
-    margin: 10px 0 0;
-  }
 
   &__stock {
     display: inline-block;
