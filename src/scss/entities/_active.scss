@@ -17,6 +17,19 @@
     align-items: start;
   }
 
+  &__med-content {
+    width: 100%;
+  }
+
+  &__card-top-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space8;
+    margin-bottom: $space8;
+  }
+
   &__date {
     width: 100%;
     display: flex;
@@ -32,4 +45,11 @@
   }
 
   @include time-and-dosage-style;
+
+  &__medication-delete {
+    background: none;
+    color: $color-text;
+    border: 2px solid $color-primary-light;
+    padding: $space5;
+  }
 }

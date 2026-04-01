@@ -18,8 +18,8 @@ export class MainPageManager {
         this.render();
     }
     render() {
-        renderReceptionList(this.dataService.getReceptions(), this.receptionList, this.missedList);
-        renderStockList(this.dataService.getReceptions(), this.stockList);
+        renderReceptionList(this.dataService.getDiseases(), this.receptionList, this.missedList, this.dataService.getAllMedications());
+        renderStockList(this.dataService.getDiseases(), this.stockList, this.dataService.getAllMedications());
     }
     setupEventListeners() {
         this.receptionList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e));
@@ -33,14 +33,17 @@ export class MainPageManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        const reception = this.dataService.findReception(Number(dataId));
-        if (!reception)
+        const time = button.getAttribute('data-time');
+        if (!time)
             return;
-        const passedFifteenMinutes = checkRecedptionTime(reception);
+        const passedFifteenMinutes = checkRecedptionTime(time);
+        console.log(passedFifteenMinutes);
         if (passedFifteenMinutes) {
-            this.dataService.updateReception(Number(dataId), (rec) => {
-                rec.taken = true;
-                rec.stock -= (rec.stock > 0) ? 1 : 0;
+            this.dataService.updateDisease(dataId, (med) => {
+                if (!med.takenTimes.includes(time)) {
+                    med.takenTimes.push(time);
+                }
+                med.stock -= (med.stock > 0) ? 1 : 0;
             });
         }
         else {
@@ -55,8 +58,13 @@ export class MainPageManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        this.dataService.updateReception(Number(dataId), (rec) => {
-            rec.taken = true;
+        const time = button.getAttribute('data-time');
+        if (!time)
+            return;
+        this.dataService.updateDisease(dataId, (med) => {
+            if (!med.takenTimes.includes(time)) {
+                med.takenTimes.push(time);
+            }
         });
     }
 }

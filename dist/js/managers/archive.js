@@ -15,7 +15,7 @@ export class ArchiveManager {
         this.render();
     }
     render() {
-        renderArchiveList(this.dataService.getReceptions(), this.archiveList);
+        renderArchiveList(this.dataService.getDiseases(), this.archiveList);
     }
     setupEventListeners() {
         this.archiveList.addEventListener('click', (e) => this.handleAssignAgain(e));
@@ -39,6 +39,6 @@ export class ArchiveManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        this.dataService.removeReception(Number(dataId));
+        this.dataService.removeDiseases(Number(dataId));
     }
 }

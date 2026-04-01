@@ -1,17 +1,30 @@
 import { loadFromStorage, saveToStorage } from "./storage.js";
 import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
-import { Reception } from "../types/types.js";
+import { Disease, Medication } from "../types/types.js";
 
 export class DataService {
-    private receptions: Reception[] = [];
+    private diseases: Disease[] = [];
     private listeners: (() => void)[] = [];
 
     constructor() {
         this.load()
     }
 
-    getReceptions(): Reception[] {
-        return this.receptions
+    getDiseases(): Disease[] {
+        return this.diseases
+    }
+
+    getAllMedications(): Medication[] {
+        const newArr: Medication[] = []
+
+        for (let dis of this.diseases) {
+            if (dis.archive) continue
+            for (let med of dis.medArray) {
+                newArr.push(med)
+            }
+        }
+
+        return newArr
     }
 
     subscribe(callback: () => void) {
@@ -23,48 +36,79 @@ export class DataService {
         console.log(`Хранение ${this.listeners}`)
     }
 
-    addReception(reception: Reception): void {
-        this.receptions.push(reception)
+    addDisease(disease: Disease): void {
+        this.diseases.push(disease)
         this.saveLocalStorage()
     }
 
-    findReception(id: number): Reception | undefined {
-        return this.receptions.find(r => r.id === id)
+    findDisease(id: number): Disease | undefined {
+        return this.diseases.find(d => d.id === id)
     }
 
-    updateReception(id: number, updater: (rec: Reception) => void) {
-        const rec = this.receptions.find(r => r.id === id)
-        if (rec) {
-            updater(rec)
+    findMedicationWithDis(disId: number, medId: string): Medication | undefined {
+        return this.diseases
+            .find(d => d.id === disId)
+            ?.medArray
+            .find(m => m.medId === medId)
+    }
+
+    findMedication(medId: string): Medication | undefined {
+        let med: Medication | undefined
+        this.diseases
+            .forEach(d => {
+                const item = d.medArray.find(m => m.medId === medId)
+                if (item) med = item
+            })
+        return med
+    }
+
+    updateDisease(id: string, updater: (med: Medication) => void) {
+        let med: Medication | undefined
+        this.diseases
+            .forEach(d => {
+                const item = d.medArray.find(m => m.medId === id)
+                if (item) med = item
+            })
+        if (med) {
+            updater(med)
             this.saveLocalStorage()
         }
     }
 
-    removeReception(id: number): void {
-        this.receptions = this.receptions.filter(r => r.id !== id)
+    removeDiseases(id: number): void {
+        this.diseases = this.diseases.filter(d => d.id !== id)
+        this.saveLocalStorage()
+    }
+
+    removeMedication(id: string): void {
+        this.diseases
+            .forEach(d => {
+                d.medArray = d.medArray.filter(m => m.medId !== id)
+            })
         this.saveLocalStorage()
     }
 
     saveLocalStorage() {
-        saveToStorage(this.receptions)
+        saveToStorage(this.diseases)
         this.notify()
     }
 
     load() {
-        this.receptions = loadFromStorage()
-        let changed = false;
-        this.receptions.forEach(r => {
-            if (shouldUpdateTaken(r)) {
-                r.taken = false;
-                r.lastTakenUpdate = new Date().toISOString();
+        this.diseases = loadFromStorage()
+            let changed = false;
+        this.diseases.forEach(d => {
+            if (d.archive === false && isDatePassed(d.dateEnd)) {
+                d.archive = true
                 changed = true
             }
-
-            if (r.archive === false && isDatePassed(r.dateEnd)) {
-                r.archive = true
-                changed = true
-            }
-        })
+                d.medArray.forEach(med => {
+                    if (shouldUpdateTaken(med)) {
+                        med.takenTimes = [];
+                        med.lastTakenUpdate = new Date().toISOString();
+                        changed = true
+                    }
+                });
+            })
         if (changed) this.saveLocalStorage()
     }
 }

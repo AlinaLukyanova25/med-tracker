@@ -27,7 +27,7 @@ export class ArchiveManager {
     }
 
     render() {
-        renderArchiveList(this.dataService.getReceptions(), this.archiveList)
+        renderArchiveList(this.dataService.getDiseases(), this.archiveList)
     }
 
     setupEventListeners() {
@@ -57,6 +57,6 @@ export class ArchiveManager {
         const dataId = button.getAttribute('data-id')
         if (!dataId) return
 
-        this.dataService.removeReception(Number(dataId))
+        this.dataService.removeDiseases(Number(dataId))
     }
 }

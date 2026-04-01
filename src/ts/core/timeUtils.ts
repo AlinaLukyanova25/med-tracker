@@ -1,4 +1,4 @@
-import { Reception } from "../types/types.js"
+import { Disease, Medication } from "../types/types.js"
 
 export const DateUtils = {
     getTodayDate() {
@@ -40,8 +40,8 @@ export function getTimeReception(time: string[], date = new Date()): Date[] {
     ))
 }
 
-export function shouldUpdateTaken(reception: Reception): boolean {
-    const lastUpdate = new Date(reception.lastTakenUpdate);
+export function shouldUpdateTaken(med: Medication): boolean {
+    const lastUpdate = new Date(med.lastTakenUpdate);
     const today = new Date();
         
     return (
@@ -65,10 +65,11 @@ export function formatDateRu(date: Date): string {
     return date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
 } 
 
-export function checkRecedptionTime(reception: Reception): boolean {
-    const times = getTimeReception(reception.time)
-    const nextTime = times[0]
+export function checkRecedptionTime(time: string): boolean {
     const now = new Date()
+    const timeDate = new Date(time)
 
-    return (nextTime.getTime() - now.getTime()) < 900000
+    if (!timeDate) return false
+
+    return (timeDate.getTime() - now.getTime()) < 900000
 }

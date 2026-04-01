@@ -10,18 +10,28 @@ export function querySelectorEl<T extends HTMLElement>(selector: string): T {
     return el as T
 }
 
-export interface Reception {
+export interface Disease {
     readonly id: number;
-    diseaseName: string;
+    readonly diseaseName: string;
+    dateStart: Date;
+    dateEnd: Date;
+    archive: boolean;
+    medArray: Medication[];
+}
+
+export interface Medication {
+    readonly medId: string;
     medicationName: string;
     time: string[];
     dosage: number;
     stock: number;
-    dateStart: Date;
-    dateEnd: Date;
-    taken: boolean;
-    archive: boolean;
+    takenTimes: string[];
     lastTakenUpdate: string;
+}
+
+export interface SortedMedication {
+    time: Date;
+    medication: Medication;
 }
 
 export type ModalType = "modal" | "again"

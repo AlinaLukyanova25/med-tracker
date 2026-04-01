@@ -25,6 +25,10 @@
 }
 
 @media (max-width: $breakpoint-tablet) {
+  .close {
+    font-size: $font-size25;
+  }
+
   body {
     padding: $space8;
   }
@@ -72,6 +76,10 @@
     &__date {
       flex-wrap: wrap;
     }
+  }
+
+  .item-button.active__disease-delete {
+      flex-basis: 0%;
   }
 
   .archive {

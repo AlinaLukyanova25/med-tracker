@@ -1,10 +1,11 @@
 import { MenuManager } from "./managers/menu.js";
 import { ModalManager } from "./managers/modal.js";
-import { ReceptionManager } from './managers/reception.js';
+import { DiseasesManager } from './managers/diseases.js';
 import { MainPageManager } from "./managers/mainPage.js";
 import { DataService } from "./core/dataService.js";
 import { ArchiveManager } from "./managers/archive.js";
 import { CalendarManager } from "./managers/calendar.js";
+import { ActiveListManager } from "./managers/activeList.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService()
@@ -13,11 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = new ModalManager()
 
-    const receptions = new ReceptionManager(modal, dataService)
+    const receptions = new DiseasesManager(modal, dataService)
 
     const mainPage = new MainPageManager(dataService, modal)
 
     const archive = new ArchiveManager(dataService, modal)
 
     const calendar = new CalendarManager()
+
+    const activeList = new ActiveListManager(dataService)
 })

@@ -1,12 +1,12 @@
-import { Reception } from "../types/types.js"
+import { Disease } from "../types/types.js"
 
-export function saveToStorage(arr: Reception[]) {
-    localStorage.setItem('receptions', JSON.stringify(arr))
+export function saveToStorage(arr: Disease[]) {
+    localStorage.setItem('diseases', JSON.stringify(arr))
     console.log(JSON.stringify(arr))
 }
 
-export function loadFromStorage(): Reception[] {
-    const stored = localStorage.getItem('receptions')
+export function loadFromStorage(): Disease[] {
+    const stored = localStorage.getItem('diseases')
     if (stored) {
         try {
             const parsed = JSON.parse(stored)

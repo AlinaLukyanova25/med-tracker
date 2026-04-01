@@ -1,9 +1,9 @@
 export function saveToStorage(arr) {
-    localStorage.setItem('receptions', JSON.stringify(arr));
+    localStorage.setItem('diseases', JSON.stringify(arr));
     console.log(JSON.stringify(arr));
 }
 export function loadFromStorage() {
-    const stored = localStorage.getItem('receptions');
+    const stored = localStorage.getItem('diseases');
     if (stored) {
         try {
             const parsed = JSON.parse(stored);

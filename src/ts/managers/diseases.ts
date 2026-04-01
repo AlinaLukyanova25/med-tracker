@@ -1,11 +1,12 @@
-import { getElement, querySelectorEl, Reception } from "../types/types.js";
+import { Disease, getElement, Medication, querySelectorEl } from "../types/types.js";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
 import { DateUtils } from "../core/timeUtils.js";
 
-export class ReceptionManager {
+export class DiseasesManager {
     private times: string[] = [];
+    private medArray: Medication[] = [];
     private activeList: HTMLUListElement;
     private addForm: HTMLFormElement;
     private diseaseName: HTMLInputElement;
@@ -19,6 +20,7 @@ export class ReceptionManager {
     private addAgain: HTMLFormElement;
     private againDateEnd: HTMLInputElement;
     private modal: ModalManager
+    private moreMedButton: HTMLButtonElement;
 
     constructor(modal: ModalManager, dataService: DataService) {
         this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
@@ -30,6 +32,7 @@ export class ReceptionManager {
         this.dosage = getElement<HTMLInputElement>('reception-dosage');
         this.stock = getElement<HTMLInputElement>('reception-stock');
         this.dateEnd = getElement<HTMLInputElement>('reception-end');
+        this.moreMedButton = querySelectorEl<HTMLButtonElement>('.modal__more-btn');
         
         this.addAgain = getElement<HTMLFormElement>('add-again')
         this.againDateEnd = getElement<HTMLInputElement>('reception-again-end')
@@ -54,17 +57,16 @@ export class ReceptionManager {
     }
 
     render() {
-        renderActiveList(this.dataService.getReceptions(), this.activeList)
+        renderActiveList(this.dataService.getDiseases(), this.activeList)
     }
 
     setupEventListeners() {
         console.log('Обработчик submit в reception')
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e))
-        this.addAgain.addEventListener('submit', (e) => this.handleAgainFormSubmit(e))
-
-        this.activeList.addEventListener('click', (e) => this.removeReceptionCard(e))
 
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e))
+
+        this.moreMedButton.addEventListener('click', (e) => this.handleAddMoreMedication(e))
     }
 
     handleAddFormSubmit(e: Event) {
@@ -76,14 +78,73 @@ export class ReceptionManager {
         const stock = Number(this.stock.value)
         const dateEnd = new Date(this.dateEnd?.value)
         const time = this.time.value
+        const medArray = this.medArray.length
 
-        if (!disName || !medName) {
-            alert('Введите корректные названия')
+        if (!disName) {
+            alert('Введите корректное болезни')
             return
         }
 
         if (isNaN(dateEnd.getTime())) {
             alert('Укажите корректную дату окончания')
+            return
+        }
+
+
+        if (!medArray && this.medArray.length === 0) {
+            if (!medName) {
+                alert('Введите корректное название лекарства')
+            }
+
+            if (!time && this.times.length === 0) {
+                alert('Введите время приёма')
+                return
+            }
+
+            if (time) this.times.push(time)
+            
+            const medication: Medication = {
+                medId: crypto.randomUUID(),
+                medicationName: medName,
+                time: this.times,
+                dosage: dosage,
+                stock: stock,
+                takenTimes: [],
+                lastTakenUpdate: new Date().toISOString(),
+            }
+        
+            this.medArray.push(medication)
+
+            this.times = [];
+        }
+
+        const disease: Disease = {
+            id: Date.now(),
+            diseaseName: disName,
+            dateStart: new Date(),
+            dateEnd: dateEnd,
+            archive: false,
+            medArray: this.medArray
+        }
+
+        this.dataService.addDisease(disease)
+        this.medArray = []
+        this.modal.addHidden('modal')
+        this.addForm.reset()
+    }
+
+    handleAddMoreMedication(e: Event) {
+        e.preventDefault()
+
+        const disName = this.diseaseName.value.trim()
+        const medName = this.medicationName.value.trim()
+        const dosage = Number(this.dosage.value)
+        const stock = Number(this.stock.value)
+        const dateEnd = this.dateEnd?.value
+        const time = this.time.value
+
+        if (!disName || !medName) {
+            alert('Введите корректные названия')
             return
         }
 
@@ -93,48 +154,45 @@ export class ReceptionManager {
         }
 
         if (time) this.times.push(time)
-
-        const reception: Reception = {
-            id: Date.now(),
-            diseaseName: disName,
+        
+        const medication: Medication = {
+            medId: crypto.randomUUID(),
             medicationName: medName,
             time: this.times,
             dosage: dosage,
             stock: stock,
-            dateStart: new Date(),
-            dateEnd: dateEnd,
-            taken: false,
-            archive: false,
-            lastTakenUpdate: new Date().toISOString()
+            takenTimes: [],
+            lastTakenUpdate: new Date().toISOString(),
         }
 
-        this.dataService.addReception(reception)
+        this.medArray.push(medication)
         this.times = [];
-        this.modal.addHidden('modal')
         this.addForm.reset()
+        this.diseaseName.value = disName
+        this.dateEnd.value = dateEnd
     }
 
-    handleAgainFormSubmit(e: Event) {
-        e.preventDefault()
+    // handleAgainFormSubmit(e: Event) {
+    //     e.preventDefault()
 
-        const dateEnd = new Date(this.againDateEnd.value)
+    //     const dateEnd = new Date(this.againDateEnd.value)
 
-        if (isNaN(dateEnd.getTime())) {
-            alert('Укажите корректную дату окончания')
-            return
-        }
+    //     if (isNaN(dateEnd.getTime())) {
+    //         alert('Укажите корректную дату окончания')
+    //         return
+    //     }
 
-        const id = this.addAgain.getAttribute('data-id')
-        if (!id) return
+    //     const id = this.addAgain.getAttribute('data-id')
+    //     if (!id) return
 
-        this.dataService.updateReception(Number(id), (rec) => {
-            rec.dateEnd = dateEnd;
-            rec.archive = false;
-        })
+    //     this.dataService.updateDisease(Number(id), (rec) => {
+    //         rec.dateEnd = dateEnd;
+    //         rec.archive = false;
+    //     })
 
-        this.modal.addHidden('again')
-        this.addAgain.reset()
-    }
+    //     this.modal.addHidden('again')
+    //     this.addAgain.reset()
+    // }
 
     handleLabelTimeClick(e: Event) {
         const target = e.target as HTMLElement
@@ -151,18 +209,6 @@ export class ReceptionManager {
         console.log(this.times)
 
         this.time.value = ''
-    }
-
-    removeReceptionCard(e: Event) {
-        const target = e.target as HTMLElement
-
-        const button = target.closest('.active__card-delete')
-        if (!button) return
-
-        const dataId = button.getAttribute('data-id')
-        if (!dataId) return
-
-        this.dataService.removeReception(Number(dataId))
     }
 
     
