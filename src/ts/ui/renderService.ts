@@ -40,30 +40,41 @@ export function renderReceptionList(arr: Disease[], receptionList: HTMLUListElem
 
     const sorted = sortByOrderHours(arr, medications)
 
+    let rec: number = 0;
+    let mis: number = 0
+
     for (let med of sorted) {
         const diff = (med.time.getTime() + 900000) - now.getTime()
 
         if (diff > 0) {
             const li = createReceptionMainComponent(med.medication, med.time)
             receptionList.insertAdjacentHTML('beforeend', li)
+            rec++
         } else {
             const li = createMissedReceptionComponent(med.medication, med.time)
             missedList.insertAdjacentHTML('beforeend', li)
+            mis++
         }
     }
+
+    if (rec === 0) receptionList.innerHTML = '<p>На сегодня приёмов нет<p>'
+    if (mis === 0) missedList.innerHTML = '<p>На сегодня нет пропущенных приёмов</p>'
 }
 
 export function renderStockList(arr: Disease[], stockList: HTMLUListElement, medications: Medication[]): void {
     stockList.innerHTML = ''
 
-    if (arr.length === 0) return
-
     const sorted = sortStock(arr, medications)
+
+    let stock: number = 0;
 
     for (const med of sorted) {
         const li = createStockReceptionComponent(med)
         stockList.insertAdjacentHTML('beforeend', li)
+        stock++
     }
+
+    if (stock === 0) stockList.innerHTML = 'Пока ничего нет'
 }
 
 function createReceptionMainComponent(med: Medication, today: Date): string {
@@ -83,7 +94,7 @@ function createMissedReceptionComponent(med: Medication, time: Date): string {
     <li class="missed-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
         <p class="missed-list__dosage">${med.dosage} мг.</p>
-        <p class="missed-list__time">${med.time.join(', ')}</p>
+        <p class="missed-list__time">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}</p>
         <button class="item-button missed-list__button" data-id="${med.medId}" data-time="${time.toISOString()}">Удалить из пропущенных</button>
     </li>
     `

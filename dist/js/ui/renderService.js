@@ -32,27 +32,37 @@ export function renderReceptionList(arr, receptionList, missedList, medications)
     receptionList.innerHTML = '';
     missedList.innerHTML = '';
     const sorted = sortByOrderHours(arr, medications);
+    let rec = 0;
+    let mis = 0;
     for (let med of sorted) {
         const diff = (med.time.getTime() + 900000) - now.getTime();
         if (diff > 0) {
             const li = createReceptionMainComponent(med.medication, med.time);
             receptionList.insertAdjacentHTML('beforeend', li);
+            rec++;
         }
         else {
             const li = createMissedReceptionComponent(med.medication, med.time);
             missedList.insertAdjacentHTML('beforeend', li);
+            mis++;
         }
     }
+    if (rec === 0)
+        receptionList.innerHTML = '<p>На сегодня приёмов нет<p>';
+    if (mis === 0)
+        missedList.innerHTML = '<p>На сегодня нет пропущенных приёмов</p>';
 }
 export function renderStockList(arr, stockList, medications) {
     stockList.innerHTML = '';
-    if (arr.length === 0)
-        return;
     const sorted = sortStock(arr, medications);
+    let stock = 0;
     for (const med of sorted) {
         const li = createStockReceptionComponent(med);
         stockList.insertAdjacentHTML('beforeend', li);
+        stock++;
     }
+    if (stock === 0)
+        stockList.innerHTML = 'Пока ничего нет';
 }
 function createReceptionMainComponent(med, today) {
     return `
@@ -70,7 +80,7 @@ function createMissedReceptionComponent(med, time) {
     <li class="missed-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
         <p class="missed-list__dosage">${med.dosage} мг.</p>
-        <p class="missed-list__time">${med.time.join(', ')}</p>
+        <p class="missed-list__time">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}</p>
         <button class="item-button missed-list__button" data-id="${med.medId}" data-time="${time.toISOString()}">Удалить из пропущенных</button>
     </li>
     `;

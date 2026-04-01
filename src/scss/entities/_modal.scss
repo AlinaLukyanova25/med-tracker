@@ -42,6 +42,12 @@
     cursor: pointer;
     color: $color-text-light;
   }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: $space16;
+  }
 }
 
 .modal-warning {
