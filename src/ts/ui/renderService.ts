@@ -50,7 +50,7 @@ function renderPaginatedList<T, U extends ButtonOpenCardClass>(
 
     if (hiddenItems.length > 0) {
         const button = createOpenCardsComponent(classButton)
-        button.textContent = `Показать остальные (${hiddenItems.length}) 🔽`
+        button.textContent = `Показать остальные (${hiddenItems.length})`
         const hiddenDiv = createDivContainer(classDiv, 'none')
         hiddenItems.forEach(item => {
             hiddenDiv.insertAdjacentHTML('beforeend', renderItem(item))

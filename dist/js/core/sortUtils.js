@@ -1,4 +1,4 @@
-import { getTimeReception } from "./timeUtils";
+import { getTimeReception } from "./timeUtils.js";
 export function sortByOrderHours(arr, medications) {
     const newArr = medications;
     const sortedArr = [];

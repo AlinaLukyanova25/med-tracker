@@ -1,5 +1,5 @@
 import { Disease, Medication, SortedMedication } from "../types/types.js"
-import { getTimeReception } from "./timeUtils"
+import { getTimeReception } from "./timeUtils.js"
 
 export function sortByOrderHours(arr: Disease[], medications: Medication[]): SortedMedication[] {
     const newArr = medications

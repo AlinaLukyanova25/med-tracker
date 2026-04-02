@@ -79,12 +79,12 @@ export class MainPageManager {
         const isOpen = div.style.display === 'none';
         if (isOpen) {
             div.style.display = 'block';
-            button.textContent = `Скрыть остальные (${div.querySelectorAll('li').length}) 🔝`;
+            button.textContent = `Скрыть остальные (${div.querySelectorAll('li').length})`;
             button.classList.add('colorLight');
         }
         else {
             div.style.display = 'none';
-            button.textContent = `Показать остальные (${div.querySelectorAll('li').length}) 🔽`;
+            button.textContent = `Показать остальные (${div.querySelectorAll('li').length})`;
             button.classList.remove('colorLight');
         }
     }
