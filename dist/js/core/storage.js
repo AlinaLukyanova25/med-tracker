@@ -9,7 +9,11 @@ export function loadFromStorage() {
             const parsed = JSON.parse(stored);
             if (!Array.isArray(parsed))
                 return [];
-            return parsed.map((item) => (Object.assign(Object.assign({}, item), { dateStart: new Date(item.dateStart), dateEnd: new Date(item.dateEnd) })));
+            return parsed.map((item) => ({
+                ...item,
+                dateStart: new Date(item.dateStart),
+                dateEnd: new Date(item.dateEnd)
+            }));
         }
         catch (e) {
             console.error('Ошибка загрузки', e);

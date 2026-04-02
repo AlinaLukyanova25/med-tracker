@@ -50,3 +50,17 @@ export function checkRecedptionTime(time) {
         return false;
     return (timeDate.getTime() - now.getTime()) < 900000;
 }
+if (!globalThis.Intl) {
+    globalThis.Intl = Intl;
+}
+const formatter = new Intl.PluralRules('ru');
+export function getWordForm(count, one, few, many, other) {
+    const rule = formatter.select(count);
+    const forms = {
+        one,
+        few,
+        many,
+        other
+    };
+    return forms[rule];
+}

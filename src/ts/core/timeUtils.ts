@@ -1,4 +1,4 @@
-import { Disease, Medication } from "../types/types.js"
+import { Medication, PluralRule } from "../types/common"
 
 export const DateUtils = {
     getTodayDate() {
@@ -72,4 +72,21 @@ export function checkRecedptionTime(time: string): boolean {
     if (!timeDate) return false
 
     return (timeDate.getTime() - now.getTime()) < 900000
+}
+
+if (!globalThis.Intl) {
+  globalThis.Intl = Intl;
+}
+
+const formatter = new Intl.PluralRules('ru');
+
+export function getWordForm(count: number, one: string, few: string, many: string, other: string): string {
+  const rule = formatter.select(count) as PluralRule;
+  const forms: Record<PluralRule, string> = {
+    one,
+    few,
+    many,
+    other
+  };
+  return forms[rule];
 }

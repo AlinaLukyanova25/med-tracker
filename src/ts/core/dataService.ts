@@ -1,6 +1,6 @@
 import { loadFromStorage, saveToStorage } from "./storage.js";
 import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
-import { Disease, Medication } from "../types/types.js";
+import { Disease, Medication } from "../types/common";
 
 export class DataService {
     private diseases: Disease[] = [];

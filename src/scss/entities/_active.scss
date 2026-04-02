@@ -52,4 +52,10 @@
     border: 2px solid $color-primary-light;
     padding: $space5;
   }
+
+  &__med-title {
+    display: flex;
+    gap: $space16;
+    align-items: center;
+  }
 }

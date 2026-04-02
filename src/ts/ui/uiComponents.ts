@@ -1,5 +1,5 @@
-import { Disease, Medication } from "../types/types.js"
-import { formatDateRu } from "../core/timeUtils.js"
+import { Disease, Medication, PluralRule } from "../types/common"
+import { formatDateRu, getWordForm } from "../core/timeUtils.js"
 
 export function createDivContainer(styleClass: string, displayStyle: string): HTMLDivElement {
     const div = document.createElement('div')
@@ -25,7 +25,7 @@ export function createDiseaseComponent(dis: Disease): string {
             <span class="active__date--start">Назначен: ${formatDateRu(dis.dateStart)}</span>
             <span class="active__date--end">Окончание приёма: ${formatDateRu(dis.dateEnd)}</span>
         </p>
-        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}">${med.medicationName} 🔽</h4></div>`).join('') : ''}
+        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}">${med.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;"></h4></div>`).join('') : ''}
         </li>
     `
 }
@@ -54,10 +54,12 @@ export function createMissedReceptionComponent(med: Medication, time: Date): str
 }
 
 export function createStockReceptionComponent(med: Medication): string {
+    const word = getWordForm(med.stock, 'таблетка', 'таблетки', 'таблеток', 'таблеток')
+    const verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
     return `
     <li class="stock-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
-        <p class="stock-list__stock">Осталось ${med.stock} таблеток!!!</p>
+        <p class="stock-list__stock">${verb} ${med.stock} ${word}!!!</p>
     </li>
     `
 }

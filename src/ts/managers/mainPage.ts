@@ -1,4 +1,5 @@
-import { ButtonOpenCardClass, DivHiddenClass, querySelectorEl } from "../types/types.js";
+import { querySelectorEl } from "../types/types.js";
+import { ButtonOpenCardClass, DivHiddenClass } from "../types/common" ;
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
 import { checkRecedptionTime } from "../core/timeUtils.js";

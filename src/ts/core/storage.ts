@@ -1,4 +1,4 @@
-import { Disease } from "../types/types.js"
+import { Disease } from "../types/common"
 
 export function saveToStorage(arr: Disease[]) {
     localStorage.setItem('diseases', JSON.stringify(arr))

@@ -1,5 +1,6 @@
 import { DataService } from "../core/dataService.js";
-import { Medication, querySelectorEl } from "../types/types.js";
+import { querySelectorEl } from "../types/types.js";
+import { Medication } from "../types/common";
 
 export class ActiveListManager {
     private activeList: HTMLUListElement;
@@ -44,12 +45,14 @@ export class ActiveListManager {
 
         medContent.innerHTML = !isOpen
             ? this.createMedicationComponent(medication)
-            : `<h4 class="item-title active__med-title" data-id="${medication.medId}">${medication.medicationName} 🔽</h4>`
+            : `<h4 class="item-title active__med-title" data-id="${medication.medId}">
+            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;">
+            </h4>`
     }
 
     createMedicationComponent(med: Medication): string {
         return `
-        <h4 class="item-title active__med-title open" data-id="${med.medId}">${med.medicationName} 🔽</h4>
+        <h4 class="item-title active__med-title open" data-id="${med.medId}">${med.medicationName} <img src="img/arrow-top.svg" alt="Стрелка вверх" style="width: 25px;"></h4>
         <div class="active__card-bottom">
             <p class="active__dosage">Доза: <span>${med.dosage} мг.</span></p>
             <p class="active__time">Время приёма: <span>${med.time.join(', ')}</span></p>

@@ -1,4 +1,5 @@
-import { Disease, getElement, Medication, querySelectorEl } from "../types/types.js";
+import { getElement, querySelectorEl } from "../types/types.js";
+import { Disease, Medication } from "../types/common";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
