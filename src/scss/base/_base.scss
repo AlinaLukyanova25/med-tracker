@@ -79,3 +79,18 @@ body {
   border: none;
   cursor: pointer;
 }
+
+.container-cards-hidden {
+  margin-top: $space16;
+}
+
+.button-open-cards {
+  color: $color-primary;
+  border: none;
+  background: none;
+  padding-left: $space16;
+}
+
+.button-open-cards.colorLight {
+  color: $color-text-light;
+}

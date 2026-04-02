@@ -23,7 +23,10 @@ export class MainPageManager {
     }
     setupEventListeners() {
         this.receptionList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e));
+        this.receptionList.addEventListener('click', (e) => this.openHiddenCards(e, 'reception-list__open-card', 'reception-list__card-hidden'));
         this.missedList.addEventListener('click', (e) => this.handleButtonRemoveClick(e));
+        this.missedList.addEventListener('click', (e) => this.openHiddenCards(e, 'missed-list__open-card', 'missed-list__card-hidden'));
+        this.stockList.addEventListener('click', (e) => this.openHiddenCards(e, 'stock-list__open-card', 'stock-list__card-hidden'));
     }
     handleButtonAcceptedClick(e) {
         const target = e.target;
@@ -66,5 +69,23 @@ export class MainPageManager {
                 med.takenTimes.push(time);
             }
         });
+    }
+    openHiddenCards(e, buttonClass, divClass) {
+        const target = e.target;
+        const button = target.closest(`.${buttonClass}`);
+        if (!button)
+            return;
+        const div = querySelectorEl(`.${divClass}`);
+        const isOpen = div.style.display === 'none';
+        if (isOpen) {
+            div.style.display = 'block';
+            button.textContent = `Скрыть остальные (${div.querySelectorAll('li').length}) 🔝`;
+            button.classList.add('colorLight');
+        }
+        else {
+            div.style.display = 'none';
+            button.textContent = `Показать остальные (${div.querySelectorAll('li').length}) 🔽`;
+            button.classList.remove('colorLight');
+        }
     }
 }

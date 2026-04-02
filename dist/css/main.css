@@ -387,6 +387,21 @@ body {
   cursor: pointer;
 }
 
+.container-cards-hidden {
+  margin-top: 16px;
+}
+
+.button-open-cards {
+  color: #2e7d32;
+  border: none;
+  background: none;
+  padding-left: 16px;
+}
+
+.button-open-cards.colorLight {
+  color: #64748b;
+}
+
 .header {
   background-color: #fff;
   border-radius: 16px;

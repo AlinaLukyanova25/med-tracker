@@ -57,7 +57,7 @@ export class DiseasesManager {
             alert('Укажите корректную дату окончания');
             return;
         }
-        if (!medArray && this.medArray.length === 0) {
+        if (!medArray && this.medArray.length === 0 || medName || dosage || stock || time) {
             if (!medName) {
                 alert('Введите корректное название лекарства');
             }

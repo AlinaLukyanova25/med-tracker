@@ -1,0 +1,77 @@
+import { Disease, Medication } from "../types/types.js"
+import { formatDateRu } from "../core/timeUtils.js"
+
+export function createDivContainer(styleClass: string, displayStyle: string): HTMLDivElement {
+    const div = document.createElement('div')
+    div.classList.add('container-cards-hidden', styleClass)
+    div.style.display = displayStyle
+    return div
+}
+
+export function createOpenCardsComponent(classStyle: string): HTMLButtonElement {
+    const button = document.createElement('button')
+    button.classList.add('button-open-cards', classStyle)
+    return button
+}
+
+export function createDiseaseComponent(dis: Disease): string {
+    return `
+    <li class="active__card">
+        <div class="active__card-top-content">
+        <h3 class="list-title" style="margin: 0;">${dis.diseaseName}</h3>
+        <button class="item-button active__disease-delete" data-disId="${dis.id}">Удалить</button>
+        </div>
+        <p class="active__date">
+            <span class="active__date--start">Назначен: ${formatDateRu(dis.dateStart)}</span>
+            <span class="active__date--end">Окончание приёма: ${formatDateRu(dis.dateEnd)}</span>
+        </p>
+        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}">${med.medicationName} 🔽</h4></div>`).join('') : ''}
+        </li>
+    `
+}
+
+export function createReceptionMainComponent(med: Medication, today: Date): string {
+    return `
+    <li class="reception-list__item">
+        <h4 class="item-title">${med.medicationName}</h4>
+        <p class="reception-list__dosage">${med.dosage} мг.</p>
+        <p class="reception-list__time">${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}</p>
+        <button class="item-button reception-list__button" data-id="${med.medId}" data-time="${today.toISOString()}">Принято</button>
+        <span class="reception-list__stock">Осталось таблеток: ${med.stock}</span>
+    </li>
+    `
+}
+
+export function createMissedReceptionComponent(med: Medication, time: Date): string {
+    return `
+    <li class="missed-list__item">
+        <h4 class="item-title">${med.medicationName}</h4>
+        <p class="missed-list__dosage">${med.dosage} мг.</p>
+        <p class="missed-list__time">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}</p>
+        <button class="item-button missed-list__button" data-id="${med.medId}" data-time="${time.toISOString()}">Удалить из пропущенных</button>
+    </li>
+    `
+}
+
+export function createStockReceptionComponent(med: Medication): string {
+    return `
+    <li class="stock-list__item">
+        <h4 class="item-title">${med.medicationName}</h4>
+        <p class="stock-list__stock">Осталось ${med.stock} таблеток!!!</p>
+    </li>
+    `
+}
+
+export function createArchiveCardComponent(disease: Disease): string {
+    return `
+    <li class="archive__card">
+        <h3 class="list-title">${disease.diseaseName}</h3>
+        ${disease.medArray.length > 0 ? disease.medArray.map(med => `<div data-id="${med.medId}" data-disease="${disease.id}"><h4 class="item-title" data-id="${med.medId}">${med.medicationName}</h4></div>`).join('') : ''}
+        <div class="archive__card-bottom">
+            <p class="archive__date">Завершен: ${formatDateRu(disease.dateEnd)}</p>
+            <button class="item-button archive__btn-return" data-id="${disease.id}">Назначить снова</button>
+            <button class="item-button archive__card-delete" data-id="${disease.id}">Удалить</button>
+        </div>
+    </li>
+    `
+}

@@ -35,3 +35,9 @@ export interface SortedMedication {
 }
 
 export type ModalType = "modal" | "again"
+
+export type ButtonOpenCardClass = 'reception-list__open-card' | 'missed-list__open-card' | 'stock-list__open-card'
+
+export type DivHiddenClass<T extends ButtonOpenCardClass> = `${T extends `${infer Prifix}__open-card`
+    ? `${Prifix}__card-hidden`
+    : never}`

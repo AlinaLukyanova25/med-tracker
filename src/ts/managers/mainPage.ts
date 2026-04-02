@@ -1,4 +1,4 @@
-import { querySelectorEl } from "../types/types.js";
+import { ButtonOpenCardClass, DivHiddenClass, querySelectorEl } from "../types/types.js";
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
 import { checkRecedptionTime } from "../core/timeUtils.js";
@@ -38,8 +38,12 @@ export class MainPageManager {
 
     setupEventListeners() {
         this.receptionList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e))
+        this.receptionList.addEventListener('click', (e) => this.openHiddenCards(e, 'reception-list__open-card', 'reception-list__card-hidden'))
 
         this.missedList.addEventListener('click', (e) => this.handleButtonRemoveClick(e))
+        this.missedList.addEventListener('click', (e) => this.openHiddenCards(e, 'missed-list__open-card', 'missed-list__card-hidden'))
+    
+        this.stockList.addEventListener('click', (e) => this.openHiddenCards(e, 'stock-list__open-card', 'stock-list__card-hidden'))
     }
 
     handleButtonAcceptedClick(e: Event) {
@@ -86,6 +90,26 @@ export class MainPageManager {
                 med.takenTimes.push(time)
             }
         })
+    }
+
+    openHiddenCards<T extends ButtonOpenCardClass>(e: Event, buttonClass: T, divClass: DivHiddenClass<T>) {
+        const target = e.target as HTMLElement
+
+        const button = target.closest(`.${buttonClass}`) as HTMLElement
+        if (!button) return
+
+        const div = querySelectorEl<HTMLDivElement>(`.${divClass}`)
+        const isOpen = div.style.display === 'none'
+
+        if (isOpen) {
+            div.style.display = 'block'
+            button.textContent = `Скрыть остальные (${div.querySelectorAll('li').length}) 🔝`
+            button.classList.add('colorLight')
+        } else {
+            div.style.display = 'none'
+            button.textContent = `Показать остальные (${div.querySelectorAll('li').length}) 🔽`
+            button.classList.remove('colorLight')
+        }
     }
 
 }
