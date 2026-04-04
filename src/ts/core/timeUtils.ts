@@ -1,4 +1,4 @@
-import { Medication, PluralRule } from "../types/common"
+import { Aerosol, DosageType, Medication, MedType, Ointment, PluralRule, PowderDosageType, MedicationType } from "../types/common"
 
 export const DateUtils = {
     getTodayDate() {
@@ -40,7 +40,7 @@ export function getTimeReception(time: string[], date = new Date()): Date[] {
     ))
 }
 
-export function shouldUpdateTaken(med: Medication): boolean {
+export function shouldUpdateTaken(med: MedicationType): boolean {
     const lastUpdate = new Date(med.lastTakenUpdate);
     const today = new Date();
         
@@ -89,4 +89,26 @@ export function getWordForm(count: number, one: string, few: string, many: strin
     other
   };
   return forms[rule];
+}
+
+export function isDosageType(med: Exclude<MedicationType, Aerosol | Ointment>): DosageType {
+    let dosType: DosageType
+    switch (med.type) {
+        case 'Таблетка':
+            dosType = 'таб.'
+            break
+        case 'Капсула':
+            dosType = 'капс.'
+            break
+        case 'Микстура':
+            dosType = 'мер. лож.'
+            break
+        case 'Капли':
+            dosType = 'кап.'
+            break
+        case 'Порошок':
+            dosType = med.dosageType === 'Пакетик' ? 'саш.' : 'мер. лож.'
+            break
+    }
+    return dosType
 }

@@ -1,7 +1,7 @@
-import { Disease, Medication, SortedMedication } from "../types/common"
+import { Disease, Medication, MedicationType, SortedMedication, Pill, Capsule, Powder } from "../types/common"
 import { getTimeReception } from "./timeUtils.js"
 
-export function sortByOrderHours(arr: Disease[], medications: Medication[]): SortedMedication[] {
+export function sortByOrderHours(arr: Disease[], medications: MedicationType[]): SortedMedication[] {
     const newArr = medications
     const sortedArr: SortedMedication[] = []
 
@@ -23,9 +23,17 @@ export function sortByOrderHours(arr: Disease[], medications: Medication[]): Sor
     return sortedArr.sort((a, b) => a.time.getTime() - b.time.getTime())
 }
 
-export function sortStock(arr: Disease[], medication: Medication[]): Medication[] {
+function hasStock(med: MedicationType): med is Extract<MedicationType, Pill | Capsule | Powder<'Пакетик'>> {
+  return (med.type === 'Таблетка' ||
+         med.type === 'Капсула' ||
+         (med.type === 'Порошок' && med.dosageType === 'Пакетик')) &&
+        med.stock !== undefined && typeof med.stock === 'number';
+}
+
+export function sortStock(arr: Disease[], medication: MedicationType[]): Extract<MedicationType, Pill | Capsule | Powder<'Пакетик'>>[]{
     const items = medication
-        .filter(med => med.stock <= 5)
-        .sort((a, b) => a.stock - b.stock)
+        .filter(hasStock)
+        .filter(med => med.stock !== undefined && med.stock <= 5)
+        .sort((a, b) => (a.stock ?? 0) - (b.stock ?? 0));
     return items
 }

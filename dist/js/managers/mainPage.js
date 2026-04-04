@@ -22,15 +22,16 @@ export class MainPageManager {
         renderStockList(this.dataService.getDiseases(), this.stockList, this.dataService.getAllMedications());
     }
     setupEventListeners() {
-        this.receptionList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e));
+        this.receptionList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e, 'reception-list__button'));
         this.receptionList.addEventListener('click', (e) => this.openHiddenCards(e, 'reception-list__open-card', 'reception-list__card-hidden'));
+        this.missedList.addEventListener('click', (e) => this.handleButtonAcceptedClick(e, 'missed-list__button--check'));
         this.missedList.addEventListener('click', (e) => this.handleButtonRemoveClick(e));
         this.missedList.addEventListener('click', (e) => this.openHiddenCards(e, 'missed-list__open-card', 'missed-list__card-hidden'));
         this.stockList.addEventListener('click', (e) => this.openHiddenCards(e, 'stock-list__open-card', 'stock-list__card-hidden'));
     }
-    handleButtonAcceptedClick(e) {
+    handleButtonAcceptedClick(e, classButton) {
         const target = e.target;
-        const button = target.closest('.reception-list__button');
+        const button = target.closest(`.${classButton}`);
         if (!button)
             return;
         const dataId = button.getAttribute('data-id');
@@ -39,18 +40,32 @@ export class MainPageManager {
         const time = button.getAttribute('data-time');
         if (!time)
             return;
-        const passedFifteenMinutes = checkRecedptionTime(time);
-        console.log(passedFifteenMinutes);
-        if (passedFifteenMinutes) {
-            this.dataService.updateDisease(dataId, (med) => {
+        if (classButton === 'reception-list__button') {
+            const passedFifteenMinutes = checkRecedptionTime(time);
+            console.log(passedFifteenMinutes);
+            if (passedFifteenMinutes) {
+                this.dataService.updateMedication(dataId, (med) => {
+                    if (!med.takenTimes.includes(time)) {
+                        med.takenTimes.push(time);
+                    }
+                    if ((med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик')) && med.stock !== undefined) {
+                        med.stock -= ((med.stock > 0) && (med.stock - med.dosage > 0)) ? med.dosage : 0;
+                    }
+                });
+            }
+            else {
+                this.modal.openModalWarning();
+            }
+        }
+        else {
+            this.dataService.updateMedication(dataId, (med) => {
                 if (!med.takenTimes.includes(time)) {
                     med.takenTimes.push(time);
                 }
-                med.stock -= (med.stock > 0) ? 1 : 0;
+                if ((med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик')) && med.stock !== undefined) {
+                    med.stock -= ((med.stock > 0) && (med.stock - med.dosage >= 0)) ? med.dosage : 0;
+                }
             });
-        }
-        else {
-            this.modal.openModalWarning();
         }
     }
     handleButtonRemoveClick(e) {
@@ -64,7 +79,7 @@ export class MainPageManager {
         const time = button.getAttribute('data-time');
         if (!time)
             return;
-        this.dataService.updateDisease(dataId, (med) => {
+        this.dataService.updateMedication(dataId, (med) => {
             if (!med.takenTimes.includes(time)) {
                 med.takenTimes.push(time);
             }

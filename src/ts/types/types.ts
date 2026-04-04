@@ -9,3 +9,18 @@ export function querySelectorEl<T extends HTMLElement>(selector: string): T {
     if (!el) throw new Error(`Элемент "${selector}" не найден`)
     return el as T
 }
+
+export enum SelectMedicationType {
+    Pill = 'Pill',
+    Capsule = 'Capsule',
+    Mixture = 'Mixture',
+    Drops = 'Drops',
+    Aerosol = 'Aerosol',
+    Ointment = 'Ointment',
+    Powder = 'Powder'
+}
+
+export enum SelectPowderType {
+    Sachet = 'Sachet',
+    Spoon = 'Spoon'
+}

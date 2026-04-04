@@ -1,4 +1,4 @@
-import { ButtonOpenCardClass, Disease, DivHiddenClass, Medication } from "../types/common"
+import { ButtonOpenCardClass, Disease, DivHiddenClass, Medication, MedicationType } from "../types/common"
 import { sortByOrderHours, sortStock } from "../core/sortUtils.js"
 import {
     createDivContainer,
@@ -60,7 +60,7 @@ function renderPaginatedList<T, U extends ButtonOpenCardClass>(
     }
 }
 
-export function renderReceptionList(arr: Disease[], receptionList: HTMLUListElement, missedList: HTMLUListElement, medications: Medication[]): void {
+export function renderReceptionList(arr: Disease[], receptionList: HTMLUListElement, missedList: HTMLUListElement, medications: MedicationType[]): void {
     const now: Date = new Date()
     const sorted = sortByOrderHours(arr, medications)
 
@@ -86,7 +86,7 @@ export function renderReceptionList(arr: Disease[], receptionList: HTMLUListElem
     )
 }
 
-export function renderStockList(arr: Disease[], stockList: HTMLUListElement, medications: Medication[]): void {
+export function renderStockList(arr: Disease[], stockList: HTMLUListElement, medications: MedicationType[]): void {
     const sorted = sortStock(arr, medications)
 
     renderPaginatedList(

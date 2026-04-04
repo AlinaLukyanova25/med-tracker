@@ -16,9 +16,16 @@ export function sortByOrderHours(arr, medications) {
     }
     return sortedArr.sort((a, b) => a.time.getTime() - b.time.getTime());
 }
+function hasStock(med) {
+    return (med.type === 'Таблетка' ||
+        med.type === 'Капсула' ||
+        (med.type === 'Порошок' && med.dosageType === 'Пакетик')) &&
+        med.stock !== undefined && typeof med.stock === 'number';
+}
 export function sortStock(arr, medication) {
     const items = medication
-        .filter(med => med.stock <= 5)
-        .sort((a, b) => a.stock - b.stock);
+        .filter(hasStock)
+        .filter(med => med.stock !== undefined && med.stock <= 5)
+        .sort((a, b) => { var _a, _b; return ((_a = a.stock) !== null && _a !== void 0 ? _a : 0) - ((_b = b.stock) !== null && _b !== void 0 ? _b : 0); });
     return items;
 }

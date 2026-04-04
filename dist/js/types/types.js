@@ -10,3 +10,18 @@ export function querySelectorEl(selector) {
         throw new Error(`Элемент "${selector}" не найден`);
     return el;
 }
+export var SelectMedicationType;
+(function (SelectMedicationType) {
+    SelectMedicationType["Pill"] = "Pill";
+    SelectMedicationType["Capsule"] = "Capsule";
+    SelectMedicationType["Mixture"] = "Mixture";
+    SelectMedicationType["Drops"] = "Drops";
+    SelectMedicationType["Aerosol"] = "Aerosol";
+    SelectMedicationType["Ointment"] = "Ointment";
+    SelectMedicationType["Powder"] = "Powder";
+})(SelectMedicationType || (SelectMedicationType = {}));
+export var SelectPowderType;
+(function (SelectPowderType) {
+    SelectPowderType["Sachet"] = "Sachet";
+    SelectPowderType["Spoon"] = "Spoon";
+})(SelectPowderType || (SelectPowderType = {}));

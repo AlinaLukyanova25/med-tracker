@@ -1,5 +1,5 @@
-import { Disease, Medication, PluralRule } from "../types/common"
-import { formatDateRu, getWordForm } from "../core/timeUtils.js"
+import { Capsule, Disease, Medication, MedicationType, MedType, Pill, PluralRule, Powder, PowderDosageType } from "../types/common"
+import { formatDateRu, getWordForm, isDosageType } from "../core/timeUtils.js"
 
 export function createDivContainer(styleClass: string, displayStyle: string): HTMLDivElement {
     const div = document.createElement('div')
@@ -30,32 +30,59 @@ export function createDiseaseComponent(dis: Disease): string {
     `
 }
 
-export function createReceptionMainComponent(med: Medication, today: Date): string {
+export function createReceptionMainComponent(med: MedicationType, today: Date): string {
+    let dosType: string
+        if (med.type !== 'Аэрозоль' && med.type !== 'Мазь') {
+            dosType = isDosageType(med)
+        } else {
+            dosType = ''
+        }
     return `
     <li class="reception-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
-        <p class="reception-list__dosage">${med.dosage} мг.</p>
+        ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="reception-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="reception-list__dosage">По назначению</p>'}
         <p class="reception-list__time">${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}</p>
         <button class="item-button reception-list__button" data-id="${med.medId}" data-time="${today.toISOString()}">Принято</button>
-        <span class="reception-list__stock">Осталось таблеток: ${med.stock}</span>
+        <span class="reception-list__stock">${med.type}</span>
     </li>
     `
 }
 
-export function createMissedReceptionComponent(med: Medication, time: Date): string {
+export function createMissedReceptionComponent(med: MedicationType, time: Date): string {
+    let dosType: string
+        if (med.type !== 'Аэрозоль' && med.type !== 'Мазь') {
+            dosType = isDosageType(med)
+        } else {
+            dosType = ''
+        }
     return `
     <li class="missed-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
-        <p class="missed-list__dosage">${med.dosage} мг.</p>
+        ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="reception-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="reception-list__dosage">По назначению</p>'}
         <p class="missed-list__time">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}</p>
+        <button class="item-button missed-list__button--check" data-id="${med.medId}" data-time="${time.toISOString()}">Принято</button>
         <button class="item-button missed-list__button" data-id="${med.medId}" data-time="${time.toISOString()}">Удалить из пропущенных</button>
     </li>
     `
 }
 
-export function createStockReceptionComponent(med: Medication): string {
-    const word = getWordForm(med.stock, 'таблетка', 'таблетки', 'таблеток', 'таблеток')
-    const verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
+export function createStockReceptionComponent(med: Extract<MedicationType, Pill | Capsule | Powder<'Пакетик'>>): string {
+    let word: string
+    let verb: string
+    if (med.type === 'Таблетка') {
+        word = getWordForm(med.stock, 'таблетка', 'таблетки', 'таблеток', 'таблеток')
+        verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
+    } else if (med.type === 'Капсула') {
+        word = getWordForm(med.stock, 'капсула', 'капсулы', 'капсул', 'капсул')
+        verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
+    } else if (med.type === 'Порошок' && med.dosageType === 'Пакетик' && med.stock !== undefined) {
+        word = getWordForm(med.stock, 'порошок', 'порошка', 'порошков', 'порошков');
+        verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
+    } else {
+        word = ''
+        verb = ''
+    }
+
     return `
     <li class="stock-list__item">
         <h4 class="item-title">${med.medicationName}</h4>

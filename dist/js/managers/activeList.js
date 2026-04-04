@@ -1,4 +1,5 @@
 import { querySelectorEl } from "../types/types.js";
+import { isDosageType } from "../core/timeUtils.js";
 export class ActiveListManager {
     constructor(dataService) {
         this.toggleMedication = false;
@@ -36,10 +37,18 @@ export class ActiveListManager {
             </h4>`;
     }
     createMedicationComponent(med) {
+        let dosType;
+        if (med.type !== 'Аэрозоль' && med.type !== 'Мазь') {
+            dosType = isDosageType(med);
+        }
+        else {
+            dosType = '';
+        }
         return `
         <h4 class="item-title active__med-title open" data-id="${med.medId}">${med.medicationName} <img src="img/arrow-top.svg" alt="Стрелка вверх" style="width: 25px;"></h4>
         <div class="active__card-bottom">
-            <p class="active__dosage">Доза: <span>${med.dosage} мг.</span></p>
+            ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
+            ${(med.type === 'Таблетка' || med.type === 'Капсула' || med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
             <p class="active__time">Время приёма: <span>${med.time.join(', ')}</span></p>
             <button class="item-button active__medication-delete" data-id="${med.medId}">Удалить приём</button>
         </div>

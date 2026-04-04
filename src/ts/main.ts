@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modal = new ModalManager()
 
-    const receptions = new DiseasesManager(modal, dataService)
+    const diseases = new DiseasesManager(modal, dataService)
 
     const mainPage = new MainPageManager(dataService, modal)
 

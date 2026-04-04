@@ -1,6 +1,6 @@
 import { loadFromStorage, saveToStorage } from "./storage.js";
 import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
-import { Disease, Medication } from "../types/common";
+import { Disease, Medication, MedicationType } from "../types/common";
 
 export class DataService {
     private diseases: Disease[] = [];
@@ -14,8 +14,8 @@ export class DataService {
         return this.diseases
     }
 
-    getAllMedications(): Medication[] {
-        const newArr: Medication[] = []
+    getAllMedications(): MedicationType[] {
+        const newArr: MedicationType[] = []
 
         for (let dis of this.diseases) {
             if (dis.archive) continue
@@ -45,15 +45,15 @@ export class DataService {
         return this.diseases.find(d => d.id === id)
     }
 
-    findMedicationWithDis(disId: number, medId: string): Medication | undefined {
+    findMedicationWithDis(disId: number, medId: string): MedicationType | undefined {
         return this.diseases
             .find(d => d.id === disId)
             ?.medArray
             .find(m => m.medId === medId)
     }
 
-    findMedication(medId: string): Medication | undefined {
-        let med: Medication | undefined
+    findMedication(medId: string): MedicationType | undefined {
+        let med: MedicationType | undefined
         this.diseases
             .forEach(d => {
                 const item = d.medArray.find(m => m.medId === medId)
@@ -62,8 +62,16 @@ export class DataService {
         return med
     }
 
-    updateDisease(id: string, updater: (med: Medication) => void) {
-        let med: Medication | undefined
+    updateDisease(id: number, updater: (dis: Disease) => void) {
+        const dis = this.diseases.find(d => d.id === id)
+        if (dis) {
+            updater(dis)
+            this.saveLocalStorage()
+        }
+    }
+
+    updateMedication(id: string, updater: (med: MedicationType) => void) {
+        let med: MedicationType | undefined
         this.diseases
             .forEach(d => {
                 const item = d.medArray.find(m => m.medId === id)

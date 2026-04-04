@@ -64,3 +64,24 @@ export function getWordForm(count, one, few, many, other) {
     };
     return forms[rule];
 }
+export function isDosageType(med) {
+    let dosType;
+    switch (med.type) {
+        case 'Таблетка':
+            dosType = 'таб.';
+            break;
+        case 'Капсула':
+            dosType = 'капс.';
+            break;
+        case 'Микстура':
+            dosType = 'мер. лож.';
+            break;
+        case 'Капли':
+            dosType = 'кап.';
+            break;
+        case 'Порошок':
+            dosType = med.dosageType === 'Пакетик' ? 'саш.' : 'мер. лож.';
+            break;
+    }
+    return dosType;
+}

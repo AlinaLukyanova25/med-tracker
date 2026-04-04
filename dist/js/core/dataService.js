@@ -50,6 +50,13 @@ export class DataService {
         return med;
     }
     updateDisease(id, updater) {
+        const dis = this.diseases.find(d => d.id === id);
+        if (dis) {
+            updater(dis);
+            this.saveLocalStorage();
+        }
+    }
+    updateMedication(id, updater) {
         let med;
         this.diseases
             .forEach(d => {
