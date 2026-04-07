@@ -1,0 +1,89 @@
+@use "sass:color";
+@import '../abstracts/variables';
+@import '../abstracts/mixins';
+
+.edit {
+    background-color: $color-white;
+    border-radius: $space16;
+    box-shadow: $box-shadow;
+    padding: $space20;
+    display: flex;
+    flex-direction: column;
+    gap: $space16;
+
+    &__top-content,
+    &__card-top-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $space8;
+        margin-bottom: $space16;
+    }
+
+    &__date {
+        display: flex;
+        justify-content: space-between;
+        gap: $space16;
+        flex-wrap: wrap;
+    }
+
+    &__card-bottom {
+        @include card-bottom-style;
+    }
+
+    @include time-and-dosage-and-stock-style;
+
+    input {
+        height: 100%;
+        border: none;
+        
+        &:hover,
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__input-container {
+        display: flex;
+        align-items: center;
+        gap: $space16;
+
+        input {
+            padding: $space8;
+            text-align: center;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+            border-radius: $border-radius-small;
+        }
+    }
+
+    &__date--start,
+    &__date--end {
+        color: $color-warning;
+        font-weight: 500;
+
+        input {
+            width: 100px;
+            color: $color-warning;
+            font-weight: 500;
+        }
+    }
+
+    &__dosage,
+    &__stock {
+        input {
+            padding: 0;
+            width: 40px;
+        }
+    }
+
+    &__medication-delete {
+        background: none;
+        color: $color-text;
+        border: 2px solid $color-primary-light;
+        padding: $space5;
+    }
+}
+
+.arrow-back {
+    text-align: start;
+}

@@ -1,15 +1,17 @@
-import { getElement } from "../types/types.js";
+import { getElement, querySelectorEl } from "../types/types.js";
 import { ModalType } from "../types/common";
 
 export class ModalManager {
     private modalForm: HTMLDivElement;
     private modalAssignAgain: HTMLDivElement;
     private modalWarning: HTMLDivElement;
+    private modalWarningDescr: HTMLParagraphElement;
 
     constructor() {
         this.modalForm = getElement<HTMLDivElement>('modal')
         this.modalAssignAgain = getElement<HTMLDivElement>('modal-assign-again')
         this.modalWarning = getElement<HTMLDivElement>('modal-warning')
+        this.modalWarningDescr = querySelectorEl<HTMLParagraphElement>('.modal-warning__descr')
 
         this.init()
     }
@@ -42,7 +44,9 @@ export class ModalManager {
         if (target.closest('.modal-assign-again') && !target.closest('.modal-assign-again__content') || target.closest('.modal-again__close')) {
             this.modalAssignAgain.classList.add('hidden')
         }
-        if (target.closest('.modal-warning') && !target.closest('.modal-warning__content') || target.closest('.modal-warning__close')) {
+        if (
+            target.closest('.modal-warning') && !target.closest('.modal-warning__content') || target.closest('.modal-warning__close')
+        ) {
             this.modalWarning.classList.add('hidden')
         }
     }
@@ -52,7 +56,8 @@ export class ModalManager {
         this.modalAssignAgain.querySelector('form')?.setAttribute('data-id', id)
     }
 
-    openModalWarning() {
+    openModalWarning(text: string) {
         this.modalWarning.classList.remove('hidden')
+        this.modalWarningDescr.textContent = text
     }
 }

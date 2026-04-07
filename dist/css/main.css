@@ -454,7 +454,7 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .reception-list__item {
     border-radius: 8px;
     padding: 8px;
@@ -467,7 +467,7 @@ button {
 .reception-list__item .item-title {
   flex-basis: 100%;
 }
-.reception-list__dosage, .reception-list__time {
+.reception-list__dosage, .reception-list__time, .reception-list__stock {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
@@ -495,7 +495,7 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .missed-list__item {
     border-radius: 8px;
     padding: 8px;
@@ -505,7 +505,7 @@ button {
 .missed-list__item .item-title {
   flex-basis: 100%;
 }
-.missed-list__dosage, .missed-list__time {
+.missed-list__dosage, .missed-list__time, .missed-list__stock {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
@@ -552,7 +552,7 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .active__card {
     border-radius: 8px;
     padding: 8px;
@@ -589,7 +589,7 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-.active__dosage, .active__time {
+.active__dosage, .active__time, .active__stock {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
@@ -611,6 +611,11 @@ button {
   max-width: 800px;
   margin: 0 auto;
 }
+.calendar__descr {
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
 .calendar__header {
   display: flex;
   justify-content: space-between;
@@ -630,6 +635,19 @@ button {
   align-items: center;
   justify-content: center;
   font-size: 18px;
+}
+.calendar__day.disease {
+  cursor: pointer;
+  background-color: rgb(208.5, 213.3, 220.2);
+}
+.calendar__day.disease:hover {
+  background-color: rgb(201.3, 231, 202.5);
+}
+.calendar__day.accepted {
+  background-color: rgb(201.3, 231, 202.5);
+}
+.calendar__day.no-accepted {
+  background-color: rgb(255, 127.5, 127.5);
 }
 
 .archive {
@@ -653,7 +671,7 @@ button {
   align-items: center;
   justify-content: space-between;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .archive__card {
     border-radius: 8px;
     padding: 8px;
@@ -697,7 +715,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .modal__content,
   .modal-assign-again__content {
     max-width: 300px;
@@ -767,7 +785,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .modal-warning__content {
     max-width: 300px;
   }
@@ -792,6 +810,81 @@ button {
   font-size: 20px;
 }
 
+.edit {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.edit__top-content, .edit__card-top-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.edit__date {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.edit__card-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.edit__dosage, .edit__time, .edit__stock {
+  color: #64748b;
+  font-size: 15px;
+  margin: 5px 0;
+}
+.edit input {
+  height: 100%;
+  border: none;
+}
+.edit input:hover, .edit input:focus {
+  outline: none;
+}
+.edit__input-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.edit__input-container input {
+  padding: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+.edit__date--start, .edit__date--end {
+  color: #ed6c02;
+  font-weight: 500;
+}
+.edit__date--start input, .edit__date--end input {
+  width: 100px;
+  color: #ed6c02;
+  font-weight: 500;
+}
+.edit__dosage input, .edit__stock input {
+  padding: 0;
+  width: 40px;
+}
+.edit__medication-delete {
+  background: none;
+  color: #1e293b;
+  border: 2px solid #4caf50;
+  padding: 5px;
+}
+
+.arrow-back {
+  text-align: start;
+}
+
 @media (any-hover: hover) {
   .item-button:hover {
     background-color: #2e7d32;
@@ -810,7 +903,7 @@ button {
     border-bottom-color: #4caf50;
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .close {
     font-size: 25px;
   }
@@ -842,6 +935,7 @@ button {
   }
   .reception-list__stock {
     flex-basis: 100%;
+    text-align: center;
   }
   .missed-list .item-button {
     flex-basis: 100%;
@@ -854,6 +948,7 @@ button {
   }
   .active__card-bottom {
     flex-wrap: wrap;
+    column-gap: 8px;
   }
   .active .item-button {
     flex-basis: 100%;
@@ -872,6 +967,7 @@ button {
   }
   .archive__card-bottom {
     flex-wrap: wrap;
+    column-gap: 8px;
   }
   .archive .item-button {
     flex-basis: 100%;
@@ -891,6 +987,33 @@ button {
   }
   .modal-warning__descr {
     font-size: 18px;
+  }
+  .edit {
+    position: relative;
+  }
+  .edit input {
+    width: 100%;
+    padding: 8px;
+  }
+  .edit__date {
+    flex-direction: column;
+  }
+  .edit__input-container {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .edit__disease-delete {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  .edit__card-top-content, .edit__card-bottom {
+    flex-direction: column;
+    align-items: start;
+  }
+  .edit__medication-delete {
+    width: 100%;
+    margin-top: 8px;
   }
 }
 

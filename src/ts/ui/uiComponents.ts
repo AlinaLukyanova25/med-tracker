@@ -16,7 +16,7 @@ export function createOpenCardsComponent(classStyle: string): HTMLButtonElement 
 
 export function createDiseaseComponent(dis: Disease): string {
     return `
-    <li class="active__card">
+    <li class="active__card" data-dis="${dis.id}">
         <div class="active__card-top-content">
         <h3 class="list-title" style="margin: 0;">${dis.diseaseName}</h3>
         <button class="item-button active__disease-delete" data-disId="${dis.id}">Удалить</button>
@@ -77,7 +77,7 @@ export function createStockReceptionComponent(med: Extract<MedicationType, Pill 
         verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
     } else if (med.type === 'Порошок' && med.dosageType === 'Пакетик' && med.stock !== undefined) {
         word = getWordForm(med.stock, 'порошок', 'порошка', 'порошков', 'порошков');
-        verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось')
+        verb = getWordForm(med.stock, 'Остался', 'Осталось', 'Осталось', 'Осталось')
     } else {
         word = ''
         verb = ''

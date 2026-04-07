@@ -37,7 +37,7 @@
             <h2 hidden>Главная</h2>
             <h3 class="list-title">Приём на сегодня</h3>
             <ul class="main-page__today reception-list">
-                <li class="reception-list__item">
+                <!-- <li class="reception-list__item">
                     <h4 class="item-title">Парацетамол</h4>
                     <p class="reception-list__dosage">1 таблетка</p>
                     <p class="reception-list__time">Утро</p>
@@ -50,16 +50,16 @@
                     <p class="reception-list__time">Утро, вечер</p>
                     <button class="item-button">Принято</button>
                     <span class="reception-list__stock">Осталось: 10 таблеток</span>
-                </li>
+                </li> -->
             </ul>
             <h3 class="list-title">Пропущенные приёмы</h3>
             <ul class="main-page__missed missed-list">
-                <li class="missed-list__item">
+                <!-- <li class="missed-list__item">
                     <h4 class="item-title">Ибуклин</h4>
                     <p class="missed-list__dosage">1 таблетка</p>
                     <p class="missed-list__time">Утро</p>
                     <button class="item-button">Удалить из пропущенных</button>
-                </li>
+                </li> -->
             </ul>
                 <h3 class="list-title">Скоро закончатся (таблетки и порошки)</h3>
             <ul class="main-page__stock stock-list">
@@ -101,8 +101,53 @@
                 </li>
             </ul>
             <button class="add-button active__button">Добавить приём</button>
+
+            <!-- <div class="edit">
+                <form id="edit-form" class="edit__form">
+                <div class="edit__top-content">
+                    <input class="list-title" type="text" value="Пополнение витаминами">
+                    <button class="item-button" data-dis-id="123">Удалить</button>
+                </div>
+                <div class="edit__date">
+                    <input type="text" class="edit__date--start" value="Назначен: 1 февраля">
+                    <input type="text" class="edit__date--end" value="Окончание приёма: 15 марта" style="text-align: end;">
+                </div>
+            </form>
+            <ul class="edit__list">
+                <li class="edit__item">
+                    <h4 class="item-title">Парацетамол</h4>
+                    <form class="edit__form-item">
+                        <div class="edit__card-top-content">
+                        <div class="edit__dosage">Доза: <input type="number" value="1">табл.</div>
+                        <div class="edit__stock">Осталось: <input type="number" value="20"></div>
+                        </div>
+                        <div class="edit__card-bottom">
+                        <div class="edit__time">Время приёма: <input type="text" value="10:00, 12:00"></div>
+                        <button class="item-button">Удалить приём</button>
+                        </div>
+                    </form>
+                </li>
+                <li class="edit__item">
+                    <h4 class="item-title">Парацетамол</h4>
+                    <form class="edit__form-item">
+                        <div class="edit__card-top-content">
+                        <div class="edit__dosage">Доза: <input type="number" value="1">табл.</div>
+                        <div class="edit__stock">Осталось: <input type="number" value="20"></div>
+                        </div>
+                        <div class="edit__card-bottom">
+                        <div class="edit__time">Время приёма: <input type="text" value="10:00, 12:00"></div>
+                        <button class="item-button">Удалить приём</button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+            <button class="item-button">Сохранить изменения</button>
+            </div> -->
+            
         </section>
         <section class="calendar" id="section-calendar">
+            <h2 class="list-title" style="text-align: center;">Как пользоваться календарем</h2>
+            <p class="calendar__descr">Серым обозначены дни, когда вам нужно принять лекарства. Нажмите на сегодняшнюю дату после того, как примете все, что назначено. Если не нажмёте - завтра она станет красной.</p>
             <div class="calendar__header">
             <button class="arrow" id="prev-month" type="button" aria-label="Предыдущий месяц"><img src="img/arrow-left.svg" alt=""></button>
             <h2 class="list-title" id="current-month">Календарь</h2>
@@ -207,7 +252,8 @@
     <div id="modal-warning" class="modal-warning hidden">
         <div class="modal-warning__content">
             <span class="close modal-warning__close">&times;</span>
-            <p class="modal-warning__descr">Слишком рано для приёма лекарства!</p>
+            <p class="modal-warning__descr"></p>
+            <!-- Слишком рано для приёма лекарства! -->
         </div>
     </div>
     <script src="https://unpkg.com/@formatjs/intl@latest/dist/intl.umd.js"></script>

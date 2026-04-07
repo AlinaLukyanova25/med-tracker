@@ -77,7 +77,7 @@ export class MainPageManager {
                 }
                 })
             } else {
-                this.modal.openModalWarning()
+                this.modal.openModalWarning('Слишком рано для приёма лекарства!')
             }
         } else {
             this.dataService.updateMedication(dataId, (med) => {

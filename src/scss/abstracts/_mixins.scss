@@ -30,9 +30,10 @@
   }
 }
 
-@mixin time-and-dosage-style {
+@mixin time-and-dosage-and-stock-style {
   &__dosage,
-  &__time {
+  &__time,
+  &__stock {
     color: $color-text-light;
     font-size: $font-size15;
     margin: $space5 0;
@@ -85,7 +86,8 @@
   }
 
   &__card-bottom {
-    flex-wrap: wrap
+    flex-wrap: wrap;
+    column-gap: $space8;
   }
 
   @include item-button-mobile;

@@ -13,6 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const diseases = new DiseasesManager(modal, dataService);
     const mainPage = new MainPageManager(dataService, modal);
     const archive = new ArchiveManager(dataService, modal);
-    const calendar = new CalendarManager();
-    const activeList = new ActiveListManager(dataService);
+    const calendar = new CalendarManager(dataService, modal);
+    const activeList = new ActiveListManager(dataService, modal);
 });

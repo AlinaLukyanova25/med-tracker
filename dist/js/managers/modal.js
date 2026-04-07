@@ -1,9 +1,10 @@
-import { getElement } from "../types/types.js";
+import { getElement, querySelectorEl } from "../types/types.js";
 export class ModalManager {
     constructor() {
         this.modalForm = getElement('modal');
         this.modalAssignAgain = getElement('modal-assign-again');
         this.modalWarning = getElement('modal-warning');
+        this.modalWarningDescr = querySelectorEl('.modal-warning__descr');
         this.init();
     }
     init() {
@@ -41,7 +42,8 @@ export class ModalManager {
         this.modalAssignAgain.classList.remove('hidden');
         (_a = this.modalAssignAgain.querySelector('form')) === null || _a === void 0 ? void 0 : _a.setAttribute('data-id', id);
     }
-    openModalWarning() {
+    openModalWarning(text) {
         this.modalWarning.classList.remove('hidden');
+        this.modalWarningDescr.textContent = text;
     }
 }

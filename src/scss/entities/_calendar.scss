@@ -1,8 +1,15 @@
+@use "sass:color";
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
 .calendar {
   @include section-style;
+
+  &__descr {
+    text-align: center;
+    margin-bottom: $space16;
+    font-weight: 500;
+  }
 
   &__header {
     display: flex;
@@ -28,5 +35,20 @@
     font-size: $font-size18;
   }
 
+  &__day.disease {
+    cursor: pointer;
+    background-color: color.mix(white, $color-text-light, 70%);
 
+      &:hover {
+        background-color: color.mix(white, $color-primary-light, 70%);
+      }
+  }
+
+  &__day.accepted {
+    background-color: color.mix(white, $color-primary-light, 70%);
+  }
+
+  &__day.no-accepted {
+    background-color: color.mix(red, $color-white, 50%);
+  }
 }

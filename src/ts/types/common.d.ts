@@ -1,8 +1,10 @@
 // Основная структура
 
+import { DiseaseEditType, MedicationEditType } from "./types";
+
 export interface Disease {
     readonly id: number;
-    readonly diseaseName: string;
+    diseaseName: string;
     dateStart: Date;
     dateEnd: Date;
     archive: boolean;
@@ -70,6 +72,39 @@ export type MedicationType = Pill | Capsule | Mixture | Drops | Aerosol | Ointme
 export interface SortedMedication {
     time: Date;
     medication: MedicationType;
+}
+
+export interface MarkedDates {
+    date: string;
+    taken: boolean;
+    lastTakenUpdate: string;
+}
+
+export interface InputDataDis<T> {
+    id: string;
+    typeofId: 'number';
+    property: DiseaseEditType;
+    newValue: T;
+}
+
+export interface DiseaseEdit {
+    diseaseName: string;
+    dateStart: Date;
+    dateEnd: Date;
+}
+
+export interface MedicationEdit {
+    medicationName: string;
+    time: string[];
+    stock: number;
+    dosage: number;
+}
+
+export interface InputDataMed<T> {
+    id: string;
+    typeofId: 'string';
+    property: MedicationEditType;
+    newValue: T;
 }
 
 // Элементы страницы

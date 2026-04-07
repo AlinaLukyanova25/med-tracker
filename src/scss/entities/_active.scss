@@ -44,7 +44,7 @@
     @include card-bottom-style;
   }
 
-  @include time-and-dosage-style;
+  @include time-and-dosage-and-stock-style;
 
   &__medication-delete {
     background: none;

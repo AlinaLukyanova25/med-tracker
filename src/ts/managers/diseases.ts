@@ -3,7 +3,7 @@ import { Disease, Medication, MedicationType } from "../types/common";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
-import { DateUtils } from "../core/timeUtils.js";
+import { DateUtils, formatDate } from "../core/timeUtils.js";
 
 export class DiseasesManager {
     private times: string[] = [];
@@ -33,6 +33,9 @@ export class DiseasesManager {
     private modal: ModalManager
     private moreMedButton: HTMLButtonElement;
 
+    private receptionList: HTMLUListElement;
+    private missedList: HTMLUListElement;
+
     constructor(modal: ModalManager, dataService: DataService) {
         this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
         this.addForm = getElement<HTMLFormElement>('add-reception');
@@ -58,6 +61,9 @@ export class DiseasesManager {
 
         this.modal = modal
         this.dataService = dataService
+
+        this.receptionList = querySelectorEl<HTMLUListElement>('.reception-list');
+        this.missedList = querySelectorEl<HTMLUListElement>('.missed-list');
     
         this.init()
     }
@@ -164,6 +170,7 @@ export class DiseasesManager {
         this.medArray = []
         this.modal.addHidden('modal')
         this.addForm.reset()
+        this.checkMainPage()
     }
 
     handleAddMoreMedication(e: Event) {
@@ -333,6 +340,7 @@ export class DiseasesManager {
 
         this.modal.addHidden('again')
         this.addAgain.reset()
+        this.checkMainPage()
     }
 
     handleLabelTimeClick(e: Event) {
@@ -350,5 +358,20 @@ export class DiseasesManager {
         console.log(this.times)
 
         this.time.value = ''
+    }
+
+    checkMainPage() {
+        const markedDate = this.dataService.findMarkedDates(formatDate(new Date()))
+        if (!markedDate) return
+        if (!markedDate.taken) return
+
+        if (
+            this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
+            this.missedList.querySelectorAll('.missed-list__item').length !== 0
+        ) {
+            this.dataService.updateMarkedDate(markedDate.date, (md) => {
+                md.taken = false
+            })
+        }
     }
 }

@@ -63,6 +63,7 @@
   .reception-list {
     &__stock {
       flex-basis: 100%;
+      text-align: center;
     }
   }
 
@@ -107,6 +108,41 @@
   .modal-warning {
     &__descr {
       font-size: $font-size18;
+    }
+  }
+
+  .edit {
+    position: relative;
+
+    input {
+      width: 100%;
+      padding: $space8;
+    }
+
+    &__date {
+      flex-direction: column;
+    }
+
+    &__input-container {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    &__disease-delete {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+    }
+
+    &__card-top-content,
+    &__card-bottom {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    &__medication-delete {
+      width: 100%;
+      margin-top: $space8;
     }
   }
 }

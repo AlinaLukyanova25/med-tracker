@@ -1,6 +1,6 @@
 import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
 import { renderActiveList } from "../ui/renderService.js";
-import { DateUtils } from "../core/timeUtils.js";
+import { DateUtils, formatDate } from "../core/timeUtils.js";
 export class DiseasesManager {
     constructor(modal, dataService) {
         this.times = [];
@@ -24,6 +24,8 @@ export class DiseasesManager {
         this.againDateEnd = getElement('reception-again-end');
         this.modal = modal;
         this.dataService = dataService;
+        this.receptionList = querySelectorEl('.reception-list');
+        this.missedList = querySelectorEl('.missed-list');
         this.init();
     }
     init() {
@@ -101,6 +103,7 @@ export class DiseasesManager {
         this.medArray = [];
         this.modal.addHidden('modal');
         this.addForm.reset();
+        this.checkMainPage();
     }
     handleAddMoreMedication(e) {
         var _a;
@@ -248,6 +251,7 @@ export class DiseasesManager {
         });
         this.modal.addHidden('again');
         this.addAgain.reset();
+        this.checkMainPage();
     }
     handleLabelTimeClick(e) {
         const target = e.target;
@@ -260,5 +264,18 @@ export class DiseasesManager {
         this.times.push(this.time.value);
         console.log(this.times);
         this.time.value = '';
+    }
+    checkMainPage() {
+        const markedDate = this.dataService.findMarkedDates(formatDate(new Date()));
+        if (!markedDate)
+            return;
+        if (!markedDate.taken)
+            return;
+        if (this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
+            this.missedList.querySelectorAll('.missed-list__item').length !== 0) {
+            this.dataService.updateMarkedDate(markedDate.date, (md) => {
+                md.taken = false;
+            });
+        }
     }
 }

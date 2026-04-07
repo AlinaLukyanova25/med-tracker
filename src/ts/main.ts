@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const archive = new ArchiveManager(dataService, modal)
 
-    const calendar = new CalendarManager()
+    const calendar = new CalendarManager(dataService, modal)
 
-    const activeList = new ActiveListManager(dataService)
+    const activeList = new ActiveListManager(dataService, modal)
 })

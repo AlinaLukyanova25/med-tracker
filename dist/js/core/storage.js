@@ -22,3 +22,28 @@ export function loadFromStorage() {
     }
     return [];
 }
+export function saveToStorageDates(arr) {
+    localStorage.setItem('markedDate', JSON.stringify(arr));
+    console.log(JSON.stringify(arr));
+}
+export function loadFromStorageDates() {
+    const stored = localStorage.getItem('markedDate');
+    if (stored) {
+        try {
+            const parsed = JSON.parse(stored);
+            if (!Array.isArray(parsed))
+                return [];
+            // return parsed.map((item: any) => ({
+            //     ...item,
+            //     dateStart: new Date(item.dateStart),
+            //     dateEnd: new Date(item.dateEnd)
+            // }))
+            return parsed;
+        }
+        catch (e) {
+            console.error('Ошибка загрузки', e);
+            return [];
+        }
+    }
+    return [];
+}

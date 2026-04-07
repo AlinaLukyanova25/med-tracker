@@ -10,6 +10,10 @@ export function querySelectorEl<T extends HTMLElement>(selector: string): T {
     return el as T
 }
 
+export function isKeyOf<T extends object>(key: string | number | symbol, obj: T): key is keyof T {
+  return key in obj;
+}
+
 export enum SelectMedicationType {
     Pill = 'Pill',
     Capsule = 'Capsule',
@@ -23,4 +27,25 @@ export enum SelectMedicationType {
 export enum SelectPowderType {
     Sachet = 'Sachet',
     Spoon = 'Spoon'
+}
+
+export enum DiseaseEditType {
+    dateStart = 'dateStart',
+    dateEnd = 'dateEnd',
+    diseaseName = 'diseaseName'
+}
+
+export enum MedicationEditType {
+    medicationName = 'medicationName',
+    dosage = 'dosage',
+    stock = 'stock',
+    time = 'time'
+}
+
+export function isValidMedicationKey(key: string): key is MedicationEditType {
+        return Object.values(MedicationEditType).includes(key as MedicationEditType)
+    }
+
+export function isValidDiseaseEditKey(key: string): key is DiseaseEditType {
+    return Object.values(DiseaseEditType).includes(key as DiseaseEditType)
 }
