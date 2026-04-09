@@ -1,4 +1,4 @@
-import { sortByOrderHours, sortStock } from "../core/sortUtils.js";
+import { sortAscendingOrderDate, sortByOrderHours, sortStock } from "../core/sortUtils.js";
 import { createDivContainer, createOpenCardsComponent, createDiseaseComponent, createReceptionMainComponent, createMissedReceptionComponent, createStockReceptionComponent, createArchiveCardComponent } from "./uiComponents.js";
 export function renderActiveList(arr, activeList) {
     activeList.innerHTML = '';
@@ -6,7 +6,8 @@ export function renderActiveList(arr, activeList) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;
     }
-    for (let dis of arr) {
+    const sorted = sortAscendingOrderDate(arr);
+    for (let dis of sorted) {
         if (dis.archive)
             continue;
         const li = createDiseaseComponent(dis);

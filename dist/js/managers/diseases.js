@@ -1,6 +1,6 @@
 import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
 import { renderActiveList } from "../ui/renderService.js";
-import { DateUtils, formatDate } from "../core/timeUtils.js";
+import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate } from "../core/timeUtils.js";
 export class DiseasesManager {
     constructor(modal, dataService) {
         this.times = [];
@@ -137,46 +137,9 @@ export class DiseasesManager {
         this.chooseTypeMedication();
     }
     createMedicationOnType(medType, medicationName, time, dosage, stock) {
-        const base = {
-            medId: crypto.randomUUID(),
-            medicationName,
-            time,
-            takenTimes: [],
-            lastTakenUpdate: new Date().toISOString(),
-        };
-        switch (medType) {
-            case SelectMedicationType.Pill:
-                if (!dosage || !stock)
-                    return this.showError();
-                return { ...base, type: 'Таблетка', dosage, stock };
-            case SelectMedicationType.Capsule:
-                if (!dosage || !stock)
-                    return this.showError();
-                return { ...base, type: 'Капсула', dosage, stock };
-            case SelectMedicationType.Mixture:
-                if (!dosage)
-                    return this.showError();
-                return { ...base, type: 'Микстура', dosage };
-            case SelectMedicationType.Drops:
-                if (!dosage)
-                    return this.showError();
-                return { ...base, type: 'Капли', dosage };
-            case SelectMedicationType.Aerosol:
-                return { ...base, type: 'Аэрозоль' };
-            case SelectMedicationType.Ointment:
-                return { ...base, type: 'Мазь' };
-            case SelectMedicationType.Powder:
-                if (this.selectPowderType.value === SelectPowderType.Sachet) {
-                    if (!dosage || !stock)
-                        return this.showError();
-                    return { ...base, type: 'Порошок', dosageType: 'Пакетик', dosage, stock };
-                }
-                else {
-                    if (!dosage)
-                        return this.showError();
-                    return { ...base, type: 'Порошок', dosageType: 'Ложка', dosage };
-                }
-        }
+        const acceptedArray = createTakenTimesArray(time);
+        const base = collectsObjectByType(medicationName, time, acceptedArray, medType, this.selectPowderType.value, dosage, stock, this.modal);
+        return base ? base : undefined;
     }
     medicationConfig() {
         return {
@@ -229,10 +192,6 @@ export class DiseasesManager {
                 this.labelStock.style.display = 'none';
                 this.stock.style.display = 'none';
         }
-    }
-    showError() {
-        alert('Введите все значения');
-        return;
     }
     handleAgainFormSubmit(e) {
         e.preventDefault();

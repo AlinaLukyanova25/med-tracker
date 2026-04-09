@@ -1,5 +1,5 @@
 import { ButtonOpenCardClass, Disease, DivHiddenClass, Medication, MedicationType } from "../types/common"
-import { sortByOrderHours, sortStock } from "../core/sortUtils.js"
+import { sortAscendingOrderDate, sortByOrderHours, sortStock } from "../core/sortUtils.js"
 import {
     createDivContainer,
     createOpenCardsComponent,
@@ -16,9 +16,11 @@ export function renderActiveList(arr: Disease[], activeList: HTMLUListElement) {
         if (arr.length === 0) {
             activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
             return
-        }
+    }
     
-        for (let dis of arr) {
+    const sorted = sortAscendingOrderDate(arr)
+    
+        for (let dis of sorted) {
             if (dis.archive) continue
             const li = createDiseaseComponent(dis)
             activeList.insertAdjacentHTML('beforeend', li)

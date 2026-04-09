@@ -98,6 +98,7 @@ export interface MedicationEdit {
     time: string[];
     stock: number;
     dosage: number;
+    takenTimes: string[];
 }
 
 export interface InputDataMed<T> {
@@ -106,6 +107,12 @@ export interface InputDataMed<T> {
     property: MedicationEditType;
     newValue: T;
 }
+
+type Delete = 'active' | 'edit'
+
+export type DeleteDiseaseButton = `.${Delete}__disease-delete`
+
+export type DeleteMedButton = `.${Delete}__medication-delete`
 
 // Элементы страницы
 

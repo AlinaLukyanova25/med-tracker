@@ -23,6 +23,12 @@ export function sortByOrderHours(arr: Disease[], medications: MedicationType[]):
     return sortedArr.sort((a, b) => a.time.getTime() - b.time.getTime())
 }
 
+export function sortAscendingOrderDate(arr: Disease[]): Disease[] {
+    return arr
+    .sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime())
+}
+
+
 function hasStock(med: MedicationType): med is Extract<MedicationType, Pill | Capsule | Powder<'Пакетик'>> {
   return (med.type === 'Таблетка' ||
          med.type === 'Капсула' ||

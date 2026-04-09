@@ -16,6 +16,10 @@ export function sortByOrderHours(arr, medications) {
     }
     return sortedArr.sort((a, b) => a.time.getTime() - b.time.getTime());
 }
+export function sortAscendingOrderDate(arr) {
+    return arr
+        .sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
+}
 function hasStock(med) {
     return (med.type === 'Таблетка' ||
         med.type === 'Капсула' ||

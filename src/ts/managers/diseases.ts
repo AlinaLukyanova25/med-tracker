@@ -3,7 +3,7 @@ import { Disease, Medication, MedicationType } from "../types/common";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
-import { DateUtils, formatDate } from "../core/timeUtils.js";
+import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate, getTimeReception } from "../core/timeUtils.js";
 
 export class DiseasesManager {
     private times: string[] = [];
@@ -223,39 +223,21 @@ export class DiseasesManager {
         dosage: number,
         stock: number
     ): MedicationType | undefined {
-        const base = {
-            medId: crypto.randomUUID(),
+        const acceptedArray = createTakenTimesArray(time)
+
+        
+        const base = collectsObjectByType(
             medicationName,
             time,
-            takenTimes: [],
-            lastTakenUpdate: new Date().toISOString(),
-        }
-        switch (medType) {
-            case SelectMedicationType.Pill:
-                if (!dosage || !stock) return this.showError()
-                return { ...base, type: 'Таблетка', dosage, stock }
-            case SelectMedicationType.Capsule:
-                if (!dosage || !stock) return this.showError()
-                return { ...base, type: 'Капсула', dosage, stock }
-            case SelectMedicationType.Mixture:
-                if (!dosage) return this.showError()
-                return { ...base, type: 'Микстура', dosage }
-            case SelectMedicationType.Drops:
-                if (!dosage) return this.showError()
-                return { ...base, type: 'Капли', dosage }
-            case SelectMedicationType.Aerosol:
-                return { ...base, type: 'Аэрозоль' }
-            case SelectMedicationType.Ointment:
-                return { ...base, type: 'Мазь' }
-            case SelectMedicationType.Powder:
-                if (this.selectPowderType.value === SelectPowderType.Sachet) {
-                    if (!dosage || !stock) return this.showError()
-                    return { ...base, type: 'Порошок', dosageType: 'Пакетик', dosage, stock }
-                } else {
-                    if (!dosage) return this.showError()
-                    return { ...base, type: 'Порошок', dosageType: 'Ложка', dosage }
-                }
-        }
+            acceptedArray,
+            medType,
+            this.selectPowderType.value,
+            dosage,
+            stock,
+            this.modal
+        )
+
+        return base ? base : undefined
     }
 
     private medicationConfig() {
@@ -312,11 +294,6 @@ export class DiseasesManager {
                 this.labelStock.style.display = 'none'
                 this.stock.style.display = 'none'
         }
-    }
-
-    showError(): undefined {
-        alert('Введите все значения')
-        return
     }
 
     handleAgainFormSubmit(e: Event) {
