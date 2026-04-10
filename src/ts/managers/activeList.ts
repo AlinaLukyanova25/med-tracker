@@ -5,6 +5,14 @@ import { collectsObjectByType, createTakenTimesArray, formatDateRu, getTimeRecep
 import { ModalManager } from "./modal.js";
 import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
 
+let changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
+
+export function modifyChangeInputData(reset: boolean) {
+    if (reset) {
+        changeInputData = []
+    }
+}
+
 export class ActiveListManager {
     private sectionActive: HTMLElement;
     private activeList: HTMLUListElement;
@@ -12,7 +20,7 @@ export class ActiveListManager {
     private toggleMedication: boolean = false;
     private dataService: DataService;
     private modal: ModalManager;
-    private changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
+    // private changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
     private removeMedIdArray: string[] = []
     private newMedications: MedicationType[] = []
 
@@ -148,7 +156,9 @@ export class ActiveListManager {
             return
         }
 
-        this.changeInputData.push(changeInput)
+        // this.changeInputData.push(changeInput)
+        changeInputData.push(changeInput)
+
 
     }
 
@@ -178,7 +188,7 @@ export class ActiveListManager {
             }
         }
 
-        for (let data of this.changeInputData) {
+        for (let data of changeInputData) {
 
             if (data.typeofId === 'number') {
                 const key = data.property as keyof DiseaseEdit
@@ -230,7 +240,7 @@ export class ActiveListManager {
         }
 
         console.log(this.dataService.getDiseases())
-        this.changeInputData = []
+        changeInputData = []
 
         this.removeMedIdArray = []
         this.newMedications = []
@@ -248,7 +258,7 @@ export class ActiveListManager {
         const button = target.closest('.arrow-back')
         if (!button) return
 
-        this.changeInputData = []
+        changeInputData = []
 
         this.removeMedIdArray = []
         this.newMedications = []
@@ -365,7 +375,7 @@ export class ActiveListManager {
         time: HTMLInputElement
     ): MedicationType | undefined {
         if (!medTitle.value.trim()) {
-            alert('Введите корректное название')
+            this.modal.openModalWarning('Введите корректное название')
             return
         }
 
@@ -415,15 +425,17 @@ export class ActiveListManager {
 
         const id = button.getAttribute('data-dis')
         if (!id) return
-        
-        this.dataService.removeDiseases(Number(id))
 
-        if (classButton === '.edit__disease-delete') {
-            this.changeInputData = []
-            this.sectionActive.querySelector('.edit')?.remove()
-            this.activeList.style.display = 'flex'
-            this.activeButton.style.display = 'block'
-        }
+        this.modal.openModalConfidence(id)
+        
+        // this.dataService.removeDiseases(Number(id))
+
+        // if (classButton === '.edit__disease-delete') {
+        //     this.changeInputData = []
+        //     this.sectionActive.querySelector('.edit')?.remove()
+        //     this.activeList.style.display = 'flex'
+        //     this.activeButton.style.display = 'block'
+        // }
     }
 
     handleRemoveMedication(e: Event, classButton: DeleteMedButton) {

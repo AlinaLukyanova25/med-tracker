@@ -9,7 +9,7 @@ import { ActiveListManager } from "./managers/activeList.js";
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService();
     const menu = new MenuManager();
-    const modal = new ModalManager();
+    const modal = new ModalManager(dataService);
     const diseases = new DiseasesManager(modal, dataService);
     const mainPage = new MainPageManager(dataService, modal);
     const archive = new ArchiveManager(dataService, modal);

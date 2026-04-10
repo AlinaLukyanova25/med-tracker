@@ -213,6 +213,18 @@
             <!-- Слишком рано для приёма лекарства! -->
         </div>
     </div>
+
+    <div id="modal-confidence" class="modal-confidence hidden">
+        <div class="modal-confidence__content">
+            <span class="close modal-confidence__close">&times;</span>
+            <p class="modal-confidence__descr">Вы точно хотите удалить карточку с лечением?</p>
+            <div class="modal-confidence__buttons">
+                <button class="card-button" id="ok">Да</button>
+                <button class="card-button" id="no">Нет</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/@formatjs/intl@latest/dist/intl.umd.js"></script>
     <script type="module" src="dist/js/main.js"></script>
 </body>

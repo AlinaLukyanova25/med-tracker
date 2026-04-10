@@ -24,9 +24,7 @@
 
   &__card-top-content {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include flex-center;
     gap: $space8;
     margin-bottom: $space8;
   }
@@ -47,17 +45,11 @@
 
   @include time-and-dosage-and-stock-style;
 
-  &__medication-delete {
-    background: none;
-    color: $color-text;
-    border: 2px solid $color-primary-light;
-    padding: $space5;
-  }
-
   &__med-title {
     display: flex;
     gap: $space16;
     align-items: center;
     color: color.mix($color-text, $color-primary, 40%);
   }
+
 }

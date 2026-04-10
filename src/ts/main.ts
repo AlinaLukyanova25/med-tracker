@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const menu = new MenuManager()
 
-    const modal = new ModalManager()
+    const modal = new ModalManager(dataService)
 
     const diseases = new DiseasesManager(modal, dataService)
 

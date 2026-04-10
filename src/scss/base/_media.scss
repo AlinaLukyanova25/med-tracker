@@ -22,6 +22,37 @@
     color: $color-primary;
     border-bottom-color: $color-primary-light;
   }
+
+  .calendar__day.disease:hover {
+    background-color: color.mix(white, $color-primary-light, 85%);
+  }
+
+  .card-button:hover {
+    background-color: $color-primary-light;
+    color: $color-white;
+  }
+
+  .edit__add-button:hover {
+    background-color: $color-primary;
+    color: $color-white;
+    transform: scale(1.05);
+  }
+
+  .edit__button-choose:hover {
+    background-color: $color-primary-light;
+    color: $color-white;
+    border-color: $color-primary-light;
+  }
+
+  .edit__submit-btn:hover {
+    background-color: $color-primary-light;
+    color: $color-white;
+    border-color: $color-primary-light;
+  }
+
+  .arrow-back:hover img {
+    transform: translateX(-2px);
+  }
 }
 
 @media (max-width: $breakpoint-tablet) {
@@ -125,13 +156,14 @@
 
     &__input-container {
       width: 100%;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
     }
 
     &__disease-delete {
       position: absolute;
-      right: 20px;
-      top: 20px;
+      right: $space20;
+      top: $space20;
     }
 
     &__card-top-content,
@@ -149,11 +181,6 @@
       grid-template-columns: repeat(2, 1fr);
     }
 
-    &__input-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-    }
-
     &__dosage-type {
       display: none;
     }
@@ -168,7 +195,7 @@
   }
 }
 
-@media (max-width: 423px) {
+@media (max-width: $breakpoint-tablet-small) {
   .edit {
     padding: $space16;
 
@@ -187,11 +214,10 @@
   }
 
   .calendar__day.accepted::before {
-    // top: 40%;
-    font-size: 30px;
+    font-size: $font-size30;
   }
 
   .calendar__day.no-accepted::before {
-    font-size: 30px;
+    font-size: $font-size30;
   }
 }

@@ -44,6 +44,7 @@ button {
   font-weight: 600;
   color: $color-text;
   margin-bottom: $space5;
+  background-color: inherit;
 }
 
 .item-button {
@@ -71,6 +72,18 @@ button {
   border-radius: $border-radius-small;
   box-shadow: $box-shadow;
   transition: $transition;
+}
+
+.card-button {
+  background: none;
+  color: $color-text;
+  border: $space2 solid $color-primary-light;
+  padding: $space5;
+  border-radius: $border-radius-small;
+  font-size: $font-size15;
+  font-weight: 500;
+  transition: $transition;
+  box-shadow: $box-shadow;
 }
 
 .descr-not {

@@ -38,26 +38,6 @@
   &__day.disease {
     cursor: pointer;
     background-color: color.mix(white, $color-text-light, 70%);
-
-      &:hover {
-        position: relative;
-        // background-color: color.mix(white, $color-primary-light, 70%);
-        background-color: color.mix(white, $color-primary-light, 85%);
-
-        &::before {
-    content: '✓';
-    position: absolute;
-     position: absolute;
-     left: 20%;
-     right: 20%;
-  // left: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4CAF50;
-  font-size: 60px;
-  font-weight: bold;
-  }
-      }
   }
 
   &__day.accepted {
@@ -70,7 +50,6 @@
      position: absolute;
      left: 20%;
      right: 20%;
-  // left: 6px;
   top: 50%;
   transform: translateY(-50%);
   color: #4CAF50;

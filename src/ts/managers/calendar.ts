@@ -132,7 +132,6 @@ export class CalendarManager {
         ) {
             this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня')
         } else {
-            alert('akaka')
             if (this.dataService.findMarkedDates(dataDate)) {
                 this.dataService.updateMarkedDate(dataDate, (md) => {
                     md.taken = true

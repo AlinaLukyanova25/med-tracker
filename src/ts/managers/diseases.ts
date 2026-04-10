@@ -113,22 +113,22 @@ export class DiseasesManager {
         const medType = this.selectType.value
 
         if (!disName) {
-            alert('Введите корректное болезни')
+            this.modal.openModalWarning('Введите корректное болезни')
             return
         }
 
         if (isNaN(dateEnd.getTime())) {
-            alert('Укажите корректную дату окончания')
+            this.modal.openModalWarning('Укажите корректную дату окончания')
             return
         }
 
         if (!medArray && this.medArray.length === 0 || medName || dosage || stock || time) {
             if (!medName) {
-                alert('Введите корректное название лекарства')
+                this.modal.openModalWarning('Введите корректное название лекарства')
             }
 
             if (!time && this.times.length === 0) {
-                alert('Введите время приёма')
+                this.modal.openModalWarning('Введите время приёма')
                 return
             }
 
@@ -185,12 +185,12 @@ export class DiseasesManager {
         const medType = this.selectType.value
 
         if (!disName || !medName) {
-            alert('Введите корректные названия')
+            this.modal.openModalWarning('Введите корректные названия')
             return
         }
 
         if (!time && this.times.length === 0) {
-            alert('Введите время приёма')
+            this.modal.openModalWarning('Введите время приёма')
             return
         }
 
@@ -302,7 +302,7 @@ export class DiseasesManager {
         const dateEnd = new Date(this.againDateEnd.value)
 
         if (isNaN(dateEnd.getTime())) {
-            alert('Укажите корректную дату окончания')
+            this.modal.openModalWarning('Укажите корректную дату окончания')
             return
         }
 
@@ -327,8 +327,6 @@ export class DiseasesManager {
         if (!addMore) return
 
         if (!this.time.value) return
-
-        alert(this.time.value)
 
         this.times.push(this.time.value)
 

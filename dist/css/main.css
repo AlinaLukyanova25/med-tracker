@@ -352,6 +352,7 @@ button {
   font-weight: 600;
   color: #1e293b;
   margin-bottom: 5px;
+  background-color: inherit;
 }
 
 .item-button {
@@ -379,6 +380,18 @@ button {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: 0.2s ease;
+}
+
+.card-button {
+  background: none;
+  color: #1e293b;
+  border: 2px solid #4caf50;
+  padding: 5px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .descr-not {
@@ -452,9 +465,9 @@ button {
   padding: 20px;
   margin-bottom: 16px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 @media (max-width: 550px) {
   .reception-list__item {
@@ -493,9 +506,9 @@ button {
   padding: 20px;
   margin-bottom: 16px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 @media (max-width: 550px) {
   .missed-list__item {
@@ -550,9 +563,9 @@ button {
   padding: 20px;
   margin-bottom: 16px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 @media (max-width: 550px) {
   .active__card {
@@ -596,12 +609,6 @@ button {
   font-size: 15px;
   margin: 5px 0;
 }
-.active__medication-delete {
-  background: none;
-  color: #1e293b;
-  border: 2px solid #4caf50;
-  padding: 5px;
-}
 .active__med-title {
   display: flex;
   gap: 16px;
@@ -642,22 +649,6 @@ button {
 .calendar__day.disease {
   cursor: pointer;
   background-color: rgb(208.5, 213.3, 220.2);
-}
-.calendar__day.disease:hover {
-  position: relative;
-  background-color: rgb(228.15, 243, 228.75);
-}
-.calendar__day.disease:hover::before {
-  content: "✓";
-  position: absolute;
-  position: absolute;
-  left: 20%;
-  right: 20%;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4CAF50;
-  font-size: 60px;
-  font-weight: bold;
 }
 .calendar__day.accepted {
   background-color: rgb(228.15, 243, 228.75);
@@ -708,9 +699,9 @@ button {
   padding: 20px;
   margin-bottom: 16px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 @media (max-width: 550px) {
   .archive__card {
@@ -735,7 +726,63 @@ button {
   font-weight: 500;
 }
 
-.modal,
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal__content {
+  width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+@media (max-width: 550px) {
+  .modal__content {
+    max-width: 300px;
+  }
+}
+.modal__content input,
+.modal__content select {
+  border: none;
+  width: 100%;
+  margin: 8px 0;
+  padding: 16px;
+  background-color: rgb(241.46, 243.73, 246.21);
+  border-radius: 16px;
+  font-size: 15px;
+  color: #1e293b;
+}
+.modal__content input:focus,
+.modal__content select:focus {
+  outline: 1px solid #2e7d32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.modal__content label {
+  color: #2e7d32;
+  font-weight: 500;
+  padding-left: 16px;
+  display: block;
+  text-align: start;
+}
+.modal__add-more {
+  cursor: pointer;
+  color: #64748b;
+}
+.modal__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
 .modal-assign-again {
   position: fixed;
   top: 0;
@@ -747,7 +794,6 @@ button {
   align-items: center;
   justify-content: center;
 }
-.modal__content,
 .modal-assign-again__content {
   width: 400px;
   padding: 20px;
@@ -757,15 +803,11 @@ button {
   text-align: center;
 }
 @media (max-width: 550px) {
-  .modal__content,
   .modal-assign-again__content {
     max-width: 300px;
   }
 }
-.modal__content input,
-.modal__content select,
-.modal-assign-again__content input,
-.modal-assign-again__content select {
+.modal-assign-again__content input {
   border: none;
   width: 100%;
   margin: 8px 0;
@@ -775,31 +817,16 @@ button {
   font-size: 15px;
   color: #1e293b;
 }
-.modal__content input:focus,
-.modal__content select:focus,
-.modal-assign-again__content input:focus,
-.modal-assign-again__content select:focus {
+.modal-assign-again__content input:focus {
   outline: 1px solid #2e7d32;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-.modal__content label,
 .modal-assign-again__content label {
   color: #2e7d32;
   font-weight: 500;
   padding-left: 16px;
   display: block;
   text-align: start;
-}
-.modal__add-more,
-.modal-assign-again__add-more {
-  cursor: pointer;
-  color: #64748b;
-}
-.modal__buttons,
-.modal-assign-again__buttons {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
 }
 
 .modal-warning {
@@ -839,9 +866,43 @@ button {
   font-weight: 500;
 }
 
+.modal-confidence {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-confidence__content {
+  position: absolute;
+  top: 30px;
+  width: 500px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  border: 8px solid #4caf50;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+@media (max-width: 550px) {
+  .modal-confidence__content {
+    max-width: 300px;
+  }
+}
+.modal-confidence__close {
+  text-align: end;
+}
+
 .modal.hidden,
 .modal-assign-again.hidden,
-.modal-warning.hidden {
+.modal-warning.hidden,
+.modal-confidence.hidden {
   display: none;
 }
 
@@ -899,9 +960,6 @@ button {
   height: 100%;
   border: none;
 }
-.edit input:hover, .edit input:focus {
-  outline: none;
-}
 .edit textarea {
   resize: none;
   overflow: hidden;
@@ -910,15 +968,9 @@ button {
   padding: 8px;
   line-height: 1.4;
 }
-.edit textarea:hover, .edit textarea:focus {
-  outline: none;
-}
 .edit textarea:focus,
 .edit input:focus {
   outline: 2px solid #4caf50;
-}
-.edit .item-title {
-  background-color: inherit;
 }
 .edit__input-container {
   display: flex;
@@ -948,21 +1000,6 @@ button {
   padding: 16px;
   margin-top: 16px;
 }
-.edit__medication-delete {
-  background: none;
-  color: #1e293b;
-  border: 2px solid #4caf50;
-  padding: 5px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  transition: 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-.edit__medication-delete:hover {
-  background-color: #4caf50;
-  color: #fff;
-}
 .edit__add-button {
   font-size: 28px;
   width: 48px;
@@ -972,14 +1009,10 @@ button {
   justify-content: center;
   margin: 0 auto;
   border-radius: 50%;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease;
   background: #fff;
   color: #2e7d32;
   border: 2px solid #2e7d32;
-}
-.edit__add-button:hover {
-  color: #fff;
-  transform: scale(1.05);
 }
 .edit__item--choose {
   display: grid;
@@ -995,11 +1028,6 @@ button {
   padding: 8px;
   font-weight: 500;
 }
-.edit__button-choose:hover {
-  background-color: #4caf50;
-  color: #fff;
-  border-color: #4caf50;
-}
 .edit__submit-btn {
   background-color: #f8fafc;
   border: 1px solid #1e293b;
@@ -1009,11 +1037,6 @@ button {
   width: 100%;
   margin-top: 16px;
 }
-.edit__submit-btn:hover {
-  background-color: #4caf50;
-  color: #fff;
-  border-color: #4caf50;
-}
 .edit__item-add {
   border: 2px solid rgb(226.2, 229.1, 232.7);
   background-color: #fff;
@@ -1022,9 +1045,6 @@ button {
 .arrow-back {
   width: 32px;
   text-align: start;
-}
-.arrow-back:hover img {
-  transform: translateX(-2px);
 }
 
 @media (any-hover: hover) {
@@ -1043,6 +1063,31 @@ button {
   .header-list__link:hover {
     color: #2e7d32;
     border-bottom-color: #4caf50;
+  }
+  .calendar__day.disease:hover {
+    background-color: rgb(228.15, 243, 228.75);
+  }
+  .card-button:hover {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  .edit__add-button:hover {
+    background-color: #2e7d32;
+    color: #fff;
+    transform: scale(1.05);
+  }
+  .edit__button-choose:hover {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+  }
+  .edit__submit-btn:hover {
+    background-color: #4caf50;
+    color: #fff;
+    border-color: #4caf50;
+  }
+  .arrow-back:hover img {
+    transform: translateX(-2px);
   }
 }
 @media (max-width: 550px) {
@@ -1142,7 +1187,8 @@ button {
   }
   .edit__input-container {
     width: 100%;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
   .edit__disease-delete {
     position: absolute;
@@ -1158,10 +1204,6 @@ button {
     margin-top: 8px;
   }
   .edit__item--choose {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .edit__input-container {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
   .edit__dosage-type {

@@ -45,7 +45,7 @@ export function createMedicationComponent(med: MedicationType): string {
         ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
         ${(med.type === 'Таблетка' || med.type === 'Капсула' || med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
         <p class="active__time">Время приёма: <span>${med.time.join(', ')}</span></p>
-        <button class="item-button active__medication-delete" data-id="${med.medId}">Удалить приём</button>
+        <button class="card-button active__medication-delete" data-id="${med.medId}">Удалить приём</button>
     </div>
     `
 }
@@ -193,7 +193,7 @@ export function createEditMedicationComponent(med: MedicationType): string {
                 data-object-id="${med.medId}"
                 data-typeof-id="string"
                 ></div>
-                <button class="edit__medication-delete" data-id="${med.medId}">Удалить приём</button>
+                <button class="card-button edit__medication-delete" data-id="${med.medId}">Удалить приём</button>
                 </div>
             </form>
         </li>
