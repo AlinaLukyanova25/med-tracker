@@ -33,6 +33,19 @@
 
     @include time-and-dosage-and-stock-style;
 
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: $space16;
+    }
+
+    &__item {
+        background: #f9f9f9;
+        border-radius: $border-radius;
+        padding: $space16;
+        box-shadow: $box-shadow;
+    }
+
     input{
         height: 100%;
         border: none;
@@ -45,15 +58,27 @@
 
     textarea {
         resize: none;
-        height: 100%;
+        // height: 100%;
         overflow: hidden;
-        width: 100%;
+        // width: 100%;
         border: none;
+        field-sizing: content;
+        padding: $space8;
+        line-height: 1.4;
 
         &:hover,
         &:focus {
             outline: none;
         }
+    }
+
+    textarea:focus,
+    input:focus {
+        outline: 2px solid $color-primary-light;
+    }
+
+    .item-title {
+        background-color: inherit;
     }
 
     &__input-container {
@@ -66,6 +91,7 @@
             text-align: center;
             box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
             border-radius: $border-radius-small;
+
         }
     }
 
@@ -89,24 +115,98 @@
         }
     }
 
+    &__save-btn {
+        padding: $space16;
+        margin-top: $space16;
+    }
+
     &__medication-delete {
         background: none;
         color: $color-text;
         border: 2px solid $color-primary-light;
         padding: $space5;
+        border-radius: $border-radius-small;
+        font-size: $font-size15;
+        font-weight: 500;
+        transition: $transition;
+        box-shadow: $box-shadow;
+
+
+        &:hover {
+            background-color: $color-primary-light;
+            color: $color-white;
+        }
     }
 
     &__add-button {
-        font-size: $font-size25;
-        width: 50px;
-        height: 50px;
+        font-size: 28px;
+        width: 48px;
+        height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0 auto;
+        border-radius: 50%;
+        transition: transform .2s;
+        background: $color-white;
+        color: $color-primary;
+        border: 2px solid $color-primary;
+
+        &:hover {
+            color: $color-white;
+            transform: scale(1.05);
+        }
+    }
+
+    &__item--choose {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px 8px;
+        padding: 0;
+        margin: $space16 0;
+    }
+
+    &__button-choose {
+        background-color: $color-background;
+        border: 1px solid $color-text;
+        border-radius: $border-radius-small;
+        padding: $space8;
+        font-weight: 500;
+
+        &:hover {
+            background-color: $color-primary-light;
+            color: $color-white;
+            border-color: $color-primary-light;
+        }
+    }
+
+    &__submit-btn {
+        background-color: $color-background;
+        border: 1px solid $color-text;
+        border-radius: $border-radius-small;
+        padding: $space8;
+        font-weight: 500;
+        width: 100%;
+        margin-top: $space16;
+
+        &:hover {
+            background-color: $color-primary-light;
+            color: $color-white;
+            border-color: $color-primary-light;
+        }
+    }
+
+    &__item-add {
+        border: 2px solid color.mix($color-text, $color-background, 10%);
+        background-color: $color-white;
     }
 }
 
 .arrow-back {
     width: 32px;
     text-align: start;
+
+    &:hover img {
+        transform: translateX(-2px);
+    }
 }

@@ -32,6 +32,7 @@ button {
   font-weight: 600;
   color: $color-text;
   margin: $space30 0 $space16;
+  background-color: inherit;
 
   &:first-of-type {
     margin-top: 0;

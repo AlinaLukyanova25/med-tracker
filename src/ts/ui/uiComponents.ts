@@ -158,7 +158,7 @@ export function createEditContainerComponent(dis: Disease): string {
         <ul class="edit__list">
         ${dis.medArray.length > 0 ? dis.medArray.map(med => createEditMedicationComponent(med)).join('') : ''}
         </ul>
-        <button class="item-button edit__add-button">+</button>
+        <button class="edit__add-button">+</button>
 
         <button class="item-button edit__save-btn" data-dis="${dis.id}">Сохранить изменения</button>
         </div>
@@ -179,7 +179,7 @@ export function createEditMedicationComponent(med: MedicationType): string {
                 data-property="dosage"
                 data-object-id="${med.medId}"
                 data-typeof-id="string"
-                >${isDosageType(med)}</div>` : ''} 
+                ><span class="edit__dosage-type">${isDosageType(med)}</span></div>` : ''} 
                 ${med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<div class="edit__input-container edit__stock">Осталось: <input type="number" value="${med.stock}" min="1"
                 data-property="stock"
                 data-object-id="${med.medId}"
@@ -193,7 +193,7 @@ export function createEditMedicationComponent(med: MedicationType): string {
                 data-object-id="${med.medId}"
                 data-typeof-id="string"
                 ></div>
-                <button class="item-button edit__medication-delete" data-id="${med.medId}">Удалить приём</button>
+                <button class="edit__medication-delete" data-id="${med.medId}">Удалить приём</button>
                 </div>
             </form>
         </li>
@@ -221,30 +221,30 @@ export function createEditAddComponent(type: SelectMedicationType, powderType: s
         case SelectMedicationType.Pill:
             html = `
             <div class="edit__card-top-content">
-            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">таб.</div>
-            <div class="edit__input-container edit__stock">Осталось: <input type="number" min="1" id="edit-stock"></div>
+            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">таб.</span></div>
+            <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
             </div>
             `
             break
         case SelectMedicationType.Capsule:
             html = `
             <div class="edit__card-top-content">
-            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">капс.</div>
-            <div class="edit__input-container edit__stock">Осталось: <input type="number" min="1" id="edit-stock"></div>
+            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">капс.</span></div>
+            <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
             </div>
             `
             break
         case SelectMedicationType.Mixture:
             html = `
             <div class="edit__card-top-content">
-            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">мер. лож.</div>
+            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">мер. лож.</span></div>
             </div>
             `
             break
         case SelectMedicationType.Drops:
             html = `
             <div class="edit__card-top-content">
-            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">кап.</div>
+            <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">кап.</span></div>
             </div>
             `
             break
@@ -252,14 +252,14 @@ export function createEditAddComponent(type: SelectMedicationType, powderType: s
             if (powderType === SelectPowderType.Sachet) {
                 html = `
                 <div class="edit__card-top-content">
-                <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">саш.</div>
-                <div class="edit__input-container edit__stock">Осталось: <input type="number" min="1" id="edit-stock"></div>
+                <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">саш.</span></div>
+                <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
                 </div>
                 `
             } else {
                 html = `
                 <div class="edit__card-top-content">
-                <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage">мер. лож.</div>
+                <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">мер. лож.<span></div>
                 </div>
                 `
             }
