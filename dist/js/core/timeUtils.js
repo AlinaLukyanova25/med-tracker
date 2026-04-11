@@ -34,15 +34,6 @@ export function shouldUpdateTaken(date) {
         lastUpdate.getMonth() !== today.getMonth() ||
         lastUpdate.getDate() !== today.getDate());
 }
-// export function shouldUpdateTaken(med: MedicationType): boolean {
-//     const lastUpdate = new Date(med.lastTakenUpdate);
-//     const today = new Date();
-//     return (
-//         lastUpdate.getFullYear() !== today.getFullYear() ||
-//         lastUpdate.getMonth() !== today.getMonth() ||
-//         lastUpdate.getDate() !== today.getDate()
-//     );
-// }
 export function isDatePassed(date1, date2 = new Date()) {
     const d1 = new Date(date1);
     const d2 = new Date(date2);

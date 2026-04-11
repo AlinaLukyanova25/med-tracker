@@ -29,7 +29,7 @@ export class ArchiveManager {
         const dataId = button.getAttribute('data-id');
         if (!dataId)
             return;
-        this.modal.openModalAssignAgain(dataId);
+        this.modal.openModalAssignAgain(e, dataId);
     }
     handleRemoveArchiveCard(e) {
         const target = e.target;

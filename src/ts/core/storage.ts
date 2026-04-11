@@ -1,4 +1,5 @@
-import { Disease, MarkedDates } from "../types/common"
+import { Disease } from "../types/data"
+import { MarkedDates } from "../types/ui"
 
 export function saveToStorage(arr: Disease[]) {
     localStorage.setItem('diseases', JSON.stringify(arr))
@@ -36,12 +37,6 @@ export function loadFromStorageDates(): MarkedDates[] {
         try {
             const parsed = JSON.parse(stored)
             if (!Array.isArray(parsed)) return [];
-
-            // return parsed.map((item: any) => ({
-            //     ...item,
-            //     dateStart: new Date(item.dateStart),
-            //     dateEnd: new Date(item.dateEnd)
-            // }))
             return parsed
         } catch (e) {
             console.error('Ошибка загрузки', e)

@@ -36,7 +36,7 @@ export class ArchiveManager {
         this.archiveList.addEventListener('click', (e) => this.handleRemoveArchiveCard(e))
     }
 
-    handleAssignAgain(e: Event) {
+    handleAssignAgain(e: MouseEvent) {
         const target = e.target as HTMLElement
 
         const button = target.closest('.archive__btn-return')
@@ -45,7 +45,7 @@ export class ArchiveManager {
         const dataId = button.getAttribute('data-id')
         if (!dataId) return
 
-        this.modal.openModalAssignAgain(dataId)
+        this.modal.openModalAssignAgain(e, dataId)
     }
 
     handleRemoveArchiveCard(e: Event) {

@@ -1,5 +1,6 @@
 import { ModalManager } from "../managers/modal";
-import { Aerosol, DosageType, Medication, MedType, Ointment, PluralRule, PowderDosageType, MedicationType } from "../types/common"
+import { Aerosol, DosageType, Medication, MedType, Ointment, PowderDosageType, MedicationType } from "../types/data"
+import { PluralRule } from "../types/ui";
 import { querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
 
 export const DateUtils = {
@@ -52,17 +53,6 @@ export function shouldUpdateTaken(date: string): boolean {
         lastUpdate.getDate() !== today.getDate()
     );
 }
-
-// export function shouldUpdateTaken(med: MedicationType): boolean {
-//     const lastUpdate = new Date(med.lastTakenUpdate);
-//     const today = new Date();
-        
-//     return (
-//         lastUpdate.getFullYear() !== today.getFullYear() ||
-//         lastUpdate.getMonth() !== today.getMonth() ||
-//         lastUpdate.getDate() !== today.getDate()
-//     );
-// }
 
 export function isDatePassed(date1: Date, date2 = new Date()): boolean {
     const d1 = new Date(date1)

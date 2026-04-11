@@ -1,7 +1,8 @@
 import { getElement, querySelectorEl } from "../types/types.js";
-import { ModalType } from "../types/common";
+import { ModalType } from "../types/ui";
 import { DataService } from "../core/dataService.js";
 import { modifyChangeInputData } from "./activeList.js";
+import { domElements } from "../core/domElements.js";
 
 export class ModalManager {
     private modalForm: HTMLDivElement;
@@ -9,11 +10,14 @@ export class ModalManager {
     private modalWarning: HTMLDivElement;
     private modalWarningDescr: HTMLParagraphElement;
     private modalConfidence: HTMLDivElement;
+
     private dataService: DataService;
 
-    private sectionActive: HTMLElement;
-    private activeList: HTMLUListElement;
-    private activeButton: HTMLButtonElement;
+    private sectionActive = domElements.sectionActive;
+    private activeList = domElements.activeList;
+    private activeButton = domElements.activeButton;
+
+    private scrollPosition = 0
 
     constructor(dataService: DataService) {
         this.modalForm = getElement<HTMLDivElement>('modal')
@@ -21,11 +25,8 @@ export class ModalManager {
         this.modalWarning = getElement<HTMLDivElement>('modal-warning')
         this.modalWarningDescr = querySelectorEl<HTMLParagraphElement>('.modal-warning__descr')
         this.modalConfidence = getElement<HTMLDivElement>('modal-confidence')
+        
         this.dataService = dataService
-
-        this.sectionActive = querySelectorEl<HTMLElement>('.active');
-        this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
-        this.activeButton = querySelectorEl<HTMLButtonElement>('.active__button')
 
         this.init()
     }
@@ -35,13 +36,49 @@ export class ModalManager {
         document.addEventListener('click', (e) => this.handleAddButtonClick(e))
         document.addEventListener('click', (e) => this.closeModal(e))
         this.modalConfidence.addEventListener('click', (e) => this.handleClickConfidence(e))
+
+
+        const myObserver = this.watchMultipleElements(
+            [this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence],
+            'hidden',
+            {
+                onAdded: (el) => {
+                    document.body.classList.remove('no-scroll')
+                    window.scrollTo(0, this.scrollPosition)
+                },
+                onRemoved: (el) => document.body.classList.add('no-scroll')
+            }
+        );
     }
 
-    handleAddButtonClick(e: Event) {
+    watchMultipleElements(selectors: HTMLDivElement[], className: string, callbacks: {onAdded: (el: HTMLElement) => void, onRemoved: (el: HTMLElement) => void}) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes') {
+                const element = mutation.target as HTMLElement;
+                    if (element.classList.contains(className)) {
+                        callbacks.onAdded?.(element);
+                    } else {
+                        callbacks.onRemoved?.(element);
+                    }
+                }
+            });
+        });
+        
+        selectors.forEach(selector => {
+            observer.observe(selector, { attributes: true, attributeFilter: ['class'] });
+        });
+
+        return observer;
+    }
+
+    handleAddButtonClick(e: MouseEvent) {
         const target = e.target as HTMLElement
 
         const addButton: HTMLButtonElement | null = target.closest('.add-button')
         if (!addButton) return
+
+        this.scrollPosition = e.pageY - e.clientY
 
         this.modalForm.classList.remove('hidden')
     }
@@ -98,17 +135,24 @@ export class ModalManager {
         }
     }
 
-    openModalAssignAgain(id: string) {
+    openModalAssignAgain(e: MouseEvent, id: string) {
+        this.scrollPosition = e.pageY - e.clientY
+
         this.modalAssignAgain.classList.remove('hidden')
         this.modalAssignAgain.querySelector('form')?.setAttribute('data-id', id)
     }
 
-    openModalWarning(text: string) {
+    openModalWarning(text: string, e?: MouseEvent) {
+    
+        if (e) this.scrollPosition = e.pageY - e.clientY
+
         this.modalWarning.classList.remove('hidden')
         this.modalWarningDescr.textContent = text
     }
 
-    openModalConfidence(id: string) {
+    openModalConfidence(e: MouseEvent, id: string) {
+        this.scrollPosition = e.pageY - e.clientY
+
         this.modalConfidence.classList.remove('hidden')
         this.modalConfidence.setAttribute('data-id', id)
     }

@@ -1,14 +1,16 @@
 import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
-import { Disease, Medication, MedicationType } from "../types/common";
+import { Disease, MedicationType } from "../types/data.js";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
 import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate, getTimeReception } from "../core/timeUtils.js";
+import { domElements } from "../core/domElements.js";
 
 export class DiseasesManager {
     private times: string[] = [];
     private medArray: MedicationType[] = [];
-    private activeList: HTMLUListElement;
+
+    private activeList = domElements.activeList;
     private addForm: HTMLFormElement;
     private diseaseName: HTMLInputElement;
     private medicationName: HTMLInputElement;
@@ -33,11 +35,10 @@ export class DiseasesManager {
     private modal: ModalManager
     private moreMedButton: HTMLButtonElement;
 
-    private receptionList: HTMLUListElement;
-    private missedList: HTMLUListElement;
+    private receptionList = domElements.receptionList;
+    private missedList = domElements.missedList;
 
     constructor(modal: ModalManager, dataService: DataService) {
-        this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
         this.addForm = getElement<HTMLFormElement>('add-reception');
         this.diseaseName = getElement<HTMLInputElement>('disease-name');
         this.medicationName = getElement<HTMLInputElement>('medication-name');
@@ -61,9 +62,6 @@ export class DiseasesManager {
 
         this.modal = modal
         this.dataService = dataService
-
-        this.receptionList = querySelectorEl<HTMLUListElement>('.reception-list');
-        this.missedList = querySelectorEl<HTMLUListElement>('.missed-list');
     
         this.init()
     }

@@ -1,4 +1,5 @@
-import { Capsule, Disease, Medication, MedicationType, MedType, Pill, PluralRule, Powder, PowderDosageType } from "../types/common"
+// import { data, ui } from "../types/common"
+import { Disease, MedicationType, Pill, Capsule, Powder } from "../types/data"
 import { formatDateRu, getWordForm, isDosageType } from "../core/timeUtils.js"
 import { SelectMedicationType, SelectPowderType } from "../types/types.js"
 
@@ -107,6 +108,7 @@ export function createStockReceptionComponent(med: Extract<MedicationType, Pill 
     <li class="stock-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
         <p class="stock-list__stock">${verb} ${med.stock} ${word}!!!</p>
+        <button class="dark-button stock-list__button" data-id="${med.medId}">Пополнить</button>
     </li>
     `
 }
@@ -203,14 +205,14 @@ export function createEditMedicationComponent(med: MedicationType): string {
 export function createChooseTypeMedComponent(): string {
     return `
     <li class="edit__item edit__item--choose">
-    <button class="edit__button-choose" data-type="Pill">Таблетка</button>
-    <button class="edit__button-choose" data-type="Capsule">Капсула</button>
-    <button class="edit__button-choose" data-type="Mixture">Микстура</button>
-    <button class="edit__button-choose" data-type="Drops">Капли</button>
-    <button class="edit__button-choose" data-type="Aerosol">Аэрозоль</button>
-    <button class="edit__button-choose" data-type="Ointment">Мазь</button>
-    <button class="edit__button-choose" data-type="Powder" data-potype="Sachet">Порошок (сашет)</button>
-    <button class="edit__button-choose" data-type="Powder" data-potype="Spoon">Порошок (мер. ложка)</button>
+    <button class="dark-button edit__button-choose" data-type="Pill">Таблетка</button>
+    <button class="dark-button edit__button-choose" data-type="Capsule">Капсула</button>
+    <button class="dark-button edit__button-choose" data-type="Mixture">Микстура</button>
+    <button class="dark-button edit__button-choose" data-type="Drops">Капли</button>
+    <button class="dark-button edit__button-choose" data-type="Aerosol">Аэрозоль</button>
+    <button class="dark-button edit__button-choose" data-type="Ointment">Мазь</button>
+    <button class="dark-button edit__button-choose" data-type="Powder" data-potype="Sachet">Порошок (сашет)</button>
+    <button class="dark-button edit__button-choose" data-type="Powder" data-potype="Spoon">Порошок (мер. ложка)</button>
     </li>
     `
 }

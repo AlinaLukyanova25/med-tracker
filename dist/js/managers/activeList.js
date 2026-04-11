@@ -1,6 +1,7 @@
-import { DiseaseEditType, getElement, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType, querySelectorEl } from "../types/types.js";
+import { DiseaseEditType, getElement, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType } from "../types/types.js";
 import { collectsObjectByType, createTakenTimesArray, parseRussianDate } from "../core/timeUtils.js";
 import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
+import { domElements } from "../core/domElements.js";
 let changeInputData = [];
 export function modifyChangeInputData(reset) {
     if (reset) {
@@ -9,14 +10,12 @@ export function modifyChangeInputData(reset) {
 }
 export class ActiveListManager {
     constructor(dataService, modal) {
-        this.toggleMedication = false;
-        // private changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
+        this.sectionActive = domElements.sectionActive;
+        this.activeList = domElements.activeList;
+        this.activeButton = domElements.activeButton;
         this.removeMedIdArray = [];
         this.newMedications = [];
         this.scrollPosition = 0;
-        this.sectionActive = querySelectorEl('.active');
-        this.activeList = querySelectorEl('.active__list');
-        this.activeButton = querySelectorEl('.active__button');
         this.dataService = dataService;
         this.modal = modal;
         this.init();
@@ -111,7 +110,6 @@ export class ActiveListManager {
             this.modal.openModalWarning('Недопустимое поле для болезни');
             return;
         }
-        // this.changeInputData.push(changeInput)
         changeInputData.push(changeInput);
     }
     handleSaveEdit(e) {
@@ -318,14 +316,7 @@ export class ActiveListManager {
         const id = button.getAttribute('data-dis');
         if (!id)
             return;
-        this.modal.openModalConfidence(id);
-        // this.dataService.removeDiseases(Number(id))
-        // if (classButton === '.edit__disease-delete') {
-        //     this.changeInputData = []
-        //     this.sectionActive.querySelector('.edit')?.remove()
-        //     this.activeList.style.display = 'flex'
-        //     this.activeButton.style.display = 'block'
-        // }
+        this.modal.openModalConfidence(e, id);
     }
     handleRemoveMedication(e, classButton) {
         e.preventDefault();
@@ -366,6 +357,10 @@ export class ActiveListManager {
         const dis = this.dataService.findDisease(Number(id));
         if (!dis)
             return;
+        this.openEditCard(dis);
+    }
+    openEditCard(dis) {
+        this.sectionActive.style.display = 'block';
         this.activeList.style.display = 'none';
         this.activeButton.style.display = 'none';
         this.sectionActive.insertAdjacentHTML('beforeend', createEditContainerComponent(dis));

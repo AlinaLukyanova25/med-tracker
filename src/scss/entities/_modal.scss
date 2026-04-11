@@ -11,6 +11,17 @@
 
     @include modal-content-style;
 
+    max-height: 600px;
+    overflow: auto;
+
+     /* Для Chrome, Safari, Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE и Edge */
+  overflow: -moz-scrollbars-none;
+  /* Скрываем скроллбар в WebKit (Chrome, Safari) */
+
     input,
     select {
       @include input-style;
@@ -71,10 +82,7 @@
     text-align: end;
   }
 
-  &__descr {
-    font-size: $font-size25;
-    font-weight: 500;
-  }
+  @include modal-descr-style;
 }
 
 .modal-confidence {
@@ -94,6 +102,20 @@
 
   &__close {
     text-align: end;
+  }
+
+  @include modal-descr-style;
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: $space16;
+    margin-top: $space8;
+
+    button {
+      padding: $space8;
+      font-size: $font-size18;
+    }
   }
 
 }

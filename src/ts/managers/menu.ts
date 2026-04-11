@@ -92,7 +92,7 @@ export class MenuManager {
         this.openSection(page)
     }
 
-    private openSection(page: string) {
+    openSection(page: string) {
         const link: HTMLElement | null = document.querySelector(`.${page}`)
         if (!link) {
             console.warn(`Секция с классом ${page} не найдена`)

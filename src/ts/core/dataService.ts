@@ -1,6 +1,7 @@
 import { loadFromStorage, loadFromStorageDates, saveToStorage, saveToStorageDates } from "./storage.js";
 import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
-import { Disease, MarkedDates, Medication, MedicationType } from "../types/common";
+import { Disease, MedicationType } from "../types/data";
+import { MarkedDates } from "../types/ui"
 import { getActiveDateSet } from "./sortUtils.js";
 
 export class DataService {
@@ -59,6 +60,11 @@ export class DataService {
 
     findDisease(id: number): Disease | undefined {
         return this.diseases.find(d => d.id === id)
+    }
+
+    findDiseaseWithMed(id: string): Disease | undefined {
+        return this.diseases
+        .find(d => d.medArray.find(med => med.medId === id))
     }
 
     findMedicationWithDis(disId: number, medId: string): MedicationType | undefined {

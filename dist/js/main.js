@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const menu = new MenuManager();
     const modal = new ModalManager(dataService);
     const diseases = new DiseasesManager(modal, dataService);
-    const mainPage = new MainPageManager(dataService, modal);
+    const activeList = new ActiveListManager(dataService, modal);
+    const mainPage = new MainPageManager(dataService, modal, activeList);
     const archive = new ArchiveManager(dataService, modal);
     const calendar = new CalendarManager(dataService, modal);
-    const activeList = new ActiveListManager(dataService, modal);
 });

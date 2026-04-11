@@ -1,11 +1,14 @@
 import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate } from "../core/timeUtils.js";
+import { domElements } from "../core/domElements.js";
 export class DiseasesManager {
     constructor(modal, dataService) {
         this.times = [];
         this.medArray = [];
-        this.activeList = querySelectorEl('.active__list');
+        this.activeList = domElements.activeList;
+        this.receptionList = domElements.receptionList;
+        this.missedList = domElements.missedList;
         this.addForm = getElement('add-reception');
         this.diseaseName = getElement('disease-name');
         this.medicationName = getElement('medication-name');
@@ -24,8 +27,6 @@ export class DiseasesManager {
         this.againDateEnd = getElement('reception-again-end');
         this.modal = modal;
         this.dataService = dataService;
-        this.receptionList = querySelectorEl('.reception-list');
-        this.missedList = querySelectorEl('.missed-list');
         this.init();
     }
     init() {

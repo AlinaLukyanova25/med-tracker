@@ -47,6 +47,10 @@ export class DataService {
     findDisease(id) {
         return this.diseases.find(d => d.id === id);
     }
+    findDiseaseWithMed(id) {
+        return this.diseases
+            .find(d => d.medArray.find(med => med.medId === id));
+    }
     findMedicationWithDis(disId, medId) {
         var _a;
         return (_a = this.diseases

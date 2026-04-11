@@ -1,16 +1,18 @@
 import { getElement, querySelectorEl } from "../types/types.js";
 import { modifyChangeInputData } from "./activeList.js";
+import { domElements } from "../core/domElements.js";
 export class ModalManager {
     constructor(dataService) {
+        this.sectionActive = domElements.sectionActive;
+        this.activeList = domElements.activeList;
+        this.activeButton = domElements.activeButton;
+        this.scrollPosition = 0;
         this.modalForm = getElement('modal');
         this.modalAssignAgain = getElement('modal-assign-again');
         this.modalWarning = getElement('modal-warning');
         this.modalWarningDescr = querySelectorEl('.modal-warning__descr');
         this.modalConfidence = getElement('modal-confidence');
         this.dataService = dataService;
-        this.sectionActive = querySelectorEl('.active');
-        this.activeList = querySelectorEl('.active__list');
-        this.activeButton = querySelectorEl('.active__button');
         this.init();
     }
     init() {
@@ -18,12 +20,40 @@ export class ModalManager {
         document.addEventListener('click', (e) => this.handleAddButtonClick(e));
         document.addEventListener('click', (e) => this.closeModal(e));
         this.modalConfidence.addEventListener('click', (e) => this.handleClickConfidence(e));
+        const myObserver = this.watchMultipleElements([this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence], 'hidden', {
+            onAdded: (el) => {
+                document.body.classList.remove('no-scroll');
+                window.scrollTo(0, this.scrollPosition);
+            },
+            onRemoved: (el) => document.body.classList.add('no-scroll')
+        });
+    }
+    watchMultipleElements(selectors, className, callbacks) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                var _a, _b;
+                if (mutation.type === 'attributes') {
+                    const element = mutation.target;
+                    if (element.classList.contains(className)) {
+                        (_a = callbacks.onAdded) === null || _a === void 0 ? void 0 : _a.call(callbacks, element);
+                    }
+                    else {
+                        (_b = callbacks.onRemoved) === null || _b === void 0 ? void 0 : _b.call(callbacks, element);
+                    }
+                }
+            });
+        });
+        selectors.forEach(selector => {
+            observer.observe(selector, { attributes: true, attributeFilter: ['class'] });
+        });
+        return observer;
     }
     handleAddButtonClick(e) {
         const target = e.target;
         const addButton = target.closest('.add-button');
         if (!addButton)
             return;
+        this.scrollPosition = e.pageY - e.clientY;
         this.modalForm.classList.remove('hidden');
     }
     addHidden(modal) {
@@ -68,16 +98,20 @@ export class ModalManager {
             this.modalConfidence.classList.add('hidden');
         }
     }
-    openModalAssignAgain(id) {
+    openModalAssignAgain(e, id) {
         var _a;
+        this.scrollPosition = e.pageY - e.clientY;
         this.modalAssignAgain.classList.remove('hidden');
         (_a = this.modalAssignAgain.querySelector('form')) === null || _a === void 0 ? void 0 : _a.setAttribute('data-id', id);
     }
-    openModalWarning(text) {
+    openModalWarning(text, e) {
+        if (e)
+            this.scrollPosition = e.pageY - e.clientY;
         this.modalWarning.classList.remove('hidden');
         this.modalWarningDescr.textContent = text;
     }
-    openModalConfidence(id) {
+    openModalConfidence(e, id) {
+        this.scrollPosition = e.pageY - e.clientY;
         this.modalConfidence.classList.remove('hidden');
         this.modalConfidence.setAttribute('data-id', id);
     }

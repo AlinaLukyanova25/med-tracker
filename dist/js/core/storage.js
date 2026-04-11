@@ -33,11 +33,6 @@ export function loadFromStorageDates() {
             const parsed = JSON.parse(stored);
             if (!Array.isArray(parsed))
                 return [];
-            // return parsed.map((item: any) => ({
-            //     ...item,
-            //     dateStart: new Date(item.dateStart),
-            //     dateEnd: new Date(item.dateEnd)
-            // }))
             return parsed;
         }
         catch (e) {

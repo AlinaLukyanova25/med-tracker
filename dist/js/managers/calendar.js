@@ -1,12 +1,13 @@
+import { domElements } from "../core/domElements.js";
 import { formatDate, isDatePassed, shouldUpdateTaken } from "../core/timeUtils.js";
-import { getElement, querySelectorEl } from "../types/types.js";
+import { getElement } from "../types/types.js";
 export class CalendarManager {
     constructor(dataService, modal) {
         this.currentDate = new Date();
+        this.receptionList = domElements.receptionList;
+        this.missedList = domElements.missedList;
         this.dataService = dataService;
         this.calendarContainer = getElement('calendar');
-        this.receptionList = querySelectorEl('.reception-list');
-        this.missedList = querySelectorEl('.missed-list');
         this.modal = modal;
         this.init();
     }
@@ -87,7 +88,7 @@ export class CalendarManager {
             return;
         if (this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
             this.missedList.querySelectorAll('.missed-list__item').length !== 0) {
-            this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня');
+            this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня', e);
         }
         else {
             if (this.dataService.findMarkedDates(dataDate)) {

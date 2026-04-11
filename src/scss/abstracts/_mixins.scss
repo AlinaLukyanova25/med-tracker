@@ -90,6 +90,17 @@
   text-align: start;
 }
 
+@mixin modal-descr-style {
+  &__descr {
+    font-size: $font-size25;
+    font-weight: 500;
+
+    @media (max-width: $breakpoint-tablet) {
+    font-size: $font-size18;
+  }
+  }
+}
+
 @mixin item-button-mobile {
   .item-button {
     flex-basis: 100%;

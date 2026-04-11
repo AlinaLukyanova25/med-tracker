@@ -1,4 +1,5 @@
-import { ButtonOpenCardClass, Disease, DivHiddenClass, Medication, MedicationType } from "../types/common"
+import { Disease, MedicationType } from "../types/data"
+import { ButtonOpenCardClass, DivHiddenClass } from "../types/ui"
 import { sortAscendingOrderDate, sortByOrderHours, sortStock } from "../core/sortUtils.js"
 import {
     createDivContainer,

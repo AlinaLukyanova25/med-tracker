@@ -1,13 +1,16 @@
 import { querySelectorEl } from "../types/types.js";
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
 import { checkRecedptionTime } from "../core/timeUtils.js";
+import { domElements } from "../core/domElements.js";
 export class MainPageManager {
-    constructor(dataService, modal) {
-        this.receptionList = querySelectorEl('.reception-list');
-        this.missedList = querySelectorEl('.missed-list');
-        this.stockList = querySelectorEl('.stock-list');
+    constructor(dataService, modal, activeList) {
+        this.mainPage = domElements.mainPage;
+        this.receptionList = domElements.receptionList;
+        this.missedList = domElements.missedList;
+        this.stockList = domElements.stockList;
         this.dataService = dataService;
         this.modal = modal;
+        this.activeList = activeList;
         this.init();
     }
     init() {
@@ -28,6 +31,7 @@ export class MainPageManager {
         this.missedList.addEventListener('click', (e) => this.handleButtonRemoveClick(e));
         this.missedList.addEventListener('click', (e) => this.openHiddenCards(e, 'missed-list__open-card', 'missed-list__card-hidden'));
         this.stockList.addEventListener('click', (e) => this.openHiddenCards(e, 'stock-list__open-card', 'stock-list__card-hidden'));
+        this.stockList.addEventListener('click', (e) => this.handleClickReplenish(e));
     }
     handleButtonAcceptedClick(e, classButton) {
         const target = e.target;
@@ -54,7 +58,7 @@ export class MainPageManager {
                 });
             }
             else {
-                this.modal.openModalWarning('Слишком рано для приёма лекарства!');
+                this.modal.openModalWarning('Слишком рано для приёма лекарства!', e);
             }
         }
         else {
@@ -102,5 +106,20 @@ export class MainPageManager {
             button.textContent = `Показать остальные (${div.querySelectorAll('li').length})`;
             button.classList.remove('colorLight');
         }
+    }
+    handleClickReplenish(e) {
+        const target = e.target;
+        const button = target.closest('.stock-list__button');
+        if (!button)
+            return;
+        const id = button.getAttribute('data-id');
+        if (!id)
+            return;
+        const dis = this.dataService.findDiseaseWithMed(id);
+        console.log(dis);
+        if (!dis)
+            return;
+        this.mainPage.style.display = 'none';
+        this.activeList.openEditCard(dis);
     }
 }

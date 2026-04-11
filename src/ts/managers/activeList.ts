@@ -1,9 +1,11 @@
 import { DataService } from "../core/dataService.js";
 import { DiseaseEditType, getElement, isKeyOf, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
-import { DeleteDiseaseButton, DeleteMedButton, Disease, DiseaseEdit, InputDataDis, InputDataMed, Medication, MedicationEdit, MedicationType, MedType, Pill } from "../types/common";
+import { Disease, Medication, MedicationType, MedType, Pill } from "../types/data";
+import { DeleteDiseaseButton, DeleteMedButton, DiseaseEdit, InputDataDis, InputDataMed, MedicationEdit } from "../types/ui.js";
 import { collectsObjectByType, createTakenTimesArray, formatDateRu, getTimeReception, isDatePassed, isDosageType, parseRussianDate } from "../core/timeUtils.js";
 import { ModalManager } from "./modal.js";
 import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
+import { domElements } from "../core/domElements.js";
 
 let changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
 
@@ -14,22 +16,19 @@ export function modifyChangeInputData(reset: boolean) {
 }
 
 export class ActiveListManager {
-    private sectionActive: HTMLElement;
-    private activeList: HTMLUListElement;
-    private activeButton: HTMLButtonElement;
-    private toggleMedication: boolean = false;
+    private sectionActive = domElements.sectionActive
+    private activeList = domElements.activeList
+    private activeButton: HTMLButtonElement = domElements.activeButton
+
     private dataService: DataService;
     private modal: ModalManager;
-    // private changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = []
+    
     private removeMedIdArray: string[] = []
     private newMedications: MedicationType[] = []
 
     private scrollPosition = 0
 
     constructor(dataService: DataService, modal: ModalManager) {
-        this.sectionActive = querySelectorEl<HTMLElement>('.active');
-        this.activeList = querySelectorEl<HTMLUListElement>('.active__list');
-        this.activeButton = querySelectorEl<HTMLButtonElement>('.active__button')
         this.dataService = dataService;
         this.modal = modal
 
@@ -156,7 +155,6 @@ export class ActiveListManager {
             return
         }
 
-        // this.changeInputData.push(changeInput)
         changeInputData.push(changeInput)
 
 
@@ -417,7 +415,7 @@ export class ActiveListManager {
         return base ? base : undefined
     }
 
-    handleRemoveDiseaseCard(e: Event, classButton: DeleteDiseaseButton) {
+    handleRemoveDiseaseCard(e: MouseEvent, classButton: DeleteDiseaseButton) {
         const target = e.target as HTMLElement
 
         const button = target.closest(classButton)
@@ -426,16 +424,7 @@ export class ActiveListManager {
         const id = button.getAttribute('data-dis')
         if (!id) return
 
-        this.modal.openModalConfidence(id)
-        
-        // this.dataService.removeDiseases(Number(id))
-
-        // if (classButton === '.edit__disease-delete') {
-        //     this.changeInputData = []
-        //     this.sectionActive.querySelector('.edit')?.remove()
-        //     this.activeList.style.display = 'flex'
-        //     this.activeButton.style.display = 'block'
-        // }
+        this.modal.openModalConfidence(e, id)
     }
 
     handleRemoveMedication(e: Event, classButton: DeleteMedButton) {
@@ -483,11 +472,16 @@ export class ActiveListManager {
         const dis = this.dataService.findDisease(Number(id))
         if (!dis) return
 
+        this.openEditCard(dis)
+
+    }
+
+    openEditCard(dis: Disease) {
+        this.sectionActive.style.display = 'block'
+
         this.activeList.style.display = 'none'
         this.activeButton.style.display = 'none'
 
-
         this.sectionActive.insertAdjacentHTML('beforeend', createEditContainerComponent(dis))
-
     }
 }

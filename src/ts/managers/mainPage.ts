@@ -1,23 +1,26 @@
 import { querySelectorEl } from "../types/types.js";
-import { ButtonOpenCardClass, DivHiddenClass } from "../types/common" ;
+import { ButtonOpenCardClass, DivHiddenClass } from "../types/ui" ;
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
 import { checkRecedptionTime } from "../core/timeUtils.js";
 import { ModalManager } from "./modal.js";
+import { ActiveListManager } from "./activeList.js";
+import { domElements } from "../core/domElements.js";
 
 export class MainPageManager {
-    private receptionList: HTMLUListElement;
-    private missedList: HTMLUListElement;
+    private mainPage = domElements.mainPage;
+    private receptionList = domElements.receptionList;
+    private missedList = domElements.missedList;
     private dataService: DataService;
-    private stockList: HTMLUListElement
+    private stockList = domElements.stockList
     private modal: ModalManager;
+    private activeList: ActiveListManager;
 
-    constructor(dataService: DataService, modal: ModalManager) {
-        this.receptionList = querySelectorEl<HTMLUListElement>('.reception-list');
-        this.missedList = querySelectorEl<HTMLUListElement>('.missed-list');
-        this.stockList = querySelectorEl<HTMLUListElement>('.stock-list')
+    constructor(dataService: DataService, modal: ModalManager, activeList: ActiveListManager) {
+        
         this.dataService = dataService
         this.modal = modal
+        this.activeList = activeList
 
         this.init()
     }
@@ -46,10 +49,11 @@ export class MainPageManager {
         this.missedList.addEventListener('click', (e) => this.openHiddenCards(e, 'missed-list__open-card', 'missed-list__card-hidden'))
     
         this.stockList.addEventListener('click', (e) => this.openHiddenCards(e, 'stock-list__open-card', 'stock-list__card-hidden'))
+        this.stockList.addEventListener('click', (e) => this.handleClickReplenish(e))
     }
 
     handleButtonAcceptedClick(
-        e: Event,
+        e: MouseEvent,
         classButton: 'reception-list__button' | 'missed-list__button--check'
     ) {
         const target = e.target as HTMLElement
@@ -77,7 +81,7 @@ export class MainPageManager {
                 }
                 })
             } else {
-                this.modal.openModalWarning('Слишком рано для приёма лекарства!')
+                this.modal.openModalWarning('Слишком рано для приёма лекарства!', e)
             }
         } else {
             this.dataService.updateMedication(dataId, (med) => {
@@ -128,6 +132,23 @@ export class MainPageManager {
             button.textContent = `Показать остальные (${div.querySelectorAll('li').length})`
             button.classList.remove('colorLight')
         }
+    }
+
+    handleClickReplenish(e: Event) {
+        const target = e.target as HTMLElement
+
+        const button = target.closest('.stock-list__button')
+        if (!button) return
+
+        const id = button.getAttribute('data-id')
+        if (!id) return
+
+        const dis = this.dataService.findDiseaseWithMed(id)
+        console.log(dis)
+        if (!dis) return
+
+        this.mainPage.style.display = 'none'
+        this.activeList.openEditCard(dis)
     }
 
 }
