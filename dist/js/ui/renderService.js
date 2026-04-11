@@ -2,11 +2,11 @@ import { sortAscendingOrderDate, sortByOrderHours, sortStock } from "../core/sor
 import { createDivContainer, createOpenCardsComponent, createDiseaseComponent, createReceptionMainComponent, createMissedReceptionComponent, createStockReceptionComponent, createArchiveCardComponent } from "./uiComponents.js";
 export function renderActiveList(arr, activeList) {
     activeList.innerHTML = '';
-    if (arr.length === 0) {
+    const sorted = sortAscendingOrderDate(arr);
+    if (sorted.length === 0) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;
     }
-    const sorted = sortAscendingOrderDate(arr);
     for (let dis of sorted) {
         if (dis.archive)
             continue;

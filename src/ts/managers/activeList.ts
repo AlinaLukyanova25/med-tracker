@@ -1,8 +1,8 @@
 import { DataService } from "../core/dataService.js";
-import { DiseaseEditType, getElement, isKeyOf, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
-import { Disease, Medication, MedicationType, MedType, Pill } from "../types/data";
+import { DiseaseEditType, getElement, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
+import { Disease, Medication, MedicationType } from "../types/data";
 import { DeleteDiseaseButton, DeleteMedButton, DiseaseEdit, InputDataDis, InputDataMed, MedicationEdit } from "../types/ui.js";
-import { collectsObjectByType, createTakenTimesArray, formatDateRu, getTimeReception, isDatePassed, isDosageType, parseRussianDate } from "../core/timeUtils.js";
+import { collectsObjectByType, createTakenTimesArray, parseRussianDate } from "../core/timeUtils.js";
 import { ModalManager } from "./modal.js";
 import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
 import { domElements } from "../core/domElements.js";

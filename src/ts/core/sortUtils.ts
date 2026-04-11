@@ -26,6 +26,7 @@ export function sortByOrderHours(arr: Disease[], medications: MedicationType[]):
 
 export function sortAscendingOrderDate(arr: Disease[]): Disease[] {
     return arr
+    .filter(dis => !dis.archive)
     .sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime())
 }
 

@@ -13,13 +13,13 @@ import {
 
 export function renderActiveList(arr: Disease[], activeList: HTMLUListElement) {
         activeList.innerHTML = ''
-
-        if (arr.length === 0) {
-            activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
-            return
-    }
     
     const sorted = sortAscendingOrderDate(arr)
+    
+    if (sorted.length === 0) {
+        activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'
+        return
+    }
     
         for (let dis of sorted) {
             if (dis.archive) continue

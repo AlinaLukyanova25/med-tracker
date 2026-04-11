@@ -18,6 +18,7 @@ export function sortByOrderHours(arr, medications) {
 }
 export function sortAscendingOrderDate(arr) {
     return arr
+        .filter(dis => !dis.archive)
         .sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
 }
 function hasStock(med) {
