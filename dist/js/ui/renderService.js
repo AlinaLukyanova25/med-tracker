@@ -3,6 +3,7 @@ import { createDivContainer, createOpenCardsComponent, createDiseaseComponent, c
 export function renderActiveList(arr, activeList) {
     activeList.innerHTML = '';
     const sorted = sortAscendingOrderDate(arr);
+    console.log(sorted.length === 0);
     if (sorted.length === 0) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;

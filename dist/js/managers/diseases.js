@@ -31,7 +31,7 @@ export class DiseasesManager {
     }
     init() {
         this.setupEventListeners();
-        DateUtils.setMinDate(this.dateEnd);
+        // DateUtils.setMinDate(this.dateEnd)
         DateUtils.setMinDate(this.againDateEnd);
         this.dataService.subscribe(() => {
             this.render();
