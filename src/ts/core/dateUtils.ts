@@ -1,7 +1,6 @@
 import { ModalManager } from "../managers/modal";
-import { Aerosol, DosageType, Medication, MedType, Ointment, PowderDosageType, MedicationType } from "../types/data"
 import { PluralRule } from "../types/ui";
-import { querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
+import { querySelectorEl } from "../types/types.js";
 
 export const DateUtils = {
     getTodayDate() {
@@ -84,45 +83,6 @@ export function checkRecedptionTime(time: string): boolean {
     return (timeDate.getTime() - now.getTime()) < 900000
 }
 
-if (!globalThis.Intl) {
-  globalThis.Intl = Intl;
-}
-
-const formatter = new Intl.PluralRules('ru');
-
-export function getWordForm(count: number, one: string, few: string, many: string, other: string): string {
-  const rule = formatter.select(count) as PluralRule;
-  const forms: Record<PluralRule, string> = {
-    one,
-    few,
-    many,
-    other
-  };
-  return forms[rule];
-}
-
-export function isDosageType(med: Exclude<MedicationType, Aerosol | Ointment>): DosageType {
-    let dosType: DosageType
-    switch (med.type) {
-        case 'Таблетка':
-            dosType = 'таб.'
-            break
-        case 'Капсула':
-            dosType = 'капс.'
-            break
-        case 'Микстура':
-            dosType = 'мер. лож.'
-            break
-        case 'Капли':
-            dosType = 'кап.'
-            break
-        case 'Порошок':
-            dosType = med.dosageType === 'Пакетик' ? 'саш.' : 'мер. лож.'
-            break
-    }
-    return dosType
-}
-
 export function parseRussianDate(value: string, property: 'dateStart' | 'dateEnd', id: string, modal: ModalManager): boolean | string {
         if (value.length > 11) {
             modal.openModalWarning('Введите корректные данные')
@@ -145,10 +105,15 @@ export function parseRussianDate(value: string, property: 'dateStart' | 'dateEnd
             modal.openModalWarning('Введите корректную дату')
             return false
         }
+
+        if (property === 'dateEnd' && isDatePassed(new Date(newValue))) {
+            modal.openModalWarning('Дата окончания не может быть прошедшей')
+            return false
+        }
     
-        const otherInput = querySelectorEl<HTMLInputElement>(`input[data-property="${
+        const otherInput = querySelectorEl(`input[data-property="${
             property === 'dateStart' ? 'dateEnd' : 'dateStart'
-        }"][data-object-id="${id}"]`)
+        }"][data-object-id="${id}"]`, HTMLInputElement)
 
         const otherDateArray = otherInput.value.split(' ')
 
@@ -172,56 +137,6 @@ export function parseRussianDate(value: string, property: 'dateStart' | 'dateEnd
 
 }
 
-export function collectsObjectByType(
-    medicationName: string,
-    time: string[],
-    acceptedArray: string[],
-    medType: SelectMedicationType,
-    powderType: string | null,
-    dosage: number | undefined,
-    stock: number | undefined,
-    modal: ModalManager
-): MedicationType | undefined {
-    const base = {
-            medId: crypto.randomUUID(),
-            medicationName,
-            time,
-            takenTimes: acceptedArray.length !== 0 ? acceptedArray : [],
-            lastTakenUpdate: new Date().toISOString(),
-        }
-        switch (medType) {
-            case SelectMedicationType.Pill:
-                if (!dosage || !stock) return showError(modal)
-                return { ...base, type: 'Таблетка', dosage, stock }
-            case SelectMedicationType.Capsule:
-                if (!dosage || !stock) return showError(modal)
-                return { ...base, type: 'Капсула', dosage, stock }
-            case SelectMedicationType.Mixture:
-                if (!dosage) return showError(modal)
-                return { ...base, type: 'Микстура', dosage }
-            case SelectMedicationType.Drops:
-                if (!dosage) return showError(modal)
-                return { ...base, type: 'Капли', dosage }
-            case SelectMedicationType.Aerosol:
-                return { ...base, type: 'Аэрозоль' }
-            case SelectMedicationType.Ointment:
-                return { ...base, type: 'Мазь' }
-            case SelectMedicationType.Powder:
-                if (powderType === SelectPowderType.Sachet) {
-                    if (!dosage || !stock) return showError(modal)
-                    return { ...base, type: 'Порошок', dosageType: 'Пакетик', dosage, stock }
-                } else {
-                    if (!dosage) return showError(modal)
-                    return { ...base, type: 'Порошок', dosageType: 'Ложка', dosage }
-                }
-        }
-}
-
-function showError(modal: ModalManager): undefined {
-    modal.openModalWarning('Введите все значения')
-    return
-}
-
 export function createTakenTimesArray(time: string[]): string[] {
     const times = getTimeReception(time)
     const now: Date = new Date()
@@ -229,4 +144,31 @@ export function createTakenTimesArray(time: string[]): string[] {
     return times
         .filter(t => t.getTime() - now.getTime() <= 0)
         .map(t => t.toISOString())
+}
+
+if (!globalThis.Intl) {
+  globalThis.Intl = Intl;
+}
+
+const formatter = new Intl.PluralRules('ru');
+
+export function getWordForm(count: number, one: string, few: string, many: string, other: string): string {
+    const rawRule = formatter.select(count);
+
+  const isValidRule = (rule: unknown): rule is PluralRule =>
+    rule === 'one' || rule === 'few' || rule === 'many' || rule === 'other';
+
+  if (!isValidRule(rawRule)) {
+    return other;
+  }
+
+    const rule: PluralRule = rawRule;
+    
+  const forms: Record<PluralRule, string> = {
+    one,
+    few,
+    many,
+    other
+  };
+  return forms[rule];
 }

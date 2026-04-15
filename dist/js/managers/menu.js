@@ -1,11 +1,11 @@
-import { getElement, querySelectorEl } from "../types/types.js";
+import { domElements } from "../core/domElements.js";
 export class MenuManager {
     constructor() {
         this.openMenu = false;
-        this.headerListDesktop = querySelectorEl('.header-list-desktop');
-        this.headerListMobile = querySelectorEl('.header-list-mobile');
-        this.menuList = querySelectorEl('.header-list__mobile');
-        this.imgMenu = getElement('menu-img');
+        this.imgMenu = domElements.header.imgMenu;
+        this.headerListDesktop = domElements.header.headerListDesktop;
+        this.headerListMobile = domElements.header.headerListMobile;
+        this.menuList = domElements.header.menuList;
         this.init();
     }
     init() {
@@ -38,6 +38,8 @@ export class MenuManager {
     }
     handleOpenMenu(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const divOpen = target.closest('.header-list__open');
         if (!divOpen)
             return;
@@ -52,6 +54,8 @@ export class MenuManager {
     }
     closeMenu(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
             this.menuList.style.display = 'none';
             this.imgMenu.src = "img/burger.svg";
@@ -60,8 +64,10 @@ export class MenuManager {
     }
     handleLinkClick(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const link = target.closest('.header-list__link');
-        if (!link)
+        if (!(link instanceof HTMLElement))
             return;
         const page = link.dataset.page;
         if (!page)

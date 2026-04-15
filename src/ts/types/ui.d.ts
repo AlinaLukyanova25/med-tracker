@@ -19,20 +19,6 @@ export interface InputDataDis<T> {
     newValue: T;
 }
 
-export interface DiseaseEdit {
-    diseaseName: string;
-    dateStart: Date;
-    dateEnd: Date;
-}
-
-export interface MedicationEdit {
-    medicationName: string;
-    time: string[];
-    stock: number;
-    dosage: number;
-    takenTimes: string[];
-}
-
 export interface InputDataMed<T> {
     id: string;
     typeofId: 'string';

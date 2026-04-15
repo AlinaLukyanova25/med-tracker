@@ -1,8 +1,8 @@
 import { DataService } from "../core/dataService.js";
-import { DiseaseEditType, getElement, isValidDiseaseEditKey, isValidMedicationKey, MedicationEditType, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
-import { Disease, Medication, MedicationType } from "../types/data";
-import { DeleteDiseaseButton, DeleteMedButton, DiseaseEdit, InputDataDis, InputDataMed, MedicationEdit } from "../types/ui.js";
-import { collectsObjectByType, createTakenTimesArray, parseRussianDate } from "../core/timeUtils.js";
+import { DiseaseEditType, getElement, isValidDiseaseEditTypeKey, querySelectorEl, SelectMedicationType, collectsObjectByType, isValidMedicationType, isValidMedicationKey } from "../types/types.js";
+import { Disease, MedicationType } from "../types/data";
+import { DeleteDiseaseButton, DeleteMedButton, InputDataDis, InputDataMed } from "../types/ui.js";
+import { createTakenTimesArray, parseRussianDate } from "../core/dateUtils.js";
 import { ModalManager } from "./modal.js";
 import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
 import { domElements } from "../core/domElements.js";
@@ -26,6 +26,7 @@ export class ActiveListManager {
     private removeMedIdArray: string[] = []
     private newMedications: MedicationType[] = []
 
+    private focusElement: string | null = null
     private scrollPosition = 0
 
     constructor(dataService: DataService, modal: ModalManager) {
@@ -61,7 +62,9 @@ export class ActiveListManager {
     }
 
     pendingChanges(e: Event) {
-        const target = e.target as HTMLElement
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const input = target.closest('input')
 
@@ -136,16 +139,16 @@ export class ActiveListManager {
     handleInputChange<T>(property: string, id: string, typeofId: 'string' | 'number', newValue: T) {
         
         let changeInput: InputDataDis<T> | InputDataMed<T>;
-        if (typeofId === 'number' && isValidDiseaseEditKey(property)) {
+        if (typeofId === 'number' && isValidDiseaseEditTypeKey(property)) {
             changeInput = {
-                property: DiseaseEditType[property],
+                property: property,
                 id,
                 typeofId,
                 newValue
             }
         } else if (typeofId === 'string' && isValidMedicationKey(property)) {
             changeInput = {
-                property: MedicationEditType[property],
+                property: property,
                 id,
                 typeofId,
                 newValue
@@ -160,8 +163,10 @@ export class ActiveListManager {
 
     }
 
-    handleSaveEdit(e: Event) {
-        const target = e.target as HTMLElement
+    handleSaveEdit(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest('.edit__save-btn')
         if (!button) return
@@ -189,7 +194,12 @@ export class ActiveListManager {
         for (let data of changeInputData) {
 
             if (data.typeofId === 'number') {
-                const key = data.property as keyof DiseaseEdit
+                const key = data.property
+
+                if (!(['diseaseName', 'dateStart', 'dateEnd']  as const).includes(key)) {
+                    console.warn(`Недопустимый ключ: ${key}. Операция отменена.`);
+                    continue;
+                }
 
                 this.dataService.updateDisease(Number(data.id), (dis) => {
                     switch (key) {
@@ -205,7 +215,12 @@ export class ActiveListManager {
                     }
                 })
             } else {
-                const key = data.property as keyof MedicationEdit
+                const key = data.property
+
+                if (!(['medicationName', 'time', 'stock', 'dosage'] as const).includes(key)) {
+                    console.warn(`Недопустимый ключ: ${key}. Операция отменена.`);
+                    continue;
+                }
 
                 this.dataService.updateMedication(data.id, (med) => {
                     switch (key) {
@@ -237,7 +252,6 @@ export class ActiveListManager {
             }
         }
 
-        console.log(this.dataService.getDiseases())
         changeInputData = []
 
         this.removeMedIdArray = []
@@ -248,10 +262,13 @@ export class ActiveListManager {
         this.activeButton.style.display = 'block'
         window.scrollTo(0, this.scrollPosition)
 
+        this.putsFocus()
     }
 
-    handleComeBack(e: Event) {
-        const target = e.target as HTMLElement
+    handleComeBack(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest('.arrow-back')
         if (!button) return
@@ -267,10 +284,14 @@ export class ActiveListManager {
 
         window.scrollTo(0, this.scrollPosition)
 
+        this.putsFocus()
+
     }
 
-    handleMedicationOpen(e: Event) {
-        const target = e.target as HTMLElement
+    handleMedicationOpen(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const medicationTitle = target.closest('.active__med-title')
         if (!medicationTitle) return
@@ -288,19 +309,25 @@ export class ActiveListManager {
 
         medContent.innerHTML = !isOpen
             ? createMedicationComponent(medication)
-            : `<h4 class="item-title active__med-title" data-id="${medication.medId}">
+            : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0">
             ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;">
             </h4>`
     }
 
-    handleAddMoreMedication(e: Event) {
-        const target = e.target as HTMLElement
+    handleAddMoreMedication(e: MouseEvent) {
+        const target = e.target
 
-        const editList = document.querySelector('.edit__list') as HTMLUListElement | null
-        if (!editList) return
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest('.edit__add-button')
+        const buttonChoose = target.closest('.edit__button-choose')
+
+        if (!button && !buttonChoose) return
+
+        const editList = querySelectorEl('.edit__list', HTMLUListElement)
+
         if (button) {
+
             if (editList.querySelector('.edit__item--choose') || editList.querySelector('.edit__item-add')) {
                 
                 editList.querySelector('.edit__item--choose')
@@ -313,14 +340,15 @@ export class ActiveListManager {
 
             button.textContent = '-'
             editList.insertAdjacentHTML('beforeend', createChooseTypeMedComponent())
+            querySelectorEl('.edit__button-choose', HTMLButtonElement).focus()
 
             return
         }
 
-        const buttonChoose = target.closest('.edit__button-choose')
         if (buttonChoose) {
-            const type = buttonChoose.getAttribute('data-type')  as SelectMedicationType
-            if (!type) return
+
+            const type = buttonChoose.getAttribute('data-type')
+            if (!isValidMedicationType(type)) return
 
             let powderType
             const attributePowder = buttonChoose.getAttribute('data-potype')
@@ -342,10 +370,10 @@ export class ActiveListManager {
 
     handleAddForm(type: SelectMedicationType, powderType: string | null, li: HTMLLIElement, editList: HTMLUListElement) {
 
-        const medTitle = getElement<HTMLTextAreaElement>('med-title')
-        const dosage = document.getElementById('edit-dosage') as HTMLInputElement | null
-        const stock = document.getElementById('edit-stock') as HTMLInputElement | null
-        const time = getElement<HTMLInputElement>('edit-time')
+        const medTitle = getElement('med-title', HTMLTextAreaElement)
+        const dosage = document.getElementById('edit-dosage')
+        const stock = document.getElementById('edit-stock')
+        const time = getElement('edit-time', HTMLInputElement)
 
         const medication: MedicationType | undefined = this.createMedOnType(
             type,
@@ -361,15 +389,15 @@ export class ActiveListManager {
 
         li.remove()
         editList.insertAdjacentHTML('beforeend', createEditMedicationComponent(medication))
-        console.log(this.newMedications)
+        querySelectorEl('.edit__add-button', HTMLButtonElement).textContent = '+'
     }
 
     createMedOnType(
         type: SelectMedicationType,
         powderType: string | null,
         medTitle: HTMLTextAreaElement,
-        dosage: HTMLInputElement | null,
-        stock: HTMLInputElement | null,
+        dosage: HTMLElement | null,
+        stock: HTMLElement | null,
         time: HTMLInputElement
     ): MedicationType | undefined {
         if (!medTitle.value.trim()) {
@@ -377,14 +405,14 @@ export class ActiveListManager {
             return
         }
 
-        if (dosage) {
+        if (dosage instanceof HTMLInputElement) {
             if (Number(dosage.value) < 0) {
                 this.modal.openModalWarning('Введите корректную дозировку')
                 return
             }
         }
 
-        if (stock) {
+        if (stock instanceof HTMLInputElement) {
             if (Number(stock.value) < 0) {
                 this.modal.openModalWarning('Введите корректный остаток')
                 return
@@ -407,8 +435,8 @@ export class ActiveListManager {
             acceptedArray,
             type,
             powderType,
-            Number(dosage?.value),
-            Number(stock?.value),
+            dosage instanceof HTMLInputElement ? Number(dosage.value) : null,
+            stock instanceof HTMLInputElement ? Number(stock.value) : null,
             this.modal
         )
 
@@ -416,21 +444,25 @@ export class ActiveListManager {
     }
 
     handleRemoveDiseaseCard(e: MouseEvent, classButton: DeleteDiseaseButton) {
-        const target = e.target as HTMLElement
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest(classButton)
-        if (!button) return
+        if (!(button instanceof HTMLButtonElement) ) return
 
         const id = button.getAttribute('data-dis')
         if (!id) return
 
-        this.modal.openModalConfidence(e, id)
+        this.modal.openModalConfidence(e, id, button)
     }
 
-    handleRemoveMedication(e: Event, classButton: DeleteMedButton) {
+    handleRemoveMedication(e: MouseEvent, classButton: DeleteMedButton) {
         e.preventDefault()
 
-        const target = e.target as HTMLElement
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest(classButton)
         if (!button) return
@@ -457,10 +489,12 @@ export class ActiveListManager {
     }
 
     handleClickForEdit(e: MouseEvent) {
-        const target = e.target as HTMLElement
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const card = target.closest('.active__card')
-        if (!card) return
+        if (!(card instanceof HTMLLIElement)) return
 
         this.scrollPosition = e.pageY - e.clientY
 
@@ -474,6 +508,8 @@ export class ActiveListManager {
 
         this.openEditCard(dis)
 
+        this.focusElement = `.active__card[data-dis="${id}"]`
+
     }
 
     openEditCard(dis: Disease) {
@@ -483,5 +519,25 @@ export class ActiveListManager {
         this.activeButton.style.display = 'none'
 
         this.sectionActive.insertAdjacentHTML('beforeend', createEditContainerComponent(dis))
+    }
+
+    putsFocus() {
+        if (this.focusElement) {
+                const focus = querySelectorEl(this.focusElement, HTMLElement)
+                if (!focus) return
+
+            if (!focus.hasAttribute('tabindex')) {
+            focus.setAttribute('tabindex', '0');
+            }
+
+            focus.focus();
+
+            if (document.activeElement !== focus) {
+                console.warn('Фокус не установился на элемент', focus);
+            }
+            } else {
+             querySelectorEl('.header-list__link', HTMLAnchorElement).focus()
+            }
+            this.focusElement = null;
     }
 }

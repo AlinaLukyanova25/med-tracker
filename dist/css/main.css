@@ -366,6 +366,11 @@ button {
   transition: 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+.item-button:focus-visible {
+  outline: none;
+  background-color: #2e7d32;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
 
 .add-button {
   display: block;
@@ -381,6 +386,10 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: 0.2s ease;
 }
+.add-button:focus-visible {
+  outline: none;
+  background-color: rgb(66.9, 138, 70.5);
+}
 
 .card-button {
   background: none;
@@ -392,6 +401,11 @@ button {
   font-weight: 500;
   transition: 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.card-button:focus-visible {
+  outline: none;
+  background-color: #4caf50;
+  color: #fff;
 }
 
 .dark-button {
@@ -411,6 +425,13 @@ button {
   border: none;
   cursor: pointer;
 }
+.arrow:focus-visible {
+  outline: none;
+}
+.arrow:focus-visible img {
+  outline: 2px solid #4caf50;
+  outline-offset: 5px;
+}
 
 .container-cards-hidden {
   margin-top: 16px;
@@ -422,9 +443,22 @@ button {
   background: none;
   padding-left: 16px;
 }
+.button-open-cards:focus-visible {
+  outline: none;
+  color: #64748b;
+}
 
 .button-open-cards.colorLight {
   color: #64748b;
+}
+.button-open-cards.colorLight:focus-visible {
+  outline: none;
+  color: #2e7d32;
+}
+
+.close:focus-visible {
+  outline: none;
+  color: #4caf50;
 }
 
 .no-scroll {
@@ -459,6 +493,9 @@ button {
   border-bottom: 2px solid transparent;
   transition: 0.2s ease;
 }
+.header-list__link:focus-visible {
+  outline: 2px solid #4caf50;
+}
 
 .header-list-desktop,
 .header-list-mobile {
@@ -486,7 +523,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media (max-width: 550px) {
+.reception-list__item:focus-visible {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 603px) {
   .reception-list__item {
     border-radius: 8px;
     padding: 8px;
@@ -503,6 +544,7 @@ button {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
+  min-width: 25%;
 }
 .reception-list__stock {
   display: inline-block;
@@ -511,6 +553,7 @@ button {
   border-radius: 20px;
   font-size: 15px;
   color: #64748b;
+  text-align: center;
 }
 
 .missed-list {
@@ -527,7 +570,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media (max-width: 550px) {
+.missed-list__item:focus-visible {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 603px) {
   .missed-list__item {
     border-radius: 8px;
     padding: 8px;
@@ -541,6 +588,7 @@ button {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
+  min-width: 25%;
 }
 
 .stock-list {
@@ -557,7 +605,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media (max-width: 550px) {
+.stock-list__item:focus-visible {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 603px) {
   .stock-list__item {
     border-radius: 8px;
     padding: 8px;
@@ -574,6 +626,12 @@ button {
   color: #ed6c02;
   font-weight: 500;
   margin-top: 8px;
+}
+.stock-list__button:focus-visible {
+  outline: none;
+  background-color: #ed6c02;
+  color: #fff;
+  border-color: #ed6c02;
 }
 
 .active {
@@ -597,7 +655,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media (max-width: 550px) {
+.active__card:focus-visible {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 603px) {
   .active__card {
     border-radius: 8px;
     padding: 8px;
@@ -607,6 +669,7 @@ button {
 .active__card {
   flex-direction: column;
   align-items: start;
+  cursor: pointer;
 }
 .active__med-content {
   width: 100%;
@@ -633,17 +696,24 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .active__dosage, .active__time, .active__stock {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
+  min-width: 25%;
 }
 .active__med-title {
   display: flex;
   gap: 16px;
   align-items: center;
   color: rgb(39.6, 91.4, 53.6);
+  width: max-content;
+}
+.active__med-title:focus-visible {
+  outline: 2px solid #4caf50;
+  outline-offset: 5px;
 }
 
 .calendar {
@@ -680,6 +750,10 @@ button {
   cursor: pointer;
   background-color: rgb(208.5, 213.3, 220.2);
 }
+.calendar__day.disease:focus-visible {
+  outline: none;
+  background-color: rgb(228.15, 243, 228.75);
+}
 .calendar__day.accepted {
   background-color: rgb(228.15, 243, 228.75);
   position: relative;
@@ -687,12 +761,11 @@ button {
 .calendar__day.accepted::before {
   content: "✓";
   position: absolute;
-  position: absolute;
   left: 20%;
   right: 20%;
   top: 50%;
   transform: translateY(-50%);
-  color: #4CAF50;
+  color: #4caf50;
   font-size: 60px;
   font-weight: bold;
 }
@@ -733,7 +806,11 @@ button {
   justify-content: space-between;
   flex-wrap: wrap;
 }
-@media (max-width: 550px) {
+.archive__card:focus-visible {
+  outline: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 603px) {
   .archive__card {
     border-radius: 8px;
     padding: 8px;
@@ -749,6 +826,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .archive__date {
@@ -775,7 +853,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal__content {
     max-width: 300px;
   }
@@ -783,13 +861,9 @@ button {
 .modal__content {
   max-height: 600px;
   overflow: auto;
-  /* Для Chrome, Safari, Edge */
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* IE и Edge */
   overflow: -moz-scrollbars-none;
-  /* Скрываем скроллбар в WebKit (Chrome, Safari) */
 }
 .modal__content input,
 .modal__content select {
@@ -843,7 +917,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal-assign-again__content {
     max-width: 300px;
   }
@@ -894,7 +968,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal-warning__content {
     max-width: 300px;
   }
@@ -906,7 +980,7 @@ button {
   font-size: 25px;
   font-weight: 500;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal-warning__descr {
     font-size: 18px;
   }
@@ -936,7 +1010,7 @@ button {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal-confidence__content {
     max-width: 300px;
   }
@@ -948,7 +1022,7 @@ button {
   font-size: 25px;
   font-weight: 500;
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .modal-confidence__descr {
     font-size: 18px;
   }
@@ -972,9 +1046,11 @@ button {
 }
 
 .close {
-  float: right;
   cursor: pointer;
   font-size: 20px;
+  width: 18px;
+  text-align: center;
+  display: block;
 }
 
 .edit {
@@ -1004,11 +1080,13 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 .edit__dosage, .edit__time, .edit__stock {
   color: #64748b;
   font-size: 15px;
   margin: 5px 0;
+  min-width: 25%;
 }
 .edit__list {
   display: flex;
@@ -1032,10 +1110,6 @@ button {
   field-sizing: content;
   padding: 8px;
   line-height: 1.4;
-}
-.edit textarea:focus,
-.edit input:focus {
-  outline: 2px solid #4caf50;
 }
 .edit__input-container {
   display: flex;
@@ -1079,6 +1153,11 @@ button {
   color: #2e7d32;
   border: 2px solid #2e7d32;
 }
+.edit__add-button:focus-visible {
+  outline: none;
+  background-color: #2e7d32;
+  color: #fff;
+}
 .edit__item--choose {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1087,17 +1166,22 @@ button {
   margin: 16px 0;
 }
 .edit__submit-btn {
-  background-color: #f8fafc;
-  border: 1px solid #1e293b;
-  border-radius: 8px;
-  padding: 8px;
-  font-weight: 500;
   width: 100%;
   margin-top: 16px;
+}
+.edit__button-choose:focus-visible, .edit__submit-btn:focus-visible {
+  outline: none;
+  background-color: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
 }
 .edit__item-add {
   border: 2px solid rgb(226.2, 229.1, 232.7);
   background-color: #fff;
+}
+.edit textarea:focus,
+.edit input:focus {
+  outline: 2px solid #4caf50;
 }
 
 .arrow-back {
@@ -1134,7 +1218,8 @@ button {
     color: #fff;
     transform: scale(1.05);
   }
-  .edit__button-choose:hover {
+  .edit__button-choose:hover,
+  .edit__submit-btn:hover {
     background-color: #4caf50;
     color: #fff;
     border-color: #4caf50;
@@ -1144,16 +1229,11 @@ button {
     color: #fff;
     border-color: #ed6c02;
   }
-  .edit__submit-btn:hover {
-    background-color: #4caf50;
-    color: #fff;
-    border-color: #4caf50;
-  }
   .arrow-back:hover img {
     transform: translateX(-2px);
   }
 }
-@media (max-width: 550px) {
+@media (max-width: 603px) {
   .close {
     font-size: 25px;
   }
@@ -1182,13 +1262,16 @@ button {
     flex-direction: column;
     gap: 8px;
     border-radius: 8px;
+    z-index: 1;
   }
   .reception-list__stock {
     flex-basis: 100%;
-    text-align: center;
   }
   .missed-list .item-button {
     flex-basis: 100%;
+  }
+  .missed-list__time {
+    text-align: end;
   }
   .active .list-title {
     margin: 8px auto;
@@ -1271,6 +1354,9 @@ button {
   .edit__dosage-type {
     display: none;
   }
+  .active__medication-delete {
+    width: 100%;
+  }
   .calendar__day.accepted::before {
     font-size: 40px;
   }
@@ -1279,6 +1365,12 @@ button {
   }
 }
 @media (max-width: 423px) {
+  .reception-list__button {
+    width: 100%;
+  }
+  .reception-list__time {
+    text-align: end;
+  }
   .stock-list__button {
     flex-basis: 100%;
     margin-top: 16px;

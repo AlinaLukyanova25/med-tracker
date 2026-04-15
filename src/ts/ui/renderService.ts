@@ -15,8 +15,6 @@ export function renderActiveList(arr: Disease[], activeList: HTMLUListElement) {
         activeList.innerHTML = ''
     
     const sorted = sortAscendingOrderDate(arr)
-
-    console.log(sorted.length === 0)
     
     if (sorted.length === 0) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>'

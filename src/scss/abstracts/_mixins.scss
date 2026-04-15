@@ -12,8 +12,15 @@
   box-shadow: $box-shadow;
   padding: $space20;
   margin-bottom: $space16;
+
   @include flex-center;
+
   flex-wrap: wrap;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $box-shadow-hover;
+  }
 
   @media (max-width: $breakpoint-tablet) {
     border-radius: $border-radius-small;
@@ -35,12 +42,16 @@
     color: $color-text-light;
     font-size: $font-size15;
     margin: $space5 0;
+    min-width: 25%;
   }
 }
 
 @mixin card-bottom-style {
   width: 100%;
+
   @include flex-center;
+
+  flex-wrap: wrap;
 }
 
 @mixin modal-style {
@@ -77,9 +88,9 @@
   color: $color-text;
 
   &:focus {
-        outline: $space1 solid $color-primary;
-        box-shadow: $box-shadow;
-      }
+    outline: $space1 solid $color-primary;
+    box-shadow: $box-shadow;
+  }
 }
 
 @mixin label-style {
@@ -96,8 +107,8 @@
     font-weight: 500;
 
     @media (max-width: $breakpoint-tablet) {
-    font-size: $font-size18;
-  }
+      font-size: $font-size18;
+    }
   }
 }
 

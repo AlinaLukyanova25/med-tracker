@@ -6,6 +6,7 @@ import { DataService } from "./core/dataService.js";
 import { ArchiveManager } from "./managers/archive.js";
 import { CalendarManager } from "./managers/calendar.js";
 import { ActiveListManager } from "./managers/activeList.js";
+import { KeyboardNavigation } from "./ui/keyboard-navigation.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService()
@@ -23,5 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const archive = new ArchiveManager(dataService, modal)
 
     const calendar = new CalendarManager(dataService, modal)
+
+    const keyboardNavigation = new KeyboardNavigation(modal)
 
 })

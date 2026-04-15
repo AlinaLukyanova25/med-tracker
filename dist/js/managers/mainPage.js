@@ -1,6 +1,6 @@
 import { querySelectorEl } from "../types/types.js";
 import { renderReceptionList, renderStockList } from "../ui/renderService.js";
-import { checkRecedptionTime } from "../core/timeUtils.js";
+import { checkRecedptionTime } from "../core/dateUtils.js";
 import { domElements } from "../core/domElements.js";
 export class MainPageManager {
     constructor(dataService, modal, activeList) {
@@ -35,8 +35,10 @@ export class MainPageManager {
     }
     handleButtonAcceptedClick(e, classButton) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const button = target.closest(`.${classButton}`);
-        if (!button)
+        if (!(button instanceof HTMLButtonElement))
             return;
         const dataId = button.getAttribute('data-id');
         if (!dataId)
@@ -46,7 +48,6 @@ export class MainPageManager {
             return;
         if (classButton === 'reception-list__button') {
             const passedFifteenMinutes = checkRecedptionTime(time);
-            console.log(passedFifteenMinutes);
             if (passedFifteenMinutes) {
                 this.dataService.updateMedication(dataId, (med) => {
                     if (!med.takenTimes.includes(time)) {
@@ -58,7 +59,7 @@ export class MainPageManager {
                 });
             }
             else {
-                this.modal.openModalWarning('Слишком рано для приёма лекарства!', e);
+                this.modal.openModalWarning('Слишком рано для приёма лекарства!', e, button);
             }
         }
         else {
@@ -74,6 +75,8 @@ export class MainPageManager {
     }
     handleButtonRemoveClick(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const button = target.closest('.missed-list__button');
         if (!button)
             return;
@@ -91,10 +94,12 @@ export class MainPageManager {
     }
     openHiddenCards(e, buttonClass, divClass) {
         const target = e.target;
-        const button = target.closest(`.${buttonClass}`);
-        if (!button)
+        if (!(target instanceof HTMLElement))
             return;
-        const div = querySelectorEl(`.${divClass}`);
+        const button = target.closest(`.${buttonClass}`);
+        if (!(button instanceof HTMLButtonElement))
+            return;
+        const div = querySelectorEl(`.${divClass}`, HTMLDivElement);
         const isOpen = div.style.display === 'none';
         if (isOpen) {
             div.style.display = 'block';
@@ -109,6 +114,8 @@ export class MainPageManager {
     }
     handleClickReplenish(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const button = target.closest('.stock-list__button');
         if (!button)
             return;
@@ -116,7 +123,6 @@ export class MainPageManager {
         if (!id)
             return;
         const dis = this.dataService.findDiseaseWithMed(id);
-        console.log(dis);
         if (!dis)
             return;
         this.mainPage.style.display = 'none';

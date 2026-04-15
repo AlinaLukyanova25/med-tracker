@@ -1,13 +1,13 @@
 import { domElements } from "../core/domElements.js";
-import { formatDate, isDatePassed, shouldUpdateTaken } from "../core/timeUtils.js";
+import { formatDate, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js";
 import { getElement } from "../types/types.js";
 export class CalendarManager {
     constructor(dataService, modal) {
         this.currentDate = new Date();
         this.receptionList = domElements.receptionList;
         this.missedList = domElements.missedList;
+        this.calendarContainer = domElements.calendarContainer;
         this.dataService = dataService;
-        this.calendarContainer = getElement('calendar');
         this.modal = modal;
         this.init();
     }
@@ -20,7 +20,7 @@ export class CalendarManager {
     }
     updateMonthHeader() {
         const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-        const currentMonthEl = getElement('current-month');
+        const currentMonthEl = getElement('current-month', HTMLHeadingElement);
         const monthName = monthNames[this.currentDate.getMonth()];
         const year = this.currentDate.getFullYear();
         currentMonthEl.textContent = `${monthName} ${year}`;
@@ -52,7 +52,7 @@ export class CalendarManager {
     createDayComponent(date, day) {
         if (!date || !day) {
             return `
-            <div tabindex="0" class="calendar__day" style="color: gray;">
+            <div class="calendar__day" style="color: gray;">
             </div>
             `;
         }
@@ -61,21 +61,24 @@ export class CalendarManager {
         const isHasDate = this.dataService.getSetDiseasesDate().has(dateToString);
         const markedDate = this.dataService.findMarkedDates(dateToString);
         return `
-        <div tabindex="0" class="calendar__day ${markedDate && markedDate.taken
+        <div ${!shouldUpdateTaken(date.toISOString()) ? 'tabindex="0"' : ''} class="calendar__day ${markedDate && markedDate.taken
             ? 'accepted'
             : isHasDate && isDatePassed(date) && (!markedDate || !markedDate.taken)
                 ? 'no-accepted'
                 : isHasDate
                     ? 'disease'
-                    : ''}" style="color: #1e293b;" data-date="${dateToString}">
+                    : ''}
+        ${!shouldUpdateTaken(date.toISOString()) ? 'today' : ''}" style="color: #1e293b;" data-date="${dateToString}">
         ${dayNumber}
         </div>
         `;
     }
     handleCalendarDayClick(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const cardDay = target.closest('.calendar__day');
-        if (!cardDay)
+        if (!(cardDay instanceof HTMLDivElement))
             return;
         if (cardDay.classList.contains('accepted'))
             return;
@@ -88,7 +91,7 @@ export class CalendarManager {
             return;
         if (this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
             this.missedList.querySelectorAll('.missed-list__item').length !== 0) {
-            this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня', e);
+            this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня', e, cardDay);
         }
         else {
             if (this.dataService.findMarkedDates(dataDate)) {
@@ -112,7 +115,7 @@ export class CalendarManager {
     }
     setupEventLisneters() {
         this.calendarContainer.addEventListener('click', (e) => this.handleCalendarDayClick(e));
-        getElement('prev-month').addEventListener('click', () => this.changeMonth(-1));
-        getElement('next-month').addEventListener('click', () => this.changeMonth(1));
+        getElement('prev-month', HTMLButtonElement).addEventListener('click', () => this.changeMonth(-1));
+        getElement('next-month', HTMLButtonElement).addEventListener('click', () => this.changeMonth(1));
     }
 }

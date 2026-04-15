@@ -87,13 +87,13 @@
             <h2 hidden>Архив</h2>
             <ul class="archive__list">
             </ul>
-            
+
         </section>
     </main>
 
     <div id="modal" class="modal hidden">
         <div class="modal__content">
-            <span class="close modal__close">&times;</span>
+            <span class="close modal__close" role="button" tabindex="0">&times;</span>
             <h3 class="list-title">Добавить приём</h3>
             <form id="add-reception">
                 <label for="disease-name">Название болезни</label>
@@ -137,7 +137,7 @@
 
     <div id="modal-assign-again" class="modal-assign-again hidden">
         <div class="modal-assign-again__content">
-            <span class="close modal-again__close">&times;</span>
+            <span class="close modal-again__close" role="button" tabindex="0">&times;</span>
             <h3 class="list-title">Назначьте приём</h3>
             <form id="add-again">
                 <label for="reception-again-end">Окончание приема</label>
@@ -147,17 +147,16 @@
         </div>
     </div>
 
-    <div id="modal-warning" class="modal-warning hidden">
+    <div id="modal-warning" class="modal-warning hidden" tabindex="0" role="dialog" aria-modal="true">
         <div class="modal-warning__content">
-            <span class="close modal-warning__close">&times;</span>
+            <span class="close modal-warning__close" role="button" tabindex="0">&times;</span>
             <p class="modal-warning__descr"></p>
-            <!-- Слишком рано для приёма лекарства! -->
         </div>
     </div>
 
     <div id="modal-confidence" class="modal-confidence hidden">
         <div class="modal-confidence__content">
-            <span class="close modal-confidence__close">&times;</span>
+            <span class="close modal-confidence__close" role="button" tabindex="0">&times;</span>
             <p class="modal-confidence__descr">Вы точно хотите удалить карточку с лечением?</p>
             <div class="modal-confidence__buttons">
                 <button class="card-button" id="ok">Да</button>

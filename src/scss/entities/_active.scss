@@ -16,6 +16,7 @@
 
     flex-direction: column;
     align-items: start;
+    cursor: pointer;
   }
 
   &__med-content {
@@ -24,7 +25,9 @@
 
   &__card-top-content {
     width: 100%;
+
     @include flex-center;
+
     gap: $space8;
     margin-bottom: $space8;
   }
@@ -50,6 +53,14 @@
     gap: $space16;
     align-items: center;
     color: color.mix($color-text, $color-primary, 40%);
+    width: max-content;
+
+    &:focus-visible {
+      outline: $space2 solid $color-primary-light;
+      outline-offset: $space5;
+    }
+
+    
   }
 
 }

@@ -13,14 +13,9 @@
 
     max-height: 600px;
     overflow: auto;
-
-     /* Для Chrome, Safari, Edge */
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE и Edge */
-  overflow: -moz-scrollbars-none;
-  /* Скрываем скроллбар в WebKit (Chrome, Safari) */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
 
     input,
     select {
@@ -128,7 +123,9 @@
 }
 
 .close {
-  float: right;
   cursor: pointer;
   font-size: 20px;
+  width: $font-size18;
+  text-align: center;
+  display: block;
 }

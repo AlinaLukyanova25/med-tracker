@@ -1,5 +1,5 @@
 import { loadFromStorage, loadFromStorageDates, saveToStorage, saveToStorageDates } from "./storage.js";
-import { isDatePassed, shouldUpdateTaken } from "./timeUtils.js";
+import { isDatePassed, shouldUpdateTaken } from "./dateUtils.js";
 import { getActiveDateSet } from "./sortUtils.js";
 export class DataService {
     constructor() {

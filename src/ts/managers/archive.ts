@@ -1,15 +1,15 @@
 import { DataService } from "../core/dataService.js";
-import { querySelectorEl } from "../types/types.js";
+import { domElements } from "../core/domElements.js";
 import { renderArchiveList } from "../ui/renderService.js";
 import { ModalManager } from "./modal.js";
 
 export class ArchiveManager {
-    private archiveList: HTMLUListElement;
+    private archiveList: HTMLUListElement = domElements.archiveList;
     private dataService: DataService;
     private modal: ModalManager;
 
     constructor(dataService: DataService, modal: ModalManager) {
-        this.archiveList = querySelectorEl<HTMLUListElement>('.archive__list')
+        
         this.dataService = dataService
         this.modal = modal
 
@@ -37,26 +37,30 @@ export class ArchiveManager {
     }
 
     handleAssignAgain(e: MouseEvent) {
-        const target = e.target as HTMLElement
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest('.archive__btn-return')
-        if (!button) return
+        if (!(button instanceof HTMLButtonElement)) return
 
         const dataId = button.getAttribute('data-id')
         if (!dataId) return
 
-        this.modal.openModalAssignAgain(e, dataId)
+        this.modal.openModalAssignAgain(e, dataId, button)
     }
 
-    handleRemoveArchiveCard(e: Event) {
-        const target = e.target as HTMLElement
+    handleRemoveArchiveCard(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const button = target.closest('.archive__card-delete')
-        if (!button) return
+        if (!(button instanceof HTMLButtonElement)) return
 
         const dataId = button.getAttribute('data-id')
         if (!dataId) return
 
-        this.dataService.removeDiseases(Number(dataId))
+        this.modal.openModalConfidence(e, dataId, button)
     }
 }

@@ -1,9 +1,9 @@
-import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
+import { SelectMedicationType, SelectPowderType, collectsObjectByType, isValidMedicationType } from "../types/types.js";
 import { Disease, MedicationType } from "../types/data.js";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
-import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate, getTimeReception } from "../core/timeUtils.js";
+import { createTakenTimesArray, DateUtils, formatDate, getTimeReception } from "../core/dateUtils.js";
 import { domElements } from "../core/domElements.js";
 
 export class DiseasesManager {
@@ -11,54 +11,34 @@ export class DiseasesManager {
     private medArray: MedicationType[] = [];
 
     private activeList = domElements.activeList;
-    private addForm: HTMLFormElement;
-    private diseaseName: HTMLInputElement;
-    private medicationName: HTMLInputElement;
-    private time: HTMLInputElement;
-    private timeLabel: HTMLLabelElement;
+    private addForm: HTMLFormElement = domElements.disease.addForm;
+    private diseaseName: HTMLInputElement = domElements.disease.diseaseName;
+    private medicationName: HTMLInputElement = domElements.disease.medicationName;
+    private time: HTMLInputElement = domElements.disease.time;
+    private timeLabel: HTMLLabelElement = domElements.disease.timeLabel;
 
-    private selectType: HTMLSelectElement;
+    private selectType: HTMLSelectElement = domElements.disease.selectType;
 
-    private labelPowderType: HTMLLabelElement;
-    private selectPowderType: HTMLSelectElement;
+    private labelPowderType: HTMLLabelElement = domElements.disease.labelPowderType;
+    private selectPowderType: HTMLSelectElement = domElements.disease.selectPowderType;
 
-    private labelDosage: HTMLLabelElement;
-    private dosage: HTMLInputElement;
-    private labelStock: HTMLLabelElement;
-    private stock: HTMLInputElement;
+    private labelDosage: HTMLLabelElement = domElements.disease.labelDosage;
+    private dosage: HTMLInputElement = domElements.disease.dosage;
+    private labelStock: HTMLLabelElement = domElements.disease.labelStock;
+    private stock: HTMLInputElement = domElements.disease.stock;
 
-    private dateEnd: HTMLInputElement;
+    private dateEnd: HTMLInputElement = domElements.disease.dateEnd;
     private dataService: DataService;
-    private addAgain: HTMLFormElement;
-    private againDateEnd: HTMLInputElement;
+    private addAgain: HTMLFormElement = domElements.disease.addAgain;
+    private againDateEnd: HTMLInputElement = domElements.disease.againDateEnd;
 
     private modal: ModalManager
-    private moreMedButton: HTMLButtonElement;
+    private moreMedButton: HTMLButtonElement = domElements.disease.moreMedButton;
 
     private receptionList = domElements.receptionList;
     private missedList = domElements.missedList;
 
     constructor(modal: ModalManager, dataService: DataService) {
-        this.addForm = getElement<HTMLFormElement>('add-reception');
-        this.diseaseName = getElement<HTMLInputElement>('disease-name');
-        this.medicationName = getElement<HTMLInputElement>('medication-name');
-        this.time = getElement<HTMLInputElement>('reception-time');
-        this.timeLabel = getElement<HTMLLabelElement>('time-label');
-
-        this.selectType = getElement<HTMLSelectElement>('medication-type');
-
-        this.labelPowderType = getElement<HTMLLabelElement>('label-powder-type');
-        this.selectPowderType = getElement<HTMLSelectElement>('powder-type');
-
-        this.labelDosage = getElement<HTMLLabelElement>('dosage-label');
-        this.dosage = getElement<HTMLInputElement>('reception-dosage');
-        this.labelStock = getElement<HTMLLabelElement>('stock-label');
-        this.stock = getElement<HTMLInputElement>('reception-stock');
-        this.dateEnd = getElement<HTMLInputElement>('reception-end');
-        this.moreMedButton = querySelectorEl<HTMLButtonElement>('.modal__more-btn');
-        
-        this.addAgain = getElement<HTMLFormElement>('add-again')
-        this.againDateEnd = getElement<HTMLInputElement>('reception-again-end')
 
         this.modal = modal
         this.dataService = dataService
@@ -69,7 +49,7 @@ export class DiseasesManager {
     init() {
         this.setupEventListeners()
 
-        // DateUtils.setMinDate(this.dateEnd)
+        DateUtils.setMinDate(this.dateEnd)
         DateUtils.setMinDate(this.againDateEnd)
 
         this.dataService.subscribe(() => {
@@ -84,7 +64,6 @@ export class DiseasesManager {
     }
 
     setupEventListeners() {
-        console.log('Обработчик submit в reception')
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e))
 
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e))
@@ -98,7 +77,7 @@ export class DiseasesManager {
         this.selectPowderType.addEventListener('change', () => this.chooseDosageType())
     }
 
-    handleAddFormSubmit(e: Event) {
+    handleAddFormSubmit(e: SubmitEvent) {
         e.preventDefault()
 
         const disName = this.diseaseName.value.trim()
@@ -132,8 +111,10 @@ export class DiseasesManager {
 
             if (time) this.times.push(time)
             
+            if (!isValidMedicationType(medType)) return
+            
             const medication = this.createMedicationOnType(
-                medType as SelectMedicationType,
+                medType,
                 medName,
                 this.times,
                 dosage,
@@ -171,8 +152,10 @@ export class DiseasesManager {
         this.checkMainPage()
     }
 
-    handleAddMoreMedication(e: Event) {
+    handleAddMoreMedication(e: MouseEvent) {
         e.preventDefault()
+
+        this.medicationName.focus()
 
         const disName = this.diseaseName.value.trim()
         const medName = this.medicationName.value.trim()
@@ -194,8 +177,10 @@ export class DiseasesManager {
 
         if (time) this.times.push(time)
         
+        if (!isValidMedicationType(medType)) return
+        
         const medication: MedicationType | undefined = this.createMedicationOnType(
-            medType as SelectMedicationType,
+            medType,
             medName,
             this.times,
             dosage,
@@ -251,7 +236,10 @@ export class DiseasesManager {
     }
 
     chooseTypeMedication() {
-        const valueType = this.selectType.value as SelectMedicationType
+        const valueType = this.selectType.value
+
+        if (!isValidMedicationType(valueType)) return
+
         const config = this.medicationConfig()[valueType]
         if (!config) return
 
@@ -294,7 +282,7 @@ export class DiseasesManager {
         }
     }
 
-    handleAgainFormSubmit(e: Event) {
+    handleAgainFormSubmit(e: SubmitEvent) {
         e.preventDefault()
 
         const dateEnd = new Date(this.againDateEnd.value)
@@ -318,8 +306,10 @@ export class DiseasesManager {
         this.checkMainPage()
     }
 
-    handleLabelTimeClick(e: Event) {
-        const target = e.target as HTMLElement
+    handleLabelTimeClick(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const addMore = target.closest('.modal__add-more')
         if (!addMore) return
@@ -327,8 +317,6 @@ export class DiseasesManager {
         if (!this.time.value) return
 
         this.times.push(this.time.value)
-
-        console.log(this.times)
 
         this.time.value = ''
     }

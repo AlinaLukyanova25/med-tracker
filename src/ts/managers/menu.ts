@@ -1,18 +1,13 @@
-import { getElement, querySelectorEl } from "../types/types.js"
+import { domElements } from "../core/domElements.js";
 
 export class MenuManager {
     private openMenu: boolean = false;
-    private imgMenu: HTMLImageElement;
-    private headerListDesktop: HTMLUListElement;
-    private headerListMobile: HTMLUListElement;
-    private menuList: HTMLDivElement;
+    private imgMenu: HTMLImageElement = domElements.header.imgMenu;
+    private headerListDesktop: HTMLUListElement = domElements.header.headerListDesktop;
+    private headerListMobile: HTMLUListElement = domElements.header.headerListMobile;
+    private menuList: HTMLDivElement = domElements.header.menuList;
 
     constructor() {
-        this.headerListDesktop = querySelectorEl<HTMLUListElement>('.header-list-desktop');
-        this.headerListMobile = querySelectorEl<HTMLUListElement>('.header-list-mobile');
-        this.menuList = querySelectorEl<HTMLDivElement>('.header-list__mobile');
-        this.imgMenu = getElement<HTMLImageElement>('menu-img');
-
         this.init()
     }
 
@@ -48,8 +43,10 @@ export class MenuManager {
         }
     }
 
-    handleOpenMenu(e: Event) {
-        const target = e.target as HTMLElement
+    handleOpenMenu(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
 
         const divOpen = target.closest('.header-list__open')
         if (!divOpen) return
@@ -66,8 +63,10 @@ export class MenuManager {
         }
     }
 
-    closeMenu(e: Event) {
-        const target = e.target as HTMLElement
+    closeMenu(e: MouseEvent) {
+        const target = e.target
+
+        if (!(target instanceof HTMLElement)) return
     
         if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
             this.menuList.style.display = 'none'
@@ -76,13 +75,15 @@ export class MenuManager {
         }
     }
 
-    handleLinkClick(e: Event) {
-        const target = e.target as HTMLElement;
+    handleLinkClick(e: MouseEvent) {
+        const target = e.target
 
-        const link: HTMLElement | null = target.closest('.header-list__link')
-        if (!link) return
+        if (!(target instanceof HTMLElement)) return
 
-        const page: string | undefined = link.dataset.page
+        const link = target.closest('.header-list__link')
+        if (!(link instanceof HTMLElement)) return
+
+        const page = link.dataset.page
         if (!page) return
 
         document.querySelectorAll('section').forEach(section => {

@@ -24,6 +24,10 @@
     padding: $space8 0;
     border-bottom: $space2 solid transparent;
     transition: $transition;
+
+    &:focus-visible {
+      outline: $space2 solid $color-primary-light;
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+@use "sass:color";
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
@@ -57,6 +58,12 @@ button {
   font-weight: 500;
   transition: $transition;
   box-shadow: $box-shadow;
+
+  &:focus-visible {
+    outline: none;
+    background-color: $color-primary;
+    box-shadow: $box-shadow-hover;
+  }
 }
 
 .add-button {
@@ -72,6 +79,11 @@ button {
   border-radius: $border-radius-small;
   box-shadow: $box-shadow;
   transition: $transition;
+
+  &:focus-visible {
+    outline: none;
+    background-color: color.mix(white, $color-primary, 10%);
+  }
 }
 
 .card-button {
@@ -84,6 +96,12 @@ button {
   font-weight: 500;
   transition: $transition;
   box-shadow: $box-shadow;
+
+  &:focus-visible {
+    outline: none;
+    background-color: $color-primary-light;
+    color: $color-white;
+  }
 }
 
 .dark-button {
@@ -102,6 +120,15 @@ button {
   background: none;
   border: none;
   cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible img{
+    outline: $space2 solid $color-primary-light;
+    outline-offset: $space5;
+  }
 }
 
 .container-cards-hidden {
@@ -113,17 +140,34 @@ button {
   border: none;
   background: none;
   padding-left: $space16;
+
+  &:focus-visible {
+    outline: none;
+    color: $color-text-light;
+  }
 }
 
 .button-open-cards.colorLight {
   color: $color-text-light;
+
+  &:focus-visible {
+    outline: none;
+    color: $color-primary;
+  }
+}
+
+.close {
+  &:focus-visible {
+    outline: none;
+    color: $color-primary-light;
+  }
 }
 
 .no-scroll {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
 }

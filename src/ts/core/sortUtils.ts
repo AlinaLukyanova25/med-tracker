@@ -1,6 +1,6 @@
 import { Disease, Medication, MedicationType, Pill, Capsule, Powder } from "../types/data"
 import { SortedMedication } from "../types/ui"
-import { formatDate, formatDateRu, getTimeReception } from "./timeUtils.js"
+import { formatDate, formatDateRu, getTimeReception } from "./dateUtils.js"
 
 export function sortByOrderHours(arr: Disease[], medications: MedicationType[]): SortedMedication[] {
     const newArr = medications

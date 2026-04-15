@@ -38,6 +38,11 @@
   &__day.disease {
     cursor: pointer;
     background-color: color.mix(white, $color-text-light, 70%);
+
+    &:focus-visible {
+      outline: none;
+      background-color: color.mix(white, $color-primary-light, 85%);
+    }
   }
 
   &__day.accepted {
@@ -45,17 +50,16 @@
     position: relative;
 
     &::before {
-    content: '✓';
-    position: absolute;
-     position: absolute;
-     left: 20%;
-     right: 20%;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #4CAF50;
-  font-size: 60px;
-  font-weight: bold;
-  }
+      content: '✓';
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4caf50;
+      font-size: 60px;
+      font-weight: bold;
+    }
   }
 
   &__day.no-accepted {
@@ -63,19 +67,15 @@
     background-color: color.mix(#f44336, $color-white, 20%);
 
     &::before {
-      content: '×'; // × (умножение) — аккуратный крестик
-  // Альтернативы:
-  // content: '✕'; // ✕ (heavy multiplication x)
-  // content: '✖'; // ✖ (bold heavy multiplication x)
-  position: absolute;
-  left: 20%;
-  right: 20%;
-  top: 45%;
-  // bottom: 50%;
-  transform: translateY(-50%);
-  color: #f44336; // красный цвет
-  font-size: 60px;
-  font-weight: bold;
+      content: '×';
+      position: absolute;
+      left: 20%;
+      right: 20%;
+      top: 45%;
+      transform: translateY(-50%);
+      color: #f44336;
+      font-size: 60px;
+      font-weight: bold;
     }
   }
 }

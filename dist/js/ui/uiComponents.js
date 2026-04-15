@@ -1,5 +1,5 @@
-import { formatDateRu, getWordForm, isDosageType } from "../core/timeUtils.js";
-import { SelectMedicationType, SelectPowderType } from "../types/types.js";
+import { formatDateRu, getWordForm } from "../core/dateUtils.js";
+import { SelectMedicationType, SelectPowderType, isDosageType } from "../types/types.js";
 export function createDivContainer(styleClass, displayStyle) {
     const div = document.createElement('div');
     div.classList.add('container-cards-hidden', styleClass);
@@ -13,7 +13,7 @@ export function createOpenCardsComponent(classStyle) {
 }
 export function createDiseaseComponent(dis) {
     return `
-    <li class="active__card" data-dis="${dis.id}">
+    <li class="active__card" data-dis="${dis.id}" tabindex="0">
         <div class="active__card-top-content">
         <h3 class="list-title" style="margin: 0;">${dis.diseaseName}</h3>
         <button class="item-button active__disease-delete" data-dis="${dis.id}">Удалить</button>
@@ -22,7 +22,7 @@ export function createDiseaseComponent(dis) {
             <span class="active__date--start">Назначен: ${formatDateRu(dis.dateStart)}</span>
             <span class="active__date--end">Окончание приёма: ${formatDateRu(dis.dateEnd)}</span>
         </p>
-        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}">${med.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;"></h4></div>`).join('') : ''}
+        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}" tabindex="0">${med.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;"></h4></div>`).join('') : ''}
         </li>
     `;
 }
@@ -35,7 +35,7 @@ export function createMedicationComponent(med) {
         dosType = '';
     }
     return `
-    <h4 class="item-title active__med-title open" data-id="${med.medId}">${med.medicationName} <img src="img/arrow-top.svg" alt="Стрелка вверх" style="width: 25px;"></h4>
+    <h4 class="item-title active__med-title open" data-id="${med.medId}" tabindex="0">${med.medicationName} <img src="img/arrow-top.svg" alt="Стрелка вверх" style="width: 25px;"></h4>
     <div class="active__card-bottom">
         ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
         ${(med.type === 'Таблетка' || med.type === 'Капсула' || med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
@@ -268,7 +268,7 @@ export function createEditAddComponent(type, powderType) {
         <div class="edit__card-bottom">
             <div class="edit__input-container edit__time">Время приёма: <input type="text" id="edit-time"></div>
         </div>
-        <button type="submit" class="edit__submit-btn">Добавить лекарство</button>
+        <button type="submit" class="dark-button edit__submit-btn">Добавить лекарство</button>
         </form>
     `;
 }

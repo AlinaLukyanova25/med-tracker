@@ -3,145 +3,154 @@
 @import '../abstracts/mixins';
 
 .edit {
-    background-color: $color-white;
-    border-radius: $space16;
-    box-shadow: $box-shadow;
-    padding: $space20;
+  background-color: $color-white;
+  border-radius: $space16;
+  box-shadow: $box-shadow;
+  padding: $space20;
+  display: flex;
+  flex-direction: column;
+  gap: $space16;
+
+  &__top-content,
+  &__card-top-content {
+    @include flex-center;
+
+    gap: $space8;
+    margin-bottom: $space16;
+  }
+
+  &__date {
+    display: flex;
+    justify-content: space-between;
+    gap: $space16;
+    flex-wrap: wrap;
+  }
+
+  &__card-bottom {
+    @include card-bottom-style;
+  }
+
+  @include time-and-dosage-and-stock-style;
+
+  &__list {
     display: flex;
     flex-direction: column;
     gap: $space16;
+  }
 
-    &__top-content,
-    &__card-top-content {
-        @include flex-center;
-        gap: $space8;
-        margin-bottom: $space16;
+  &__item {
+    background: #f9f9f9;
+    border-radius: $border-radius;
+    padding: $space16;
+    box-shadow: $box-shadow;
+  }
+
+  input{
+    height: 100%;
+    border: none;
+  }
+
+  textarea {
+    resize: none;
+    overflow: hidden;
+    border: none;
+    field-sizing: content;
+    padding: $space8;
+    line-height: 1.4;
+  }
+
+  &__input-container {
+    display: flex;
+    align-items: center;
+    gap: $space16;
+
+    input {
+      padding: $space8;
+      text-align: center;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
+      border-radius: $border-radius-small;
     }
+  }
 
-    &__date {
-        display: flex;
-        justify-content: space-between;
-        gap: $space16;
-        flex-wrap: wrap;
+  &__date--start,
+  &__date--end {
+    color: $color-warning;
+    font-weight: 500;
+
+    input {
+      width: 100px;
+      color: $color-warning;
+      font-weight: 500;
     }
+  }
 
-    &__card-bottom {
-        @include card-bottom-style;
+  &__dosage,
+  &__stock {
+    input {
+      padding: 0;
+      width: 40px;
     }
+  }
 
-    @include time-and-dosage-and-stock-style;
+  &__save-btn {
+    padding: $space16;
+    margin-top: $space16;
+  }
 
-    &__list {
-        display: flex;
-        flex-direction: column;
-        gap: $space16;
+  &__add-button {
+    font-size: 28px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 50%;
+    transition: transform $transition;
+    background: $color-white;
+    color: $color-primary;
+    border: $space2 solid $color-primary;
+
+    &:focus-visible {
+      outline: none;
+      background-color: $color-primary;
+      color: $color-white;
     }
+  }
 
-    &__item {
-        background: #f9f9f9;
-        border-radius: $border-radius;
-        padding: $space16;
-        box-shadow: $box-shadow;
-    }
+  &__item--choose {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $space16 $space8;
+    padding: 0;
+    margin: $space16 0;
+  }
 
-    input{
-        height: 100%;
-        border: none;
-    }
+  &__submit-btn {
+    width: 100%;
+    margin-top: $space16;
+  }
 
-    textarea {
-        resize: none;
-        overflow: hidden;
-        border: none;
-        field-sizing: content;
-        padding: $space8;
-        line-height: 1.4;
-    }
+  &__button-choose:focus-visible,
+  &__submit-btn:focus-visible {
+    outline: none;
+    background-color: $color-primary-light;
+    color: $color-white;
+    border-color: $color-primary-light;
+  }
 
-    textarea:focus,
-    input:focus {
-        outline: $space2 solid $color-primary-light;
-    }
+  &__item-add {
+    border: $space2 solid color.mix($color-text, $color-background, 10%);
+    background-color: $color-white;
+  }
 
-    &__input-container {
-        display: flex;
-        align-items: center;
-        gap: $space16;
-
-        input {
-            padding: $space8;
-            text-align: center;
-            box-shadow: 0 4px 12px rgb(0 0 0 / 20%);
-            border-radius: $border-radius-small;
-
-        }
-    }
-
-    &__date--start,
-    &__date--end {
-        color: $color-warning;
-        font-weight: 500;
-
-        input {
-            width: 100px;
-            color: $color-warning;
-            font-weight: 500;
-        }
-    }
-
-    &__dosage,
-    &__stock {
-        input {
-            padding: 0;
-            width: 40px;
-        }
-    }
-
-    &__save-btn {
-        padding: $space16;
-        margin-top: $space16;
-    }
-
-    &__add-button {
-        font-size: 28px;
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        border-radius: 50%;
-        transition: transform $transition;
-        background: $color-white;
-        color: $color-primary;
-        border: $space2 solid $color-primary;
-    }
-
-    &__item--choose {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: $space16 $space8;
-        padding: 0;
-        margin: $space16 0;
-    }
-
-    &__submit-btn {
-        background-color: $color-background;
-        border: $space1 solid $color-text;
-        border-radius: $border-radius-small;
-        padding: $space8;
-        font-weight: 500;
-        width: 100%;
-        margin-top: $space16;
-    }
-
-    &__item-add {
-        border: $space2 solid color.mix($color-text, $color-background, 10%);
-        background-color: $color-white;
-    }
+  textarea:focus,
+  input:focus {
+    outline: $space2 solid $color-primary-light;
+  }
 }
 
 .arrow-back {
-    width: 32px;
-    text-align: start;
+  width: 32px;
+  text-align: start;
 }

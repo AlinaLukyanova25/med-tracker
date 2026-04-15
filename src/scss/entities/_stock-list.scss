@@ -6,6 +6,7 @@
 
   &__item {
     @include section-list-item;
+
     border-top: $space5 solid $color-warning;
   }
 
@@ -15,5 +16,12 @@
     color: $color-warning;
     font-weight: 500;
     margin-top: $space8;
+  }
+
+  &__button:focus-visible {
+    outline: none;
+    background-color: $color-warning;
+    color: $color-white;
+    border-color: $color-warning;
   }
 }

@@ -1,14 +1,59 @@
-import { querySelectorEl } from "../types/types.js";
+import { getElement, querySelectorEl } from "../types/types.js";
 
 export const domElements = {
-    mainPage: querySelectorEl<HTMLElement>('.main-page'),
-    sectionActive: querySelectorEl<HTMLElement>('.active'),
+    mainPage: querySelectorEl('.main-page', HTMLElement),
+    sectionActive: querySelectorEl('.active', HTMLElement),
 
-    activeList: querySelectorEl<HTMLUListElement>('.active__list'),
-    receptionList: querySelectorEl<HTMLUListElement>('.reception-list'),
-    missedList: querySelectorEl<HTMLUListElement>('.missed-list'),
-    stockList: querySelectorEl<HTMLUListElement>('.stock-list'),
+    calendarContainer: getElement('calendar', HTMLDivElement),
 
-    activeButton: querySelectorEl<HTMLButtonElement>('.active__button')
+    activeList: querySelectorEl('.active__list', HTMLUListElement),
+    receptionList: querySelectorEl('.reception-list', HTMLUListElement),
+    missedList: querySelectorEl('.missed-list', HTMLUListElement),
+    stockList: querySelectorEl('.stock-list', HTMLUListElement),
+    archiveList: querySelectorEl('.archive__list', HTMLUListElement),
+
+    activeButton: querySelectorEl('.active__button', HTMLButtonElement),
+
+    disease: {
+        addForm: getElement('add-reception', HTMLFormElement),
+        diseaseName: getElement('disease-name', HTMLInputElement),
+        medicationName: getElement('medication-name', HTMLInputElement),
+        time: getElement('reception-time', HTMLInputElement),
+        timeLabel: getElement('time-label', HTMLLabelElement),
+
+        selectType: getElement('medication-type', HTMLSelectElement),
+
+        labelPowderType: getElement('label-powder-type', HTMLLabelElement),
+        selectPowderType: getElement('powder-type', HTMLSelectElement),
+
+        labelDosage: getElement('dosage-label', HTMLLabelElement),
+        dosage: getElement('reception-dosage', HTMLInputElement),
+        labelStock: getElement('stock-label', HTMLLabelElement),
+        stock: getElement('reception-stock', HTMLInputElement),
+        dateEnd: getElement('reception-end', HTMLInputElement),
+        moreMedButton: querySelectorEl('.modal__more-btn', HTMLButtonElement),
+        
+        addAgain: getElement<HTMLFormElement>('add-again', HTMLFormElement),
+        againDateEnd: getElement<HTMLInputElement>('reception-again-end', HTMLInputElement),
+    },
+
+    header: {
+        headerListDesktop: querySelectorEl('.header-list-desktop', HTMLUListElement),
+        headerListMobile: querySelectorEl('.header-list-mobile', HTMLUListElement),
+        menuList: querySelectorEl('.header-list__mobile', HTMLDivElement),
+        imgMenu: getElement('menu-img', HTMLImageElement),
+    },
+
+    modal: {
+        modalForm: getElement('modal', HTMLDivElement),
+        modalAssignAgain: getElement('modal-assign-again', HTMLDivElement),
+        modalWarning: getElement('modal-warning', HTMLDivElement),
+        modalWarningDescr: querySelectorEl('.modal-warning__descr', HTMLParagraphElement),
+        modalConfidence: getElement('modal-confidence', HTMLDivElement),
+        modalFormClose: querySelectorEl('.modal__close', HTMLSpanElement),
+        modalAgainClose: querySelectorEl('.modal-again__close', HTMLSpanElement),
+        modalWarningClose: querySelectorEl('.modal-warning__close', HTMLSpanElement),
+        modalConfidenceClose: querySelectorEl('.modal-confidence__close', HTMLSpanElement)
+    },
 
 }

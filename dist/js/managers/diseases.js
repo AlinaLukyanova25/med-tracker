@@ -1,37 +1,37 @@
-import { getElement, querySelectorEl, SelectMedicationType, SelectPowderType } from "../types/types.js";
+import { SelectMedicationType, SelectPowderType, collectsObjectByType, isValidMedicationType } from "../types/types.js";
 import { renderActiveList } from "../ui/renderService.js";
-import { collectsObjectByType, createTakenTimesArray, DateUtils, formatDate } from "../core/timeUtils.js";
+import { createTakenTimesArray, DateUtils, formatDate } from "../core/dateUtils.js";
 import { domElements } from "../core/domElements.js";
 export class DiseasesManager {
     constructor(modal, dataService) {
         this.times = [];
         this.medArray = [];
         this.activeList = domElements.activeList;
+        this.addForm = domElements.disease.addForm;
+        this.diseaseName = domElements.disease.diseaseName;
+        this.medicationName = domElements.disease.medicationName;
+        this.time = domElements.disease.time;
+        this.timeLabel = domElements.disease.timeLabel;
+        this.selectType = domElements.disease.selectType;
+        this.labelPowderType = domElements.disease.labelPowderType;
+        this.selectPowderType = domElements.disease.selectPowderType;
+        this.labelDosage = domElements.disease.labelDosage;
+        this.dosage = domElements.disease.dosage;
+        this.labelStock = domElements.disease.labelStock;
+        this.stock = domElements.disease.stock;
+        this.dateEnd = domElements.disease.dateEnd;
+        this.addAgain = domElements.disease.addAgain;
+        this.againDateEnd = domElements.disease.againDateEnd;
+        this.moreMedButton = domElements.disease.moreMedButton;
         this.receptionList = domElements.receptionList;
         this.missedList = domElements.missedList;
-        this.addForm = getElement('add-reception');
-        this.diseaseName = getElement('disease-name');
-        this.medicationName = getElement('medication-name');
-        this.time = getElement('reception-time');
-        this.timeLabel = getElement('time-label');
-        this.selectType = getElement('medication-type');
-        this.labelPowderType = getElement('label-powder-type');
-        this.selectPowderType = getElement('powder-type');
-        this.labelDosage = getElement('dosage-label');
-        this.dosage = getElement('reception-dosage');
-        this.labelStock = getElement('stock-label');
-        this.stock = getElement('reception-stock');
-        this.dateEnd = getElement('reception-end');
-        this.moreMedButton = querySelectorEl('.modal__more-btn');
-        this.addAgain = getElement('add-again');
-        this.againDateEnd = getElement('reception-again-end');
         this.modal = modal;
         this.dataService = dataService;
         this.init();
     }
     init() {
         this.setupEventListeners();
-        // DateUtils.setMinDate(this.dateEnd)
+        DateUtils.setMinDate(this.dateEnd);
         DateUtils.setMinDate(this.againDateEnd);
         this.dataService.subscribe(() => {
             this.render();
@@ -42,7 +42,6 @@ export class DiseasesManager {
         renderActiveList(this.dataService.getDiseases(), this.activeList);
     }
     setupEventListeners() {
-        console.log('Обработчик submit в reception');
         this.addForm.addEventListener('submit', (e) => this.handleAddFormSubmit(e));
         this.timeLabel.addEventListener('click', (e) => this.handleLabelTimeClick(e));
         this.moreMedButton.addEventListener('click', (e) => this.handleAddMoreMedication(e));
@@ -79,6 +78,8 @@ export class DiseasesManager {
             }
             if (time)
                 this.times.push(time);
+            if (!isValidMedicationType(medType))
+                return;
             const medication = this.createMedicationOnType(medType, medName, this.times, dosage, stock);
             if (!medication)
                 return;
@@ -109,6 +110,7 @@ export class DiseasesManager {
     handleAddMoreMedication(e) {
         var _a;
         e.preventDefault();
+        this.medicationName.focus();
         const disName = this.diseaseName.value.trim();
         const medName = this.medicationName.value.trim();
         const dosage = Number(this.dosage.value);
@@ -126,6 +128,8 @@ export class DiseasesManager {
         }
         if (time)
             this.times.push(time);
+        if (!isValidMedicationType(medType))
+            return;
         const medication = this.createMedicationOnType(medType, medName, this.times, dosage, stock);
         if (!medication)
             return;
@@ -155,6 +159,8 @@ export class DiseasesManager {
     }
     chooseTypeMedication() {
         const valueType = this.selectType.value;
+        if (!isValidMedicationType(valueType))
+            return;
         const config = this.medicationConfig()[valueType];
         if (!config)
             return;
@@ -215,13 +221,14 @@ export class DiseasesManager {
     }
     handleLabelTimeClick(e) {
         const target = e.target;
+        if (!(target instanceof HTMLElement))
+            return;
         const addMore = target.closest('.modal__add-more');
         if (!addMore)
             return;
         if (!this.time.value)
             return;
         this.times.push(this.time.value);
-        console.log(this.times);
         this.time.value = '';
     }
     checkMainPage() {
