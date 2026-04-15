@@ -674,6 +674,9 @@ button {
 .active__med-content {
   width: 100%;
 }
+.active__med-content:not(:last-child) {
+  margin-bottom: 8px;
+}
 .active__card-top-content {
   width: 100%;
   display: flex;
@@ -1356,6 +1359,7 @@ button {
   }
   .active__medication-delete {
     width: 100%;
+    margin-top: 8px;
   }
   .calendar__day.accepted::before {
     font-size: 40px;

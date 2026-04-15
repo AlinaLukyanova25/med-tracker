@@ -21,6 +21,10 @@
 
   &__med-content {
     width: 100%;
+
+    &:not(:last-child) {
+      margin-bottom: $space8;
+    }
   }
 
   &__card-top-content {
