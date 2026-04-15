@@ -30,7 +30,7 @@ button {
 
 .list-title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: $semibold;
   color: $color-text;
   margin: $space30 0 $space16;
   background-color: inherit;
@@ -42,7 +42,7 @@ button {
 
 .item-title {
   font-size: 19px;
-  font-weight: 600;
+  font-weight: $semibold;
   color: $color-text;
   margin-bottom: $space5;
   background-color: inherit;
@@ -55,7 +55,7 @@ button {
   border-radius: $border-radius-small;
   padding: $space8 $space16;
   font-size: $font-size15;
-  font-weight: 500;
+  font-weight: $medium;
   transition: $transition;
   box-shadow: $box-shadow;
 
@@ -72,7 +72,7 @@ button {
   margin: $space30 auto 0;
   padding: 14px 32px;
   font-size: $font-size18;
-  font-weight: 500;
+  font-weight: $medium;
   background-color: $color-primary;
   color: $color-white;
   border: none;
@@ -93,7 +93,7 @@ button {
   padding: $space5;
   border-radius: $border-radius-small;
   font-size: $font-size15;
-  font-weight: 500;
+  font-weight: $medium;
   transition: $transition;
   box-shadow: $box-shadow;
 
@@ -109,7 +109,7 @@ button {
   border: $space1 solid $color-text;
   border-radius: $border-radius-small;
   padding: $space8;
-  font-weight: 500;
+  font-weight: $medium;
 }
 
 .descr-not {

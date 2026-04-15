@@ -6,10 +6,16 @@ $color-warning: #ed6c02;
 $color-background: #f8fafc;
 $color-text: #1e293b;
 $color-text-light: #64748b;
+
+$medium: 500;
+$semibold: 600;
+$bold: 700;
+
 $border-radius: 16px;
 $border-radius-small: 8px;
 $box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 $box-shadow-hover: 0 8px 20px rgb(0 0 0 / 10%);
+
 $space30: 30px;
 $space20: 20px;
 $space16: 16px;
@@ -17,6 +23,11 @@ $space8: 8px;
 $space5: 5px;
 $space2: 2px;
 $space1: 1px;
+
+$width-modal-form: 400px;
+$width-modal: 500px;
+
+$font-size60: 60px;
 $font-size30: 30px;
 $font-size25: 25px;
 $font-size18: 18px;

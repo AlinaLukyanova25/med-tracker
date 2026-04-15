@@ -27,7 +27,7 @@
     }
   }
 
-  &__card-top-content {
+  &__card-header-content {
     width: 100%;
 
     @include flex-center;
@@ -42,12 +42,12 @@
     justify-content: space-between;
     color: $color-warning;
     margin: $space8 0;
-    font-weight: 500;
+    font-weight: $medium;
     column-gap: $space16;
   }
 
-  &__card-bottom {
-    @include card-bottom-style;
+  &__card-footer {
+    @include card-footer-style;
   }
 
   @include time-and-dosage-and-stock-style;

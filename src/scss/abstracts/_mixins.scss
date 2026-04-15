@@ -46,7 +46,7 @@
   }
 }
 
-@mixin card-bottom-style {
+@mixin card-footer-style {
   width: 100%;
 
   @include flex-center;
@@ -64,6 +64,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999999s;
 }
 
 @mixin modal-content-style {
@@ -95,7 +96,7 @@
 
 @mixin label-style {
   color: $color-primary;
-  font-weight: 500;
+  font-weight: $medium;
   padding-left: $space16;
   display: block;
   text-align: start;
@@ -104,7 +105,7 @@
 @mixin modal-descr-style {
   &__descr {
     font-size: $font-size25;
-    font-weight: 500;
+    font-weight: $medium;
 
     @media (max-width: $breakpoint-tablet) {
       font-size: $font-size18;
@@ -127,7 +128,7 @@
     gap: 0;
   }
 
-  &__card-bottom {
+  &__card-footer {
     flex-wrap: wrap;
     column-gap: $space8;
   }

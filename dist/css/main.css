@@ -677,7 +677,7 @@ button {
 .active__med-content:not(:last-child) {
   margin-bottom: 8px;
 }
-.active__card-top-content {
+.active__card-header-content {
   width: 100%;
   display: flex;
   align-items: center;
@@ -694,7 +694,7 @@ button {
   font-weight: 500;
   column-gap: 16px;
 }
-.active__card-bottom {
+.active__card-footer {
   width: 100%;
   display: flex;
   align-items: center;
@@ -824,7 +824,7 @@ button {
   flex-direction: column;
   align-items: start;
 }
-.archive__card-bottom {
+.archive__card-footer {
   width: 100%;
   display: flex;
   align-items: center;
@@ -847,6 +847,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999999s;
 }
 .modal__content {
   width: 400px;
@@ -911,6 +912,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999999s;
 }
 .modal-assign-again__content {
   width: 400px;
@@ -957,6 +959,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999999s;
 }
 .modal-warning__content {
   position: absolute;
@@ -999,6 +1002,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 999999s;
 }
 .modal-confidence__content {
   position: absolute;
@@ -1065,7 +1069,7 @@ button {
   flex-direction: column;
   gap: 16px;
 }
-.edit__top-content, .edit__card-top-content {
+.edit__header-content, .edit__card-header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1078,7 +1082,7 @@ button {
   gap: 16px;
   flex-wrap: wrap;
 }
-.edit__card-bottom {
+.edit__card-footer {
   width: 100%;
   display: flex;
   align-items: center;
@@ -1282,7 +1286,7 @@ button {
   .active__card {
     gap: 0;
   }
-  .active__card-bottom {
+  .active__card-footer {
     flex-wrap: wrap;
     column-gap: 8px;
   }
@@ -1301,7 +1305,7 @@ button {
   .archive__card {
     gap: 0;
   }
-  .archive__card-bottom {
+  .archive__card-footer {
     flex-wrap: wrap;
     column-gap: 8px;
   }
@@ -1343,7 +1347,7 @@ button {
     right: 20px;
     top: 20px;
   }
-  .edit__card-top-content, .edit__card-bottom {
+  .edit__card-header-content, .edit__card-footer {
     flex-direction: column;
     align-items: start;
   }

@@ -8,7 +8,7 @@
   &__descr {
     text-align: center;
     margin-bottom: $space16;
-    font-weight: 500;
+    font-weight: $medium;
   }
 
   &__header {
@@ -21,7 +21,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    font-weight: 700;
+    font-weight: $bold;
     margin-bottom: $space8;
   }
 
@@ -57,7 +57,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: #4caf50;
-      font-size: 60px;
+      font-size: $font-size60;
       font-weight: bold;
     }
   }
@@ -74,7 +74,7 @@
       top: 45%;
       transform: translateY(-50%);
       color: #f44336;
-      font-size: 60px;
+      font-size: $font-size60;
       font-weight: bold;
     }
   }

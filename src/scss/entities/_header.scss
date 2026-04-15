@@ -19,7 +19,7 @@
 
   &__link {
     color: $color-text;
-    font-weight: 600;
+    font-weight: $semibold;
     font-size: $font-size18;
     padding: $space8 0;
     border-bottom: $space2 solid transparent;

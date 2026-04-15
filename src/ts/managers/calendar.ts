@@ -54,12 +54,14 @@ export class CalendarManager {
         const endOffset = endDay === 0 ? 6 : endDay - 1;
 
         for (let day = 0; day < startOffset; day++) {
+
             const dayElement = this.createDayComponent()
 
             this.calendarContainer.insertAdjacentHTML('beforeend', dayElement)
         }
 
         for (let day = 1; day <= dayInMonth; day++) {
+
             const date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day)
 
             const dayElement = this.createDayComponent(date, day)
@@ -68,6 +70,7 @@ export class CalendarManager {
         }
 
         for (let day = endOffset; day < 6; day++) {
+            
             const dayElement = this.createDayComponent()
 
             this.calendarContainer.insertAdjacentHTML('beforeend', dayElement)

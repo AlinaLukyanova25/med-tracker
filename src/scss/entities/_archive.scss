@@ -17,14 +17,14 @@
     align-items: start;
   }
 
-  &__card-bottom {
-    @include card-bottom-style;
+  &__card-footer {
+    @include card-footer-style;
 
     gap: $space8;
   }
 
   &__date {
     color: $color-warning;
-    font-weight: 500;
+    font-weight: $medium;
   }
 }

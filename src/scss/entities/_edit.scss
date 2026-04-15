@@ -11,8 +11,8 @@
   flex-direction: column;
   gap: $space16;
 
-  &__top-content,
-  &__card-top-content {
+  &__header-content,
+  &__card-header-content {
     @include flex-center;
 
     gap: $space8;
@@ -26,8 +26,8 @@
     flex-wrap: wrap;
   }
 
-  &__card-bottom {
-    @include card-bottom-style;
+  &__card-footer {
+    @include card-footer-style;
   }
 
   @include time-and-dosage-and-stock-style;
@@ -75,12 +75,12 @@
   &__date--start,
   &__date--end {
     color: $color-warning;
-    font-weight: 500;
+    font-weight: $medium;
 
     input {
       width: 100px;
       color: $color-warning;
-      font-weight: 500;
+      font-weight: $medium;
     }
   }
 

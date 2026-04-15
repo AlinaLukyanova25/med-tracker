@@ -14,7 +14,7 @@ export function createOpenCardsComponent(classStyle) {
 export function createDiseaseComponent(dis) {
     return `
     <li class="active__card" data-dis="${dis.id}" tabindex="0">
-        <div class="active__card-top-content">
+        <div class="active__card-header-content">
         <h3 class="list-title" style="margin: 0;">${dis.diseaseName}</h3>
         <button class="item-button active__disease-delete" data-dis="${dis.id}">Удалить</button>
         </div>
@@ -36,7 +36,7 @@ export function createMedicationComponent(med) {
     }
     return `
     <h4 class="item-title active__med-title open" data-id="${med.medId}" tabindex="0">${med.medicationName} <img src="img/arrow-top.svg" alt="Стрелка вверх" style="width: 25px;"></h4>
-    <div class="active__card-bottom">
+    <div class="active__card-footer">
         ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
         ${(med.type === 'Таблетка' || med.type === 'Капсула' || med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
         <p class="active__time">Время приёма: <span>${med.time.join(', ')}</span></p>
@@ -112,7 +112,7 @@ export function createArchiveCardComponent(disease) {
     <li class="archive__card">
         <h3 class="list-title">${disease.diseaseName}</h3>
         ${disease.medArray.length > 0 ? disease.medArray.map(med => `<div data-id="${med.medId}" data-disease="${disease.id}"><h4 class="item-title" data-id="${med.medId}">${med.medicationName}</h4></div>`).join('') : ''}
-        <div class="archive__card-bottom">
+        <div class="archive__card-footer">
             <p class="archive__date">Завершен: ${formatDateRu(disease.dateEnd)}</p>
             <button class="item-button archive__btn-return" data-id="${disease.id}">Назначить снова</button>
             <button class="item-button archive__card-delete" data-id="${disease.id}">Удалить</button>
@@ -127,7 +127,7 @@ export function createEditContainerComponent(dis) {
                 <img src="img/arrow-left.svg" alt="Вернуться назад">
             </button>
             <form id="edit-form" class="edit__form">
-            <div class="edit__top-content">
+            <div class="edit__header-content">
                 <textarea class="list-title" 
                 data-property="diseaseName"
                 data-object-id="${dis.id}"
@@ -168,7 +168,7 @@ export function createEditMedicationComponent(med) {
                 data-typeof-id="string"
             >${med.medicationName}</textarea>
             <form class="edit__form-item">
-                <div class="edit__card-top-content">
+                <div class="edit__card-header-content">
                 ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<div class="edit__input-container edit__dosage">Доза: <input type="number" value="${med.dosage}" min="0" step="0.1"
                 data-property="dosage"
                 data-object-id="${med.medId}"
@@ -181,7 +181,7 @@ export function createEditMedicationComponent(med) {
                 ></div>` : ''}
                 </div>
 
-                <div class="edit__card-bottom">
+                <div class="edit__card-footer">
                 <div class="edit__input-container edit__time">Время приёма: <input type="text" value="${med.time.length > 0 ? med.time.join(', ') : ''}"
                 data-property="time"
                 data-object-id="${med.medId}"
@@ -212,7 +212,7 @@ export function createEditAddComponent(type, powderType) {
     switch (type) {
         case SelectMedicationType.Pill:
             html = `
-            <div class="edit__card-top-content">
+            <div class="edit__card-header-content">
             <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">таб.</span></div>
             <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
             </div>
@@ -220,7 +220,7 @@ export function createEditAddComponent(type, powderType) {
             break;
         case SelectMedicationType.Capsule:
             html = `
-            <div class="edit__card-top-content">
+            <div class="edit__card-header-content">
             <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">капс.</span></div>
             <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
             </div>
@@ -228,14 +228,14 @@ export function createEditAddComponent(type, powderType) {
             break;
         case SelectMedicationType.Mixture:
             html = `
-            <div class="edit__card-top-content">
+            <div class="edit__card-header-content">
             <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">мер. лож.</span></div>
             </div>
             `;
             break;
         case SelectMedicationType.Drops:
             html = `
-            <div class="edit__card-top-content">
+            <div class="edit__card-header-content">
             <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">кап.</span></div>
             </div>
             `;
@@ -243,7 +243,7 @@ export function createEditAddComponent(type, powderType) {
         case SelectMedicationType.Powder:
             if (powderType === SelectPowderType.Sachet) {
                 html = `
-                <div class="edit__card-top-content">
+                <div class="edit__card-header-content">
                 <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">саш.</span></div>
                 <div class="edit__input-container edit__stock">Запас лекарства (шт.): <input type="number" min="1" id="edit-stock"></div>
                 </div>
@@ -251,7 +251,7 @@ export function createEditAddComponent(type, powderType) {
             }
             else {
                 html = `
-                <div class="edit__card-top-content">
+                <div class="edit__card-header-content">
                 <div class="edit__input-container edit__dosage">Доза: <input type="number" min="0" step="0.1" id="edit-dosage"><span class="edit__dosage-type">мер. лож.<span></div>
                 </div>
                 `;
@@ -265,7 +265,7 @@ export function createEditAddComponent(type, powderType) {
         <textarea class="item-title" id="med-title">Название лекарства</textarea>
         ${html}
 
-        <div class="edit__card-bottom">
+        <div class="edit__card-footer">
             <div class="edit__input-container edit__time">Время приёма: <input type="text" id="edit-time"></div>
         </div>
         <button type="submit" class="dark-button edit__submit-btn">Добавить лекарство</button>

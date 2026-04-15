@@ -6,7 +6,7 @@
   @include modal-style;
 
   &__content {
-    width: 400px;
+    width: $width-modal-form;
     padding: $space20;
 
     @include modal-content-style;
@@ -43,7 +43,7 @@
   @include modal-style;
 
   &__content {
-    width: 400px;
+    width: $width-modal-form;
     padding: $space20;
 
     @include modal-content-style;
@@ -64,7 +64,7 @@
   &__content {
     position: absolute;
     top: $space30;
-    width: 500px;
+    width: $width-modal;
     padding: $space16 $space20;
     display: flex;
     flex-direction: column;
@@ -86,7 +86,7 @@
   &__content {
     position: absolute;
     top: $space30;
-    width: 500px;
+    width: $width-modal;
     padding: $space16 $space20;
     display: flex;
     flex-direction: column;
