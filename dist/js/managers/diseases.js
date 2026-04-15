@@ -71,6 +71,7 @@ export class DiseasesManager {
         if (!medArray && this.medArray.length === 0 || medName || dosage || stock || time) {
             if (!medName) {
                 this.modal.openModalWarning('Введите корректное название лекарства');
+                return;
             }
             if (!time && this.times.length === 0) {
                 this.modal.openModalWarning('Введите время приёма');

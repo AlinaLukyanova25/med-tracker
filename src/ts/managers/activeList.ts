@@ -122,17 +122,25 @@ export class ActiveListManager {
 
         } else if (property === 'time') {
 
-            const times = element.value.split(', ')
+            const timesArray = element.value.split(', ')
 
             const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
-            if (!(times.every(t => timeRegex.test(t)))) {
+            if (!(timesArray.every(t => timeRegex.test(t)))) {
                 this.modal.openModalWarning('Введите корректные данные')
                 return
             }
+
+            const times = timesArray.map(t => {
+                if (t.length < 5) {
+                    return `0${t}`
+
+                }
+                return t
+            })
+
+            this.handleInputChange(property, id, typeofId, times)
+
         }
-
-        this.handleInputChange(property, id, typeofId, element.value)
-
 
     }
 
@@ -234,8 +242,8 @@ export class ActiveListManager {
                             if (key in med && typeof data.newValue === 'number') med[key] = data.newValue
                             break
                         case 'time':
-                            if (typeof data.newValue === 'string') {
-                                med[key] = data.newValue.split(', ')
+                            if (Array.isArray(data.newValue)) {
+                                med[key] = data.newValue
                                 med.takenTimes = []
 
                                 const acceptedArray = createTakenTimesArray(med[key])
