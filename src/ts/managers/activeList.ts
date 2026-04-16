@@ -137,6 +137,7 @@ export class ActiveListManager {
                 }
                 return t
             })
+            alert(times)
 
             this.handleInputChange(property, id, typeofId, times)
 
