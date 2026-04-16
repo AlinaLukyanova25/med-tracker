@@ -131,7 +131,7 @@ export class ActiveListManager {
             }
 
             const times = timesArray.map(t => {
-                if (t.length < 5) {
+                if (t.length === 4) {
                     return `0${t}`
 
                 }
