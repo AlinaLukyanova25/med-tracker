@@ -6,7 +6,7 @@ import { DataService } from "./core/dataService.js";
 import { ArchiveManager } from "./managers/archive.js";
 import { CalendarManager } from "./managers/calendar.js";
 import { ActiveListManager } from "./managers/activeList.js";
-import { KeyboardNavigation } from "./ui/keyboard-navigation.js";
+import { KeyboardNavigation } from "./core/keyboard-navigation.js";
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService();
     const menu = new MenuManager();

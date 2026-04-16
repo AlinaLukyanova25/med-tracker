@@ -1,5 +1,5 @@
-import { domElements } from "../core/domElements.js"
-import { ModalManager } from "../managers/modal"
+import { domElements } from "./domElements.js"
+import { ModalManager } from "../managers/modal.js"
 import { querySelectorEl } from "../types/types.js"
 
 export class KeyboardNavigation {
