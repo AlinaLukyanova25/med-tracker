@@ -137,11 +137,16 @@ export class ActiveListManager {
                 }
                 return t
             })
-            alert(times)
 
             this.handleInputChange(property, id, typeofId, times)
 
+            return
+
         }
+
+
+        this.handleInputChange(property, id, typeofId, element.value)
+
 
     }
 
@@ -443,7 +448,6 @@ export class ActiveListManager {
                 }
                 return t
             })
-        alert(times)
 
         const acceptedArray = createTakenTimesArray(times)
 

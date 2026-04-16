@@ -94,9 +94,10 @@ export class ActiveListManager {
                 }
                 return t;
             });
-            alert(times);
             this.handleInputChange(property, id, typeofId, times);
+            return;
         }
+        this.handleInputChange(property, id, typeofId, element.value);
     }
     handleInputChange(property, id, typeofId, newValue) {
         let changeInput;
@@ -338,7 +339,6 @@ export class ActiveListManager {
             }
             return t;
         });
-        alert(times);
         const acceptedArray = createTakenTimesArray(times);
         const base = collectsObjectByType(medTitle.value, times, acceptedArray, type, powderType, dosage instanceof HTMLInputElement ? Number(dosage.value) : null, stock instanceof HTMLInputElement ? Number(stock.value) : null, this.modal);
         return base ? base : undefined;
