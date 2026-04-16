@@ -428,13 +428,22 @@ export class ActiveListManager {
             }
         }
 
-        const times = time.value.split(', ')
+        const timesArray = time.value.split(', ')
 
         const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
-        if (!(times.every(t => timeRegex.test(t)))) {
+        if (!(timesArray.every(t => timeRegex.test(t)))) {
             this.modal.openModalWarning('Введите корректное время')
             return
         }
+
+        const times = timesArray.map(t => {
+                if (t.length === 4) {
+                    return `0${t}`
+
+                }
+                return t
+            })
+        alert(times)
 
         const acceptedArray = createTakenTimesArray(times)
 
