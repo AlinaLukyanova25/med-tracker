@@ -21,6 +21,11 @@ module.exports = tseslint.config(
     },
   },
   {
-    ignores: ["dist/**", "node_modules/**", "eslint.config.cjs"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "eslint.config.cjs",
+      "vite.config.ts",
+    ],
   }
 );
