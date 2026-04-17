@@ -1,10 +1,11 @@
-import { sortAscendingOrderDate, sortByOrderHours, sortStock } from "../core/sortUtils.js";
-import { createDivContainer, createOpenCardsComponent, createDiseaseComponent, createReceptionMainComponent, createMissedReceptionComponent, createStockReceptionComponent, createArchiveCardComponent } from "./uiComponents.js";
+import { sortAscendingOrderDate, sortByOrderHours, sortStock, } from '../core/sortUtils.js';
+import { createDivContainer, createOpenCardsComponent, createDiseaseComponent, createReceptionMainComponent, createMissedReceptionComponent, createStockReceptionComponent, createArchiveCardComponent, } from './uiComponents.js';
 export function renderActiveList(arr, activeList) {
     activeList.innerHTML = '';
     const sorted = sortAscendingOrderDate(arr);
     if (sorted.length === 0) {
-        activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
+        activeList.innerHTML =
+            '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;
     }
     for (const dis of sorted) {
@@ -22,14 +23,14 @@ function renderPaginatedList(container, items, renderItem, emptyMessage, classBu
     }
     const visibleItems = items.slice(0, limit);
     const hiddenItems = items.slice(limit);
-    visibleItems.forEach(item => {
+    visibleItems.forEach((item) => {
         container.insertAdjacentHTML('beforeend', renderItem(item));
     });
     if (hiddenItems.length > 0) {
         const button = createOpenCardsComponent(classButton);
         button.textContent = `Показать остальные (${hiddenItems.length})`;
         const hiddenDiv = createDivContainer(classDiv, 'none');
-        hiddenItems.forEach(item => {
+        hiddenItems.forEach((item) => {
             hiddenDiv.insertAdjacentHTML('beforeend', renderItem(item));
         });
         container.append(button);
@@ -39,8 +40,8 @@ function renderPaginatedList(container, items, renderItem, emptyMessage, classBu
 export function renderReceptionList(arr, receptionList, missedList, medications) {
     const now = new Date();
     const sorted = sortByOrderHours(arr, medications);
-    const todayItems = sorted.filter(med => (med.time.getTime() + 900000) - now.getTime() > 0);
-    const missedItems = sorted.filter(med => (med.time.getTime() + 900000) - now.getTime() <= 0);
+    const todayItems = sorted.filter((med) => med.time.getTime() + 900000 - now.getTime() > 0);
+    const missedItems = sorted.filter((med) => med.time.getTime() + 900000 - now.getTime() <= 0);
     renderPaginatedList(receptionList, todayItems, (med) => createReceptionMainComponent(med.medication, med.time), 'На сегодня приёмов нет', 'reception-list__open-card', 'reception-list__card-hidden');
     renderPaginatedList(missedList, missedItems, (med) => createMissedReceptionComponent(med.medication, med.time), 'На сегодня нет пропущенных приёмов', 'missed-list__open-card', 'missed-list__card-hidden');
 }
@@ -50,8 +51,9 @@ export function renderStockList(arr, stockList, medications) {
 }
 export function renderArchiveList(arr, archiveList) {
     archiveList.innerHTML = '';
-    if (arr.length === 0 || arr.filter(d => d.archive).length === 0) {
-        archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>';
+    if (arr.length === 0 || arr.filter((d) => d.archive).length === 0) {
+        archiveList.innerHTML =
+            '<p class="item-title descr-not">Пока нет архивных приёмов</p>';
         return;
     }
     for (const disease of arr) {

@@ -1,6 +1,6 @@
-import { loadFromStorage, loadFromStorageDates, saveToStorage, saveToStorageDates } from "./storage.js";
-import { isDatePassed, shouldUpdateTaken } from "./dateUtils.js";
-import { getActiveDateSet } from "./sortUtils.js";
+import { loadFromStorage, loadFromStorageDates, saveToStorage, saveToStorageDates, } from './storage.js';
+import { isDatePassed, shouldUpdateTaken } from './dateUtils.js';
+import { getActiveDateSet } from './sortUtils.js';
 export class DataService {
     constructor() {
         this.diseases = [];
@@ -33,7 +33,7 @@ export class DataService {
         this.listeners.push(callback);
     }
     notify() {
-        this.listeners.forEach(cb => cb());
+        this.listeners.forEach((cb) => cb());
         console.log(`Хранение ${this.listeners}`);
     }
     addDisease(disease) {
@@ -45,32 +45,30 @@ export class DataService {
         this.saveLocalStorageDates();
     }
     findDisease(id) {
-        return this.diseases.find(d => d.id === id);
+        return this.diseases.find((d) => d.id === id);
     }
     findDiseaseWithMed(id) {
-        return this.diseases
-            .find(d => d.medArray.find(med => med.medId === id));
+        return this.diseases.find((d) => d.medArray.find((med) => med.medId === id));
     }
     findMedicationWithDis(disId, medId) {
         var _a;
         return (_a = this.diseases
-            .find(d => d.id === disId)) === null || _a === void 0 ? void 0 : _a.medArray.find(m => m.medId === medId);
+            .find((d) => d.id === disId)) === null || _a === void 0 ? void 0 : _a.medArray.find((m) => m.medId === medId);
     }
     findMedication(medId) {
         let med;
-        this.diseases
-            .forEach(d => {
-            const item = d.medArray.find(m => m.medId === medId);
+        this.diseases.forEach((d) => {
+            const item = d.medArray.find((m) => m.medId === medId);
             if (item)
                 med = item;
         });
         return med;
     }
     findMarkedDates(date) {
-        return this.markedDates.find(md => md.date === date);
+        return this.markedDates.find((md) => md.date === date);
     }
     updateDisease(id, updater) {
-        const dis = this.diseases.find(d => d.id === id);
+        const dis = this.diseases.find((d) => d.id === id);
         if (dis) {
             updater(dis);
             this.saveLocalStorage();
@@ -78,9 +76,8 @@ export class DataService {
     }
     updateMedication(id, updater) {
         let med;
-        this.diseases
-            .forEach(d => {
-            const item = d.medArray.find(m => m.medId === id);
+        this.diseases.forEach((d) => {
+            const item = d.medArray.find((m) => m.medId === id);
             if (item)
                 med = item;
         });
@@ -90,20 +87,19 @@ export class DataService {
         }
     }
     updateMarkedDate(date, updater) {
-        const md = this.markedDates.find(m => m.date === date);
+        const md = this.markedDates.find((m) => m.date === date);
         if (md) {
             updater(md);
             this.saveLocalStorageDates();
         }
     }
     removeDiseases(id) {
-        this.diseases = this.diseases.filter(d => d.id !== id);
+        this.diseases = this.diseases.filter((d) => d.id !== id);
         this.saveLocalStorage();
     }
     removeMedication(id) {
-        this.diseases
-            .forEach(d => {
-            d.medArray = d.medArray.filter(m => m.medId !== id);
+        this.diseases.forEach((d) => {
+            d.medArray = d.medArray.filter((m) => m.medId !== id);
         });
         this.saveLocalStorage();
     }
@@ -118,12 +114,12 @@ export class DataService {
     load() {
         this.diseases = loadFromStorage();
         let changed = false;
-        this.diseases.forEach(d => {
+        this.diseases.forEach((d) => {
             if (d.archive === false && isDatePassed(d.dateEnd)) {
                 d.archive = true;
                 changed = true;
             }
-            d.medArray.forEach(med => {
+            d.medArray.forEach((med) => {
                 if (shouldUpdateTaken(med.lastTakenUpdate)) {
                     med.takenTimes = [];
                     med.lastTakenUpdate = new Date().toISOString();
@@ -138,7 +134,7 @@ export class DataService {
         const stored = loadFromStorageDates();
         const activeDates = this.getSetDiseasesDate();
         let changed = false;
-        this.markedDates = stored.filter(md => {
+        this.markedDates = stored.filter((md) => {
             if (!activeDates.has(md.date))
                 return false;
             if (shouldUpdateTaken(md.lastTakenUpdate)) {

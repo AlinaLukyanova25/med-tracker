@@ -1,4 +1,4 @@
-import { domElements } from "../core/domElements.js";
+import { domElements } from '../core/domElements.js';
 export class MenuManager {
     constructor() {
         this.openMenu = false;
@@ -32,7 +32,7 @@ export class MenuManager {
         this.headerListDesktop.style.display = isDesktop ? 'flex' : 'none';
         if (!isDesktop) {
             this.menuList.style.display = 'none';
-            this.imgMenu.src = "img/burger.svg";
+            this.imgMenu.src = 'img/burger.svg';
             this.openMenu = false;
         }
     }
@@ -49,16 +49,18 @@ export class MenuManager {
     }
     updateBurgerIcon() {
         if (this.imgMenu) {
-            this.imgMenu.src = this.openMenu ? "img/x.svg" : "img/burger.svg";
+            this.imgMenu.src = this.openMenu ? 'img/x.svg' : 'img/burger.svg';
         }
     }
     closeMenu(e) {
         const target = e.target;
         if (!(target instanceof HTMLElement))
             return;
-        if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
+        if (!target.closest('.header-list__mobile') &&
+            this.openMenu &&
+            !target.closest('.header-list__open')) {
             this.menuList.style.display = 'none';
-            this.imgMenu.src = "img/burger.svg";
+            this.imgMenu.src = 'img/burger.svg';
             this.openMenu = false;
         }
     }
@@ -72,7 +74,7 @@ export class MenuManager {
         const page = link.dataset.page;
         if (!page)
             return;
-        document.querySelectorAll('section').forEach(section => {
+        document.querySelectorAll('section').forEach((section) => {
             section.style.display = 'none';
         });
         this.openSection(page);

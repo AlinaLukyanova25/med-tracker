@@ -873,7 +873,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999s;
+  z-index: 999999;
 }
 .modal__content {
   width: 400px;
@@ -890,10 +890,12 @@ button {
 }
 .modal__content {
   max-height: 600px;
-  overflow: auto;
   scrollbar-width: none;
+  overflow: auto;
   -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
+}
+.modal__content::-webkit-scrollbar {
+  display: none;
 }
 .modal__content input,
 .modal__content select {
@@ -945,7 +947,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999s;
+  z-index: 999999;
 }
 .modal-assign-again__content {
   width: 400px;
@@ -992,7 +994,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999s;
+  z-index: 999999;
 }
 .modal-warning__content {
   position: absolute;
@@ -1035,7 +1037,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999s;
+  z-index: 999999;
 }
 .modal-confidence__content {
   position: absolute;
@@ -1146,9 +1148,10 @@ button {
   resize: none;
   overflow: hidden;
   border: none;
-  field-sizing: content;
   padding: 8px;
   line-height: 1.4;
+  height: 40px;
+  width: 100%;
 }
 .edit__input-container {
   display: flex;

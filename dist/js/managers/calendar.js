@@ -1,6 +1,6 @@
-import { domElements } from "../core/domElements.js";
-import { formatDate, formatDateRu, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js";
-import { getElement } from "../types/types.js";
+import { domElements } from '../core/domElements.js';
+import { formatDate, formatDateRu, isDatePassed, shouldUpdateTaken, } from '../core/dateUtils.js';
+import { getElement } from '../types/types.js';
 export class CalendarManager {
     constructor(dataService, modal) {
         this.currentDate = new Date();
@@ -19,7 +19,20 @@ export class CalendarManager {
         this.renderCalendar();
     }
     updateMonthHeader() {
-        const monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const monthNames = [
+            'Январь',
+            'Февраль',
+            'Март',
+            'Апрель',
+            'Май',
+            'Июнь',
+            'Июль',
+            'Август',
+            'Сентябрь',
+            'Октябрь',
+            'Ноябрь',
+            'Декабрь',
+        ];
         const currentMonthEl = getElement('current-month', HTMLHeadingElement);
         const monthName = monthNames[this.currentDate.getMonth()];
         const year = this.currentDate.getFullYear();
@@ -63,7 +76,9 @@ export class CalendarManager {
         return `
         <div ${!shouldUpdateTaken(date.toISOString()) ? `tabindex="0"` : ''} class="calendar__day ${markedDate && markedDate.taken
             ? 'accepted'
-            : isHasDate && isDatePassed(date) && (!markedDate || !markedDate.taken)
+            : isHasDate &&
+                isDatePassed(date) &&
+                (!markedDate || !markedDate.taken)
                 ? 'no-accepted'
                 : isHasDate
                     ? 'disease'
@@ -90,7 +105,8 @@ export class CalendarManager {
             return;
         if (!this.dataService.getSetDiseasesDate().has(dataDate))
             return;
-        if (this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
+        if (this.receptionList.querySelectorAll('.reception-list__item').length !==
+            0 ||
             this.missedList.querySelectorAll('.missed-list__item').length !== 0) {
             this.modal.openModalWarning('Вы ещё не приняли все лекарства на сегодня', e, cardDay);
         }

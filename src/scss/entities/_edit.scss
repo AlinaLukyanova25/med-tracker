@@ -1,4 +1,4 @@
-@use "sass:color";
+@use 'sass:color';
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
@@ -45,7 +45,7 @@
     box-shadow: $box-shadow;
   }
 
-  input{
+  input {
     height: 100%;
     border: none;
   }
@@ -54,9 +54,10 @@
     resize: none;
     overflow: hidden;
     border: none;
-    field-sizing: content;
     padding: $space8;
     line-height: 1.4;
+    height: 40px;
+    width: 100%;
   }
 
   &__input-container {

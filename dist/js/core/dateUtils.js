@@ -1,4 +1,4 @@
-import { querySelectorEl } from "../types/types.js";
+import { querySelectorEl } from '../types/types.js';
 export const DateUtils = {
     getTodayDate() {
         return new Date();
@@ -25,7 +25,7 @@ export const DateUtils = {
     },
 };
 export function getTimeReception(time, date = new Date()) {
-    return time.map(t => new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(t.slice(0, 2)), Number(t.slice(3))));
+    return time.map((t) => new Date(date.getFullYear(), date.getMonth(), date.getDate(), Number(t.slice(0, 2)), Number(t.slice(3))));
 }
 export function shouldUpdateTaken(date) {
     const lastUpdate = new Date(date);
@@ -55,21 +55,34 @@ export function checkRecedptionTime(time) {
     const timeDate = new Date(time);
     if (!timeDate)
         return false;
-    return (timeDate.getTime() - now.getTime()) < 900000;
+    return timeDate.getTime() - now.getTime() < 900000;
 }
 export function parseRussianDate(value, property, id, modal) {
     if (value.length > 11) {
         modal.openModalWarning('Введите корректные данные');
         return false;
     }
-    const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-    const monthInInput = monthNames.find(m => value.toLowerCase().includes(m));
+    const monthNames = [
+        'января',
+        'февраля',
+        'марта',
+        'апреля',
+        'мая',
+        'июня',
+        'июля',
+        'августа',
+        'сентября',
+        'октября',
+        'ноября',
+        'декабря',
+    ];
+    const monthInInput = monthNames.find((m) => value.toLowerCase().includes(m));
     if (!monthInInput) {
         modal.openModalWarning('Введите правильное значение месяца');
         return false;
     }
     const dateArray = value.split(' ');
-    const newValue = `${new Date().getFullYear()}-${String(monthNames.findIndex(m => m === monthInInput) + 1).padStart(2, '0')}-${String(dateArray[0]).padStart(2, '0')}`;
+    const newValue = `${new Date().getFullYear()}-${String(monthNames.findIndex((m) => m === monthInInput) + 1).padStart(2, '0')}-${String(dateArray[0]).padStart(2, '0')}`;
     if (isNaN(new Date(newValue).getTime())) {
         modal.openModalWarning('Введите корректную дату');
         return false;
@@ -80,16 +93,18 @@ export function parseRussianDate(value, property, id, modal) {
     }
     const otherInput = querySelectorEl(`input[data-property="${property === 'dateStart' ? 'dateEnd' : 'dateStart'}"][data-object-id="${id}"]`, HTMLInputElement);
     const otherDateArray = otherInput.value.split(' ');
-    const otherDate = `${new Date().getFullYear()}-${String(monthNames.findIndex(m => m === otherDateArray[1]) + 1).padStart(2, '0')}-${String(otherDateArray[0]).padStart(2, '0')}`;
+    const otherDate = `${new Date().getFullYear()}-${String(monthNames.findIndex((m) => m === otherDateArray[1]) + 1).padStart(2, '0')}-${String(otherDateArray[0]).padStart(2, '0')}`;
     if (isNaN(new Date(otherDate).getTime())) {
         modal.openModalWarning('Невозможно сравнивать с некорректной датой');
         return false;
     }
-    if (property === 'dateStart' && isDatePassed(new Date(otherDate), new Date(newValue))) {
+    if (property === 'dateStart' &&
+        isDatePassed(new Date(otherDate), new Date(newValue))) {
         modal.openModalWarning('Дата назначения не может быть больше даты окончания');
         return false;
     }
-    if (property === 'dateEnd' && !isDatePassed(new Date(otherDate), new Date(newValue))) {
+    if (property === 'dateEnd' &&
+        !isDatePassed(new Date(otherDate), new Date(newValue))) {
         modal.openModalWarning('Дата окончания не может быть меньше даты назначения');
         return false;
     }
@@ -99,8 +114,8 @@ export function createTakenTimesArray(time) {
     const times = getTimeReception(time);
     const now = new Date();
     return times
-        .filter(t => t.getTime() - now.getTime() <= 0)
-        .map(t => t.toISOString());
+        .filter((t) => t.getTime() - now.getTime() <= 0)
+        .map((t) => t.toISOString());
 }
 if (!globalThis.Intl) {
     globalThis.Intl = Intl;
@@ -117,7 +132,7 @@ export function getWordForm(count, one, few, many, other) {
         one,
         few,
         many,
-        other
+        other,
     };
     return forms[rule];
 }

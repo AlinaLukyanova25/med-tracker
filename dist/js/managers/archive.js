@@ -1,5 +1,5 @@
-import { domElements } from "../core/domElements.js";
-import { renderArchiveList } from "../ui/renderService.js";
+import { domElements } from '../core/domElements.js';
+import { renderArchiveList } from '../ui/renderService.js';
 export class ArchiveManager {
     constructor(dataService, modal) {
         this.archiveList = domElements.archiveList;

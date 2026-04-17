@@ -1,7 +1,7 @@
-import { SelectMedicationType, SelectPowderType, collectsObjectByType, isValidMedicationType } from "../types/types.js";
-import { renderActiveList } from "../ui/renderService.js";
-import { createTakenTimesArray, DateUtils, formatDate } from "../core/dateUtils.js";
-import { domElements } from "../core/domElements.js";
+import { SelectMedicationType, SelectPowderType, collectsObjectByType, isValidMedicationType, } from '../types/types.js';
+import { renderActiveList } from '../ui/renderService.js';
+import { createTakenTimesArray, DateUtils, formatDate, } from '../core/dateUtils.js';
+import { domElements } from '../core/domElements.js';
 export class DiseasesManager {
     constructor(modal, dataService) {
         this.times = [];
@@ -68,7 +68,11 @@ export class DiseasesManager {
             this.modal.openModalWarning('Укажите корректную дату окончания');
             return;
         }
-        if (!medArray && this.medArray.length === 0 || medName || dosage || stock || time) {
+        if ((!medArray && this.medArray.length === 0) ||
+            medName ||
+            dosage ||
+            stock ||
+            time) {
             if (!medName) {
                 this.modal.openModalWarning('Введите корректное название лекарства');
                 return;
@@ -100,7 +104,7 @@ export class DiseasesManager {
             dateStart: new Date(),
             dateEnd: dateEnd,
             archive: false,
-            medArray: this.medArray
+            medArray: this.medArray,
         };
         this.dataService.addDisease(disease);
         this.medArray = [];
@@ -147,10 +151,26 @@ export class DiseasesManager {
     }
     medicationConfig() {
         return {
-            [SelectMedicationType.Pill]: { dosage: true, stock: true, placeholder: 'Введите в таблетках' },
-            [SelectMedicationType.Capsule]: { dosage: true, stock: true, placeholder: 'Введите в капсулах' },
-            [SelectMedicationType.Mixture]: { dosage: true, stock: false, placeholder: 'Введите в мер.ложках' },
-            [SelectMedicationType.Drops]: { dosage: true, stock: false, placeholder: 'Введите в каплях' },
+            [SelectMedicationType.Pill]: {
+                dosage: true,
+                stock: true,
+                placeholder: 'Введите в таблетках',
+            },
+            [SelectMedicationType.Capsule]: {
+                dosage: true,
+                stock: true,
+                placeholder: 'Введите в капсулах',
+            },
+            [SelectMedicationType.Mixture]: {
+                dosage: true,
+                stock: false,
+                placeholder: 'Введите в мер.ложках',
+            },
+            [SelectMedicationType.Drops]: {
+                dosage: true,
+                stock: false,
+                placeholder: 'Введите в каплях',
+            },
             [SelectMedicationType.Aerosol]: { dosage: false, stock: false },
             [SelectMedicationType.Ointment]: { dosage: false, stock: false },
             [SelectMedicationType.Powder]: { special: true },
@@ -236,7 +256,8 @@ export class DiseasesManager {
             return;
         if (!markedDate.taken)
             return;
-        if (this.receptionList.querySelectorAll('.reception-list__item').length !== 0 ||
+        if (this.receptionList.querySelectorAll('.reception-list__item').length !==
+            0 ||
             this.missedList.querySelectorAll('.missed-list__item').length !== 0) {
             this.dataService.updateMarkedDate(markedDate.date, (md) => {
                 md.taken = false;

@@ -1,4 +1,4 @@
-@use "sass:color";
+@use 'sass:color';
 @import '../abstracts/variables';
 @import '../abstracts/mixins';
 
@@ -12,10 +12,13 @@
     @include modal-content-style;
 
     max-height: 600px;
-    overflow: auto;
     scrollbar-width: none;
+    overflow: auto;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     input,
     select {
@@ -28,9 +31,9 @@
   }
 
   &__label-time:focus {
-      outline: none;
-      color: $color-primary-light;
-    }
+    outline: none;
+    color: $color-primary-light;
+  }
 
   &__add-more {
     cursor: pointer;
@@ -121,7 +124,6 @@
       font-size: $font-size18;
     }
   }
-
 }
 
 .modal.hidden,

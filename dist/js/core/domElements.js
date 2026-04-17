@@ -1,4 +1,4 @@
-import { getElement, querySelectorEl } from "../types/types.js";
+import { getElement, querySelectorEl } from '../types/types.js';
 export const domElements = {
     mainPage: querySelectorEl('.main-page', HTMLElement),
     sectionActive: querySelectorEl('.active', HTMLElement),
@@ -42,6 +42,6 @@ export const domElements = {
         modalFormClose: querySelectorEl('.modal__close', HTMLSpanElement),
         modalAgainClose: querySelectorEl('.modal-again__close', HTMLSpanElement),
         modalWarningClose: querySelectorEl('.modal-warning__close', HTMLSpanElement),
-        modalConfidenceClose: querySelectorEl('.modal-confidence__close', HTMLSpanElement)
+        modalConfidenceClose: querySelectorEl('.modal-confidence__close', HTMLSpanElement),
     },
 };

@@ -1,7 +1,7 @@
-import { querySelectorEl } from "../types/types.js";
-import { renderReceptionList, renderStockList } from "../ui/renderService.js";
-import { checkRecedptionTime } from "../core/dateUtils.js";
-import { domElements } from "../core/domElements.js";
+import { querySelectorEl } from '../types/types.js';
+import { renderReceptionList, renderStockList } from '../ui/renderService.js';
+import { checkRecedptionTime } from '../core/dateUtils.js';
+import { domElements } from '../core/domElements.js';
 export class MainPageManager {
     constructor(dataService, modal, activeList) {
         this.mainPage = domElements.mainPage;
@@ -53,8 +53,12 @@ export class MainPageManager {
                     if (!med.takenTimes.includes(time)) {
                         med.takenTimes.push(time);
                     }
-                    if ((med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик')) && med.stock !== undefined) {
-                        med.stock -= ((med.stock > 0) && (med.stock - med.dosage > 0)) ? med.dosage : 0;
+                    if ((med.type === 'Таблетка' ||
+                        med.type === 'Капсула' ||
+                        (med.type === 'Порошок' && med.dosageType === 'Пакетик')) &&
+                        med.stock !== undefined) {
+                        med.stock -=
+                            med.stock > 0 && med.stock - med.dosage > 0 ? med.dosage : 0;
                     }
                 });
             }
@@ -67,8 +71,12 @@ export class MainPageManager {
                 if (!med.takenTimes.includes(time)) {
                     med.takenTimes.push(time);
                 }
-                if ((med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик')) && med.stock !== undefined) {
-                    med.stock -= ((med.stock > 0) && (med.stock - med.dosage >= 0)) ? med.dosage : 0;
+                if ((med.type === 'Таблетка' ||
+                    med.type === 'Капсула' ||
+                    (med.type === 'Порошок' && med.dosageType === 'Пакетик')) &&
+                    med.stock !== undefined) {
+                    med.stock -=
+                        med.stock > 0 && med.stock - med.dosage >= 0 ? med.dosage : 0;
                 }
             });
         }

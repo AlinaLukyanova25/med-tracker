@@ -109,7 +109,13 @@ export function collectsObjectByType(medicationName, time, acceptedArray, medTyp
             if (powderType === SelectPowderType.Sachet) {
                 if (!dosage || !stock)
                     return showError(modal);
-                return { ...base, type: 'Порошок', dosageType: 'Пакетик', dosage, stock };
+                return {
+                    ...base,
+                    type: 'Порошок',
+                    dosageType: 'Пакетик',
+                    dosage,
+                    stock,
+                };
             }
             else {
                 if (!dosage)

@@ -1,104 +1,110 @@
-import { domElements } from "../core/domElements.js";
+import { domElements } from '../core/domElements.js';
 
 export class MenuManager {
-    private openMenu: boolean = false;
-    private imgMenu: HTMLImageElement = domElements.header.imgMenu;
-    private headerListDesktop: HTMLUListElement = domElements.header.headerListDesktop;
-    private headerListMobile: HTMLUListElement = domElements.header.headerListMobile;
-    private menuList: HTMLDivElement = domElements.header.menuList;
+  private openMenu: boolean = false;
+  private imgMenu: HTMLImageElement = domElements.header.imgMenu;
+  private headerListDesktop: HTMLUListElement =
+    domElements.header.headerListDesktop;
+  private headerListMobile: HTMLUListElement =
+    domElements.header.headerListMobile;
+  private menuList: HTMLDivElement = domElements.header.menuList;
 
-    constructor() {
-        this.init()
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    if (window.innerWidth > 500) {
+      this.headerListMobile.style.display = 'none';
+      this.headerListDesktop.style.display = 'flex';
+    } else {
+      this.headerListDesktop.style.display = 'none';
+      this.headerListMobile.style.display = 'flex';
     }
 
-    init() {
-        if (window.innerWidth > 500) {
-            this.headerListMobile.style.display = 'none'
-            this.headerListDesktop.style.display = 'flex'
-        } else {
-            this.headerListDesktop.style.display = 'none'
-            this.headerListMobile.style.display = 'flex'
-        }
+    this.setupEventListeners();
+    this.openSection('main-page');
+  }
 
-        this.setupEventListeners()
-        this.openSection('main-page')
+  setupEventListeners() {
+    window.addEventListener('resize', () => this.handleResize());
+    document.addEventListener('click', (e) => this.handleLinkClick(e));
+    document.addEventListener('click', (e) => this.handleOpenMenu(e));
+    document.addEventListener('click', (e) => this.closeMenu(e));
+  }
+
+  handleResize() {
+    const isDesktop = window.innerWidth > 500;
+    this.headerListMobile.style.display = isDesktop ? 'none' : 'flex';
+    this.headerListDesktop.style.display = isDesktop ? 'flex' : 'none';
+
+    if (!isDesktop) {
+      this.menuList.style.display = 'none';
+      this.imgMenu.src = 'img/burger.svg';
+      this.openMenu = false;
     }
+  }
 
-    setupEventListeners() {
-        window.addEventListener('resize', () => this.handleResize())
-        document.addEventListener('click', (e) => this.handleLinkClick(e))
-        document.addEventListener('click', (e) => this.handleOpenMenu(e))
-        document.addEventListener('click', (e) => this.closeMenu(e))
+  handleOpenMenu(e: MouseEvent) {
+    const target = e.target;
+
+    if (!(target instanceof HTMLElement)) return;
+
+    const divOpen = target.closest('.header-list__open');
+    if (!divOpen) return;
+
+    this.openMenu = !this.openMenu;
+    this.updateBurgerIcon();
+
+    this.menuList.style.display = this.openMenu ? 'flex' : 'none';
+  }
+
+  updateBurgerIcon() {
+    if (this.imgMenu) {
+      this.imgMenu.src = this.openMenu ? 'img/x.svg' : 'img/burger.svg';
     }
+  }
 
-    handleResize() {
-        const isDesktop = window.innerWidth > 500
-        this.headerListMobile.style.display = isDesktop ? 'none' : 'flex'
-        this.headerListDesktop.style.display = isDesktop ? 'flex' : 'none'
+  closeMenu(e: MouseEvent) {
+    const target = e.target;
 
-        if (!isDesktop) {
-            this.menuList.style.display = 'none'
-            this.imgMenu.src = "img/burger.svg"
-            this.openMenu = false
-        }
+    if (!(target instanceof HTMLElement)) return;
+
+    if (
+      !target.closest('.header-list__mobile') &&
+      this.openMenu &&
+      !target.closest('.header-list__open')
+    ) {
+      this.menuList.style.display = 'none';
+      this.imgMenu.src = 'img/burger.svg';
+      this.openMenu = false;
     }
+  }
 
-    handleOpenMenu(e: MouseEvent) {
-        const target = e.target
+  handleLinkClick(e: MouseEvent) {
+    const target = e.target;
 
-        if (!(target instanceof HTMLElement)) return
+    if (!(target instanceof HTMLElement)) return;
 
-        const divOpen = target.closest('.header-list__open')
-        if (!divOpen) return
+    const link = target.closest('.header-list__link');
+    if (!(link instanceof HTMLElement)) return;
 
-        this.openMenu = !this.openMenu
-        this.updateBurgerIcon()
+    const page = link.dataset.page;
+    if (!page) return;
 
-        this.menuList.style.display = this.openMenu ? 'flex' : 'none'
+    document.querySelectorAll('section').forEach((section) => {
+      section.style.display = 'none';
+    });
+
+    this.openSection(page);
+  }
+
+  openSection(page: string) {
+    const link: HTMLElement | null = document.querySelector(`.${page}`);
+    if (!link) {
+      console.warn(`Секция с классом ${page} не найдена`);
+      return;
     }
-
-    updateBurgerIcon() {
-        if (this.imgMenu) {
-            this.imgMenu.src = this.openMenu ? "img/x.svg"  : "img/burger.svg"
-        }
-    }
-
-    closeMenu(e: MouseEvent) {
-        const target = e.target
-
-        if (!(target instanceof HTMLElement)) return
-    
-        if (!target.closest('.header-list__mobile') && this.openMenu && !target.closest('.header-list__open')) {
-            this.menuList.style.display = 'none'
-            this.imgMenu.src = "img/burger.svg"
-            this.openMenu = false
-        }
-    }
-
-    handleLinkClick(e: MouseEvent) {
-        const target = e.target
-
-        if (!(target instanceof HTMLElement)) return
-
-        const link = target.closest('.header-list__link')
-        if (!(link instanceof HTMLElement)) return
-
-        const page = link.dataset.page
-        if (!page) return
-
-        document.querySelectorAll('section').forEach(section => {
-            section.style.display = 'none'
-        });
-
-        this.openSection(page)
-    }
-
-    openSection(page: string) {
-        const link: HTMLElement | null = document.querySelector(`.${page}`)
-        if (!link) {
-            console.warn(`Секция с классом ${page} не найдена`)
-            return
-        }
-        link.style.display = 'block'
-    }
+    link.style.display = 'block';
+  }
 }

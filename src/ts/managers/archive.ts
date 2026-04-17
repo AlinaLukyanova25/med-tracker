@@ -1,66 +1,69 @@
-import { DataService } from "../core/dataService.js";
-import { domElements } from "../core/domElements.js";
-import { renderArchiveList } from "../ui/renderService.js";
-import { ModalManager } from "./modal.js";
+import { DataService } from '../core/dataService.js';
+import { domElements } from '../core/domElements.js';
+import { renderArchiveList } from '../ui/renderService.js';
+import { ModalManager } from './modal.js';
 
 export class ArchiveManager {
-    private archiveList: HTMLUListElement = domElements.archiveList;
-    private dataService: DataService;
-    private modal: ModalManager;
+  private archiveList: HTMLUListElement = domElements.archiveList;
+  private dataService: DataService;
+  private modal: ModalManager;
 
-    constructor(dataService: DataService, modal: ModalManager) {
-        
-        this.dataService = dataService
-        this.modal = modal
+  constructor(dataService: DataService, modal: ModalManager) {
+    this.dataService = dataService;
+    this.modal = modal;
 
-        this.init()
-    }
+    this.init();
+  }
 
-    init() {
-        this.setupEventListeners()
+  init() {
+    this.setupEventListeners();
 
-        this.dataService.subscribe(() => {
-            this.render()
-        })
+    this.dataService.subscribe(() => {
+      this.render();
+    });
 
-        this.render()
-    }
+    this.render();
+  }
 
-    render() {
-        renderArchiveList(this.dataService.getDiseases(), this.archiveList)
-    }
+  render() {
+    renderArchiveList(this.dataService.getDiseases(), this.archiveList);
+  }
 
-    setupEventListeners() {
-        this.archiveList.addEventListener('click', (e) => this.handleAssignAgain(e))
+  setupEventListeners() {
+    this.archiveList.addEventListener('click', (e) =>
+      this.handleAssignAgain(e)
+    );
 
-        this.archiveList.addEventListener('click', (e) => this.handleRemoveArchiveCard(e))
-    }
+    this.archiveList.addEventListener('click', (e) =>
+      this.handleRemoveArchiveCard(e)
+    );
+  }
 
-    handleAssignAgain(e: MouseEvent) {
-        const target = e.target
+  handleAssignAgain(e: MouseEvent) {
+    const target = e.target;
 
-        if (!(target instanceof HTMLElement)) return
+    if (!(target instanceof HTMLElement)) return;
 
-        const button = target.closest('.archive__btn-return')
-        if (!(button instanceof HTMLButtonElement)) return
+    const button = target.closest('.archive__btn-return');
+    if (!(button instanceof HTMLButtonElement)) return;
 
-        const dataId = button.getAttribute('data-id')
-        if (!dataId) return
+    const dataId = button.getAttribute('data-id');
+    if (!dataId) return;
 
-        this.modal.openModalAssignAgain(e, dataId, button)
-    }
+    this.modal.openModalAssignAgain(e, dataId, button);
+  }
 
-    handleRemoveArchiveCard(e: MouseEvent) {
-        const target = e.target
+  handleRemoveArchiveCard(e: MouseEvent) {
+    const target = e.target;
 
-        if (!(target instanceof HTMLElement)) return
+    if (!(target instanceof HTMLElement)) return;
 
-        const button = target.closest('.archive__card-delete')
-        if (!(button instanceof HTMLButtonElement)) return
+    const button = target.closest('.archive__card-delete');
+    if (!(button instanceof HTMLButtonElement)) return;
 
-        const dataId = button.getAttribute('data-id')
-        if (!dataId) return
+    const dataId = button.getAttribute('data-id');
+    if (!dataId) return;
 
-        this.modal.openModalConfidence(e, dataId, button)
-    }
+    this.modal.openModalConfidence(e, dataId, button);
+  }
 }

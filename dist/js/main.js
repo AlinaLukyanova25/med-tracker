@@ -1,12 +1,12 @@
-import { MenuManager } from "./managers/menu.js";
-import { ModalManager } from "./managers/modal.js";
+import { MenuManager } from './managers/menu.js';
+import { ModalManager } from './managers/modal.js';
 import { DiseasesManager } from './managers/diseases.js';
-import { MainPageManager } from "./managers/mainPage.js";
-import { DataService } from "./core/dataService.js";
-import { ArchiveManager } from "./managers/archive.js";
-import { CalendarManager } from "./managers/calendar.js";
-import { ActiveListManager } from "./managers/activeList.js";
-import { KeyboardNavigation } from "./core/keyboard-navigation.js";
+import { MainPageManager } from './managers/mainPage.js';
+import { DataService } from './core/dataService.js';
+import { ArchiveManager } from './managers/archive.js';
+import { CalendarManager } from './managers/calendar.js';
+import { ActiveListManager } from './managers/activeList.js';
+import { KeyboardNavigation } from './core/keyboard-navigation.js';
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService();
     new MenuManager();

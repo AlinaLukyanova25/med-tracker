@@ -12,7 +12,7 @@ export function loadFromStorage() {
             return parsed.map((item) => ({
                 ...item,
                 dateStart: new Date(item.dateStart),
-                dateEnd: new Date(item.dateEnd)
+                dateEnd: new Date(item.dateEnd),
             }));
         }
         catch (e) {

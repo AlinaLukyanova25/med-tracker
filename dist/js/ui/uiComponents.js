@@ -1,5 +1,5 @@
-import { formatDateRu, getWordForm } from "../core/dateUtils.js";
-import { SelectMedicationType, SelectPowderType, isDosageType } from "../types/types.js";
+import { formatDateRu, getWordForm } from '../core/dateUtils.js';
+import { SelectMedicationType, SelectPowderType, isDosageType, } from '../types/types.js';
 export function createDivContainer(styleClass, displayStyle) {
     const div = document.createElement('div');
     div.classList.add('container-cards-hidden', styleClass);
@@ -22,7 +22,7 @@ export function createDiseaseComponent(dis) {
             <span class="active__date--start">Назначен: ${formatDateRu(dis.dateStart)}</span>
             <span class="active__date--end">Окончание приёма: ${formatDateRu(dis.dateEnd)}</span>
         </p>
-        ${dis.medArray.length > 0 ? dis.medArray.map(med => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} открыть">${med.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;"></h4></div>`).join('') : ''}
+        ${dis.medArray.length > 0 ? dis.medArray.map((med) => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} открыть">${med.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;"></h4></div>`).join('') : ''}
         </li>
     `;
 }
@@ -37,8 +37,8 @@ export function createMedicationComponent(med) {
     return `
     <h4 class="item-title active__med-title open" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} закрыть">${med.medicationName} <img src="img/arrow-top.svg" alt="" aria-hidden="true" style="width: 25px;"></h4>
     <div class="active__card-footer">
-        ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
-        ${(med.type === 'Таблетка' || med.type === 'Капсула' || med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
+        ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
+        ${med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
         <p class="active__time">Время приёма: <span>${med.time.join(', ')}</span></p>
         <button class="card-button active__medication-delete" data-id="${med.medId}">Удалить приём</button>
     </div>
@@ -55,10 +55,10 @@ export function createReceptionMainComponent(med, today) {
     return `
     <li class="reception-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
-        ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="reception-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="reception-list__dosage">По назначению</p>'}
+        ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<p class="reception-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="reception-list__dosage">По назначению</p>'}
         <p class="reception-list__time">${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}</p>
         <button class="item-button reception-list__button" data-id="${med.medId}" data-time="${today.toISOString()}"
-        aria-label="Препарат: ${med.medicationName}, доза: ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `${med.dosage} ${dosType}` : 'По назначению'}, время: ${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}, принято"   
+        aria-label="Препарат: ${med.medicationName}, доза: ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `${med.dosage} ${dosType}` : 'По назначению'}, время: ${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}, принято"   
         >Принято</button>
         <span class="reception-list__stock">${med.type}</span>
     </li>
@@ -75,10 +75,10 @@ export function createMissedReceptionComponent(med, time) {
     return `
     <li class="missed-list__item">
         <h4 class="item-title">${med.medicationName}</h4>
-        ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `<p class="missed-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="missed-list__dosage">По назначению</p>'}
+        ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<p class="missed-list__dosage">${med.dosage} ${dosType}</p>` : '<p class="missed-list__dosage">По назначению</p>'}
         <p class="missed-list__time">${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}</p>
         <button class="item-button missed-list__button--check" data-id="${med.medId}" data-time="${time.toISOString()}"
-        aria-label="Препарат: ${med.medicationName}, доза: ${(med.type !== 'Аэрозоль' && med.type !== 'Мазь') ? `${med.dosage} ${dosType}` : 'По назначению'}, время: ${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}, принято"
+        aria-label="Препарат: ${med.medicationName}, доза: ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `${med.dosage} ${dosType}` : 'По назначению'}, время: ${String(time.getHours()).padStart(2, '0')}:${String(time.getMinutes()).padStart(2, '0')}, принято"
         >Принято</button>
         <button class="item-button missed-list__button" data-id="${med.medId}" data-time="${time.toISOString()}">Удалить из пропущенных</button> 
         </li>
@@ -95,7 +95,9 @@ export function createStockReceptionComponent(med) {
         word = getWordForm(med.stock, 'капсула', 'капсулы', 'капсул', 'капсул');
         verb = getWordForm(med.stock, 'Осталась', 'Осталось', 'Осталось', 'Осталось');
     }
-    else if (med.type === 'Порошок' && med.dosageType === 'Пакетик' && med.stock !== undefined) {
+    else if (med.type === 'Порошок' &&
+        med.dosageType === 'Пакетик' &&
+        med.stock !== undefined) {
         word = getWordForm(med.stock, 'порошок', 'порошка', 'порошков', 'порошков');
         verb = getWordForm(med.stock, 'Остался', 'Осталось', 'Осталось', 'Осталось');
     }
@@ -117,7 +119,7 @@ export function createArchiveCardComponent(disease) {
     return `
     <li class="archive__card" tabindex="0">
         <h3 class="list-title">${disease.diseaseName}</h3>
-        ${disease.medArray.length > 0 ? disease.medArray.map(med => `<div data-id="${med.medId}" data-disease="${disease.id}"><h4 class="item-title" data-id="${med.medId}">${med.medicationName}</h4></div>`).join('') : ''}
+        ${disease.medArray.length > 0 ? disease.medArray.map((med) => `<div data-id="${med.medId}" data-disease="${disease.id}"><h4 class="item-title" data-id="${med.medId}">${med.medicationName}</h4></div>`).join('') : ''}
         <div class="archive__card-footer">
             <p class="archive__date">Завершен: ${formatDateRu(disease.dateEnd)}</p>
             <button class="item-button archive__btn-return" data-id="${disease.id}">Назначить снова</button>
@@ -158,7 +160,7 @@ export function createEditContainerComponent(dis) {
             </form>
 
         <ul class="edit__list">
-        ${dis.medArray.length > 0 ? dis.medArray.map(med => createEditMedicationComponent(med)).join('') : ''}
+        ${dis.medArray.length > 0 ? dis.medArray.map((med) => createEditMedicationComponent(med)).join('') : ''}
         </ul>
         <button class="edit__add-button" aria-label="Добавить новое лекарство">+</button>
 
@@ -177,16 +179,22 @@ export function createEditMedicationComponent(med) {
             >${med.medicationName}</textarea>
             <form class="edit__form-item">
                 <div class="edit__card-header-content">
-                ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<div class="edit__input-container edit__dosage"><label for="edit-dosage-${med.medId}">Доза: </label><input type="number" id="edit-dosage-${med.medId}" value="${med.dosage}" min="0" step="0.1"
+                ${med.type !== 'Аэрозоль' && med.type !== 'Мазь'
+        ? `<div class="edit__input-container edit__dosage"><label for="edit-dosage-${med.medId}">Доза: </label><input type="number" id="edit-dosage-${med.medId}" value="${med.dosage}" min="0" step="0.1"
                 data-property="dosage"
                 data-object-id="${med.medId}"
                 data-typeof-id="string"
-                ><span class="edit__dosage-type">${isDosageType(med)}</span></div>` : ''} 
-                ${med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<div class="edit__input-container edit__stock"><label for="edit-stock-${med.medId}">Осталось: </label><input type="number" id="edit-stock-${med.medId}" value="${med.stock}" min="1"
+                ><span class="edit__dosage-type">${isDosageType(med)}</span></div>`
+        : ''} 
+                ${med.type === 'Таблетка' ||
+        med.type === 'Капсула' ||
+        (med.type === 'Порошок' && med.dosageType === 'Пакетик')
+        ? `<div class="edit__input-container edit__stock"><label for="edit-stock-${med.medId}">Осталось: </label><input type="number" id="edit-stock-${med.medId}" value="${med.stock}" min="1"
                 data-property="stock"
                 data-object-id="${med.medId}"
                 data-typeof-id="string"
-                ></div>` : ''}
+                ></div>`
+        : ''}
                 </div>
 
                 <div class="edit__card-footer">

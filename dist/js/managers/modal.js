@@ -1,5 +1,5 @@
-import { modifyChangeInputData } from "./activeList.js";
-import { domElements } from "../core/domElements.js";
+import { modifyChangeInputData } from './activeList.js';
+import { domElements } from '../core/domElements.js';
 export class ModalManager {
     constructor(dataService) {
         this.modalForm = domElements.modal.modalForm;
@@ -9,7 +9,6 @@ export class ModalManager {
         this.modalConfidence = domElements.modal.modalConfidence;
         this.modalFormClose = domElements.modal.modalFormClose;
         this.modalAgainClose = domElements.modal.modalAgainClose;
-        this.modalWarningClose = domElements.modal.modalWarningClose;
         this.modalConfidenceClose = domElements.modal.modalConfidenceClose;
         this.sectionActive = domElements.sectionActive;
         this.activeList = domElements.activeList;
@@ -23,7 +22,12 @@ export class ModalManager {
         document.addEventListener('click', (e) => this.handleAddButtonClick(e));
         document.addEventListener('click', (e) => this.handleCloseModal(e));
         this.modalConfidence.addEventListener('click', (e) => this.handleClickConfidence(e));
-        this.watchMultipleElements([this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence], 'hidden', {
+        this.watchMultipleElements([
+            this.modalForm,
+            this.modalAssignAgain,
+            this.modalWarning,
+            this.modalConfidence,
+        ], 'hidden', {
             onAdded: () => {
                 document.body.classList.remove('no-scroll');
                 window.scrollTo(0, this.scrollPosition);
@@ -33,7 +37,7 @@ export class ModalManager {
                     this.focusElement = null;
                 }, 10);
             },
-            onRemoved: () => document.body.classList.add('no-scroll')
+            onRemoved: () => document.body.classList.add('no-scroll'),
         });
     }
     watchMultipleElements(selectors, className, callbacks) {
@@ -53,8 +57,11 @@ export class ModalManager {
                 }
             });
         });
-        selectors.forEach(selector => {
-            observer.observe(selector, { attributes: true, attributeFilter: ['class'] });
+        selectors.forEach((selector) => {
+            observer.observe(selector, {
+                attributes: true,
+                attributeFilter: ['class'],
+            });
         });
         return observer;
     }
@@ -84,16 +91,23 @@ export class ModalManager {
         this.closeModal(target);
     }
     closeModal(target) {
-        if (target.closest('.modal') && !target.closest('.modal__content') || target.closest('.modal__close')) {
+        if ((target.closest('.modal') && !target.closest('.modal__content')) ||
+            target.closest('.modal__close')) {
             this.modalForm.classList.add('hidden');
         }
-        if (target.closest('.modal-assign-again') && !target.closest('.modal-assign-again__content') || target.closest('.modal-again__close')) {
+        if ((target.closest('.modal-assign-again') &&
+            !target.closest('.modal-assign-again__content')) ||
+            target.closest('.modal-again__close')) {
             this.modalAssignAgain.classList.add('hidden');
         }
-        if (target.closest('.modal-warning') && !target.closest('.modal-warning__content') || target.closest('.modal-warning__close')) {
+        if ((target.closest('.modal-warning') &&
+            !target.closest('.modal-warning__content')) ||
+            target.closest('.modal-warning__close')) {
             this.modalWarning.classList.add('hidden');
         }
-        if (target.closest('.modal-confidence') && !target.closest('.modal-confidence__content') || target.closest('.modal-confidence__close')) {
+        if ((target.closest('.modal-confidence') &&
+            !target.closest('.modal-confidence__content')) ||
+            target.closest('.modal-confidence__close')) {
             this.modalConfidence.classList.add('hidden');
         }
     }

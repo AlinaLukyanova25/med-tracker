@@ -1,4 +1,4 @@
-import { querySelectorEl } from "../types/types.js";
+import { querySelectorEl } from '../types/types.js';
 export class KeyboardNavigation {
     constructor(modal) {
         this.modal = modal;

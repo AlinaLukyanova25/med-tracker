@@ -11,7 +11,9 @@
     "lint:ts": "eslint . --ext .ts",
     "lint:fix:ts": "eslint src --fix",
     "lint": "npm run lint:ts && npm run lint:css",
-    "lint:fix": "npm run lint:fix:ts && npm run lint:fix:css"
+    "lint:fix": "npm run lint:fix:ts && npm run lint:fix:css",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,8 @@
   "homepage": "https://github.com/AlinaLukyanova25/med-tracker#readme",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.3",
     "sass": "^1.97.3",
     "stylelint": "^15.11.0",
     "stylelint-config-standard-scss": "^11.1.0",

@@ -1,7 +1,7 @@
-import { getElement, isValidDiseaseEditTypeKey, querySelectorEl, collectsObjectByType, isValidMedicationType, isValidMedicationKey } from "../types/types.js";
-import { createTakenTimesArray, parseRussianDate } from "../core/dateUtils.js";
-import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent } from "../ui/uiComponents.js";
-import { domElements } from "../core/domElements.js";
+import { getElement, isValidDiseaseEditTypeKey, querySelectorEl, collectsObjectByType, isValidMedicationType, isValidMedicationKey, } from '../types/types.js';
+import { createTakenTimesArray, parseRussianDate } from '../core/dateUtils.js';
+import { createChooseTypeMedComponent, createEditAddComponent, createEditContainerComponent, createEditMedicationComponent, createMedicationComponent, } from '../ui/uiComponents.js';
+import { domElements } from '../core/domElements.js';
 let changeInputData = [];
 export function modifyChangeInputData(reset) {
     if (reset) {
@@ -56,7 +56,10 @@ export class ActiveListManager {
         const property = element.getAttribute('data-property');
         const id = element.getAttribute('data-object-id');
         const typeofId = element.getAttribute('data-typeof-id');
-        if (!property || !id || !typeofId || (typeofId !== 'string' && typeofId !== 'number'))
+        if (!property ||
+            !id ||
+            !typeofId ||
+            (typeofId !== 'string' && typeofId !== 'number'))
             return;
         if (property === 'dateStart' || property === 'dateEnd') {
             const newValue = parseRussianDate(element.value, property, id, this.modal);
@@ -84,11 +87,11 @@ export class ActiveListManager {
         else if (property === 'time') {
             const timesArray = element.value.split(', ');
             const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-            if (!(timesArray.every(t => timeRegex.test(t)))) {
+            if (!timesArray.every((t) => timeRegex.test(t))) {
                 this.modal.openModalWarning('Введите корректные данные');
                 return;
             }
-            const times = timesArray.map(t => {
+            const times = timesArray.map((t) => {
                 if (t.length === 4) {
                     return `0${t}`;
                 }
@@ -106,7 +109,7 @@ export class ActiveListManager {
                 property: property,
                 id,
                 typeofId,
-                newValue
+                newValue,
             };
         }
         else if (typeofId === 'string' && isValidMedicationKey(property)) {
@@ -114,7 +117,7 @@ export class ActiveListManager {
                 property: property,
                 id,
                 typeofId,
-                newValue
+                newValue,
             };
         }
         else {
@@ -134,14 +137,14 @@ export class ActiveListManager {
         const disId = button.getAttribute('data-dis');
         if (disId) {
             if (this.removeMedIdArray.length > 0) {
-                this.removeMedIdArray.forEach(id => {
+                this.removeMedIdArray.forEach((id) => {
                     this.dataService.updateDisease(Number(disId), (dis) => {
-                        dis.medArray = dis.medArray.filter(m => m.medId !== id);
+                        dis.medArray = dis.medArray.filter((m) => m.medId !== id);
                     });
                 });
             }
             if (this.newMedications.length > 0) {
-                this.newMedications.forEach(med => {
+                this.newMedications.forEach((med) => {
                     this.dataService.updateDisease(Number(disId), (dis) => {
                         dis.medArray.push(med);
                     });
@@ -267,7 +270,8 @@ export class ActiveListManager {
             return;
         const editList = querySelectorEl('.edit__list', HTMLUListElement);
         if (button) {
-            if (editList.querySelector('.edit__item--choose') || editList.querySelector('.edit__item-add')) {
+            if (editList.querySelector('.edit__item--choose') ||
+                editList.querySelector('.edit__item-add')) {
                 const chooseItem = editList.querySelector('.edit__item--choose');
                 if (chooseItem) {
                     chooseItem.remove();
@@ -338,11 +342,11 @@ export class ActiveListManager {
         }
         const timesArray = time.value.split(', ');
         const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-        if (!(timesArray.every(t => timeRegex.test(t)))) {
+        if (!timesArray.every((t) => timeRegex.test(t))) {
             this.modal.openModalWarning('Введите корректное время');
             return;
         }
-        const times = timesArray.map(t => {
+        const times = timesArray.map((t) => {
             if (t.length === 4) {
                 return `0${t}`;
             }
@@ -383,9 +387,9 @@ export class ActiveListManager {
             if (!card)
                 return;
             card.remove();
-            const newMed = this.newMedications.find(m => m.medId === medId);
+            const newMed = this.newMedications.find((m) => m.medId === medId);
             if (newMed) {
-                this.newMedications = this.newMedications.filter(m => m.medId !== medId);
+                this.newMedications = this.newMedications.filter((m) => m.medId !== medId);
                 return;
             }
             this.removeMedIdArray.push(medId);
@@ -399,7 +403,8 @@ export class ActiveListManager {
         if (!(card instanceof HTMLLIElement))
             return;
         this.scrollPosition = e.pageY - e.clientY;
-        if (target.closest('.active__med-content') || target.closest('.active__disease-delete'))
+        if (target.closest('.active__med-content') ||
+            target.closest('.active__disease-delete'))
             return;
         const id = card.getAttribute('data-dis');
         if (!id)
