@@ -62,3 +62,12 @@ export type MedType = 'Таблетка' | 'Капсула' | 'Микстура'
 export type DosageType = 'таб.' | 'капс.' | 'мер. лож.' | 'кап.' | 'саш.'
 
 export type MedicationType = Pill | Capsule | Mixture | Drops | Aerosol | Ointment | Powder<'Пакетик'> | Powder<'Ложка'>;
+
+export interface StoredDisease {
+    readonly id: number;
+    diseaseName: string;
+    archive: boolean;
+    medArray: MedicationType[];
+    dateStart: string;
+    dateEnd: string;
+}

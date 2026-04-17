@@ -1,15 +1,15 @@
-import { Disease, Medication, MedicationType, Pill, Capsule, Powder } from "../types/data"
+import { Disease, MedicationType, Pill, Capsule, Powder } from "../types/data"
 import { SortedMedication } from "../types/ui"
-import { formatDate, formatDateRu, getTimeReception } from "./dateUtils.js"
+import { formatDate, getTimeReception } from "./dateUtils.js"
 
 export function sortByOrderHours(arr: Disease[], medications: MedicationType[]): SortedMedication[] {
     const newArr = medications
     const sortedArr: SortedMedication[] = []
 
-    for (let medication of newArr) {
+    for (const medication of newArr) {
         const result = getTimeReception(medication.time)
 
-        for (let time of result) {
+        for (const time of result) {
             if (medication.takenTimes.includes(time.toISOString())) continue
 
             const medAndTime: SortedMedication = {
@@ -49,7 +49,7 @@ export function sortStock(arr: Disease[], medication: MedicationType[]): Extract
 export function getActiveDateSet(diseases: Disease[]): Set<string> {
     const dates = new Set<string>()
 
-    for (let dis of diseases) {
+    for (const dis of diseases) {
         if (dis.archive) continue
 
         const firstDay = new Date(dis.dateStart.getFullYear(), dis.dateStart.getMonth(), dis.dateStart.getDate())

@@ -3,7 +3,7 @@ import { Disease, MedicationType } from "../types/data.js";
 import { ModalManager } from "./modal.js";
 import { renderActiveList } from "../ui/renderService.js";
 import { DataService } from "../core/dataService.js";
-import { createTakenTimesArray, DateUtils, formatDate, getTimeReception } from "../core/dateUtils.js";
+import { createTakenTimesArray, DateUtils, formatDate } from "../core/dateUtils.js";
 import { domElements } from "../core/domElements.js";
 
 export class DiseasesManager {
@@ -162,7 +162,6 @@ export class DiseasesManager {
         const medName = this.medicationName.value.trim()
         const dosage = Number(this.dosage.value)
         const stock = Number(this.stock.value)
-        const dateEnd = this.dateEnd?.value
         const time = this.time.value
         const medType = this.selectType.value
 

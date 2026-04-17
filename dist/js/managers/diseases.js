@@ -109,14 +109,12 @@ export class DiseasesManager {
         this.checkMainPage();
     }
     handleAddMoreMedication(e) {
-        var _a;
         e.preventDefault();
         this.medicationName.focus();
         const disName = this.diseaseName.value.trim();
         const medName = this.medicationName.value.trim();
         const dosage = Number(this.dosage.value);
         const stock = Number(this.stock.value);
-        const dateEnd = (_a = this.dateEnd) === null || _a === void 0 ? void 0 : _a.value;
         const time = this.time.value;
         const medType = this.selectType.value;
         if (!disName || !medName) {

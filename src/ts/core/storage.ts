@@ -1,4 +1,4 @@
-import { Disease } from "../types/data"
+import { Disease, StoredDisease } from "../types/data"
 import { MarkedDates } from "../types/ui"
 
 export function saveToStorage(arr: Disease[]) {
@@ -13,7 +13,7 @@ export function loadFromStorage(): Disease[] {
             const parsed = JSON.parse(stored)
             if (!Array.isArray(parsed)) return [];
 
-            return parsed.map((item: any) => ({
+            return parsed.map((item: StoredDisease) => ({
                 ...item,
                 dateStart: new Date(item.dateStart),
                 dateEnd: new Date(item.dateEnd)

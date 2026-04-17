@@ -23,5 +23,10 @@
     font-size: $font-size15;
     color: $color-text-light;
     text-align: center;
+    width: 25%;
+  }
+
+  &__dosage {
+    min-width: 25%;
   }
 }

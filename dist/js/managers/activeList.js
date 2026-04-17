@@ -148,7 +148,7 @@ export class ActiveListManager {
                 });
             }
         }
-        for (let data of changeInputData) {
+        for (const data of changeInputData) {
             if (data.typeofId === 'number') {
                 const key = data.property;
                 if (!['diseaseName', 'dateStart', 'dateEnd'].includes(key)) {
@@ -252,12 +252,12 @@ export class ActiveListManager {
             return;
         medContent.innerHTML = !isOpen
             ? createMedicationComponent(medication)
-            : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0">
-            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;">
+            : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0" aria-label="Кликабельный заголовок ${medication.medicationName} открыть">
+            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;">
             </h4>`;
     }
     handleAddMoreMedication(e) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         const target = e.target;
         if (!(target instanceof HTMLElement))
             return;
@@ -268,15 +268,21 @@ export class ActiveListManager {
         const editList = querySelectorEl('.edit__list', HTMLUListElement);
         if (button) {
             if (editList.querySelector('.edit__item--choose') || editList.querySelector('.edit__item-add')) {
-                editList.querySelector('.edit__item--choose')
-                    ? (_a = editList.querySelector('.edit__item--choose')) === null || _a === void 0 ? void 0 : _a.remove()
-                    : (_b = editList.querySelector('.edit__item-add')) === null || _b === void 0 ? void 0 : _b.remove();
+                const chooseItem = editList.querySelector('.edit__item--choose');
+                if (chooseItem) {
+                    chooseItem.remove();
+                }
+                else {
+                    (_a = editList.querySelector('.edit__item-add')) === null || _a === void 0 ? void 0 : _a.remove();
+                }
                 button.textContent = '+';
+                button.ariaLabel = 'Добавить новое лекарство';
                 return;
             }
             button.textContent = '-';
+            button.ariaLabel = 'Закрыть создание лекарства';
             editList.insertAdjacentHTML('beforeend', createChooseTypeMedComponent());
-            querySelectorEl('.edit__button-choose', HTMLButtonElement).focus();
+            querySelectorEl('.edit__item--choose', HTMLLIElement).focus();
             return;
         }
         if (buttonChoose) {
@@ -289,12 +295,13 @@ export class ActiveListManager {
                 powderType = attributePowder;
             const li = document.createElement('li');
             li.classList.add('edit__item', 'edit__item-add');
+            li.setAttribute('tabindex', '0');
             li.setAttribute('data-type', type);
             if (attributePowder)
                 li.setAttribute('data-potype', attributePowder);
             li.innerHTML = createEditAddComponent(type, powderType);
-            (_c = editList.querySelector('.edit__item--choose')) === null || _c === void 0 ? void 0 : _c.replaceWith(li);
-            (_d = li.querySelector('.edit__submit-btn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => this.handleAddForm(type, attributePowder, li, editList));
+            (_b = editList.querySelector('.edit__item--choose')) === null || _b === void 0 ? void 0 : _b.replaceWith(li);
+            (_c = li.querySelector('.edit__submit-btn')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => this.handleAddForm(type, attributePowder, li, editList));
         }
     }
     handleAddForm(type, powderType, li, editList) {
@@ -308,7 +315,9 @@ export class ActiveListManager {
         this.newMedications.push(medication);
         li.remove();
         editList.insertAdjacentHTML('beforeend', createEditMedicationComponent(medication));
-        querySelectorEl('.edit__add-button', HTMLButtonElement).textContent = '+';
+        const btn = querySelectorEl('.edit__add-button', HTMLButtonElement);
+        btn.textContent = '+';
+        btn.ariaLabel = 'Добавить новое лекарство';
     }
     createMedOnType(type, powderType, medTitle, dosage, stock, time) {
         if (!medTitle.value.trim()) {

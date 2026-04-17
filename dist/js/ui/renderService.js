@@ -7,7 +7,7 @@ export function renderActiveList(arr, activeList) {
         activeList.innerHTML = '<p class="item-title descr-not">Пока нет активных приёмов</p>';
         return;
     }
-    for (let dis of sorted) {
+    for (const dis of sorted) {
         if (dis.archive)
             continue;
         const li = createDiseaseComponent(dis);
@@ -54,7 +54,7 @@ export function renderArchiveList(arr, archiveList) {
         archiveList.innerHTML = '<p class="item-title descr-not">Пока нет архивных приёмов</p>';
         return;
     }
-    for (let disease of arr) {
+    for (const disease of arr) {
         if (!disease.archive)
             continue;
         const li = createArchiveCardComponent(disease);

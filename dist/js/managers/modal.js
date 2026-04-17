@@ -23,8 +23,8 @@ export class ModalManager {
         document.addEventListener('click', (e) => this.handleAddButtonClick(e));
         document.addEventListener('click', (e) => this.handleCloseModal(e));
         this.modalConfidence.addEventListener('click', (e) => this.handleClickConfidence(e));
-        const myObserver = this.watchMultipleElements([this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence], 'hidden', {
-            onAdded: (el) => {
+        this.watchMultipleElements([this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence], 'hidden', {
+            onAdded: () => {
                 document.body.classList.remove('no-scroll');
                 window.scrollTo(0, this.scrollPosition);
                 setTimeout(() => {
@@ -33,7 +33,7 @@ export class ModalManager {
                     this.focusElement = null;
                 }, 10);
             },
-            onRemoved: (el) => document.body.classList.add('no-scroll')
+            onRemoved: () => document.body.classList.add('no-scroll')
         });
     }
     watchMultipleElements(selectors, className, callbacks) {

@@ -21,7 +21,7 @@ export function renderActiveList(arr: Disease[], activeList: HTMLUListElement) {
         return
     }
     
-        for (let dis of sorted) {
+        for (const dis of sorted) {
             if (dis.archive) continue
             const li = createDiseaseComponent(dis)
             activeList.insertAdjacentHTML('beforeend', li)
@@ -110,7 +110,7 @@ export function renderArchiveList(arr: Disease[], archiveList: HTMLUListElement)
             return
         }
 
-        for (let disease of arr) {
+        for (const disease of arr) {
             if (!disease.archive) continue
             const li = createArchiveCardComponent(disease)
             archiveList.insertAdjacentHTML('beforeend', li)

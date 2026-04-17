@@ -38,11 +38,11 @@ export class ModalManager {
         this.modalConfidence.addEventListener('click', (e) => this.handleClickConfidence(e))
 
 
-        const myObserver = this.watchMultipleElements(
+        this.watchMultipleElements(
             [this.modalForm, this.modalAssignAgain, this.modalWarning, this.modalConfidence],
             'hidden',
             {
-                onAdded: (el) => {
+                onAdded: () => {
                     document.body.classList.remove('no-scroll')
                     window.scrollTo(0, this.scrollPosition)
 
@@ -52,7 +52,7 @@ export class ModalManager {
                         this.focusElement = null
                     }, 10)
                 },
-                onRemoved: (el) => document.body.classList.add('no-scroll')
+                onRemoved: () => document.body.classList.add('no-scroll')
             }
         );
     }

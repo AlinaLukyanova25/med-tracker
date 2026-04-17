@@ -9,12 +9,12 @@ import { ActiveListManager } from "./managers/activeList.js";
 import { KeyboardNavigation } from "./core/keyboard-navigation.js";
 document.addEventListener('DOMContentLoaded', () => {
     const dataService = new DataService();
-    const menu = new MenuManager();
+    new MenuManager();
     const modal = new ModalManager(dataService);
-    const diseases = new DiseasesManager(modal, dataService);
+    new DiseasesManager(modal, dataService);
     const activeList = new ActiveListManager(dataService, modal);
-    const mainPage = new MainPageManager(dataService, modal, activeList);
-    const archive = new ArchiveManager(dataService, modal);
-    const calendar = new CalendarManager(dataService, modal);
-    const keyboardNavigation = new KeyboardNavigation(modal);
+    new MainPageManager(dataService, modal, activeList);
+    new ArchiveManager(dataService, modal);
+    new CalendarManager(dataService, modal);
+    new KeyboardNavigation(modal);
 });

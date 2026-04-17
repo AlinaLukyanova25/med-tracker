@@ -10,4 +10,8 @@
   }
 
   @include time-and-dosage-and-stock-style;
+
+  &__dosage {
+    min-width: 25%;
+  }
 }

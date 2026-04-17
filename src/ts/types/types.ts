@@ -3,7 +3,7 @@ import { ModalManager } from "../managers/modal"
 
 export function getElement<T extends HTMLElement>(
     id: string,
-    typeGuard: new (...args: any[]) => T
+    typeGuard: new (...args: unknown[]) => T
 ): T {
     const el = document.getElementById(id)
 
@@ -20,7 +20,7 @@ export function getElement<T extends HTMLElement>(
 
 export function querySelectorEl<T extends HTMLElement>(
   selector: string,
-  typeGuard: new (...args: any[]) => T
+  typeGuard: new (...args: unknown[]) => T
 ): T {
 
     const el = document.querySelector(selector);

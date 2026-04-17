@@ -9,6 +9,18 @@
     text-align: center;
     margin-bottom: $space16;
     font-weight: $medium;
+
+    &:focus-visible {
+      outline: $space1 solid $color-primary;
+      outline-offset: $space2
+    }
+  }
+
+  &__month-title {
+    &:focus-visible {
+      outline: $space1 solid $color-primary;
+      outline-offset: $space2;
+    }
   }
 
   &__header {

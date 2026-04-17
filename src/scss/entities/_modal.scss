@@ -27,9 +27,18 @@
     }
   }
 
+  &__label-time:focus {
+      outline: none;
+      color: $color-primary-light;
+    }
+
   &__add-more {
     cursor: pointer;
     color: $color-text-light;
+
+    &:focus {
+      outline: $space1 solid $color-primary;
+    }
   }
 
   &__buttons {

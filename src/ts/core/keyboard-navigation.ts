@@ -1,4 +1,3 @@
-import { domElements } from "./domElements.js"
 import { ModalManager } from "../managers/modal.js"
 import { querySelectorEl } from "../types/types.js"
 

@@ -124,6 +124,10 @@
     gap: $space16 $space8;
     padding: 0;
     margin: $space16 0;
+
+    &:focus-visible {
+      outline: none;
+    }
   }
 
   &__submit-btn {
@@ -142,6 +146,11 @@
   &__item-add {
     border: $space2 solid color.mix($color-text, $color-background, 10%);
     background-color: $color-white;
+
+    &:focus-visible {
+      outline: none;
+      border-color: $color-primary-light;
+    }
   }
 
   textarea:focus,

@@ -1,5 +1,5 @@
 import { DataService } from "../core/dataService.js";
-import { DiseaseEditType, getElement, isValidDiseaseEditTypeKey, querySelectorEl, SelectMedicationType, collectsObjectByType, isValidMedicationType, isValidMedicationKey } from "../types/types.js";
+import { getElement, isValidDiseaseEditTypeKey, querySelectorEl, SelectMedicationType, collectsObjectByType, isValidMedicationType, isValidMedicationKey } from "../types/types.js";
 import { Disease, MedicationType } from "../types/data";
 import { DeleteDiseaseButton, DeleteMedButton, InputDataDis, InputDataMed } from "../types/ui.js";
 import { createTakenTimesArray, parseRussianDate } from "../core/dateUtils.js";
@@ -205,7 +205,7 @@ export class ActiveListManager {
             }
         }
 
-        for (let data of changeInputData) {
+        for (const data of changeInputData) {
 
             if (data.typeofId === 'number') {
                 const key = data.property
@@ -323,8 +323,8 @@ export class ActiveListManager {
 
         medContent.innerHTML = !isOpen
             ? createMedicationComponent(medication)
-            : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0">
-            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="Стрелка вниз" style="width: 25px;">
+            : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0" aria-label="Кликабельный заголовок ${medication.medicationName} открыть">
+            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;">
             </h4>`
     }
 
@@ -344,17 +344,23 @@ export class ActiveListManager {
 
             if (editList.querySelector('.edit__item--choose') || editList.querySelector('.edit__item-add')) {
                 
-                editList.querySelector('.edit__item--choose')
-                    ? editList.querySelector('.edit__item--choose')?.remove()
-                    : editList.querySelector('.edit__item-add')?.remove()
+                const chooseItem = editList.querySelector('.edit__item--choose')
+                if (chooseItem) {
+                    chooseItem.remove()
+                } else {
+                    editList.querySelector('.edit__item-add')?.remove()
+                }
+                
                 button.textContent = '+'
+                button.ariaLabel = 'Добавить новое лекарство'
 
                 return
             }
 
             button.textContent = '-'
+            button.ariaLabel = 'Закрыть создание лекарства'
             editList.insertAdjacentHTML('beforeend', createChooseTypeMedComponent())
-            querySelectorEl('.edit__button-choose', HTMLButtonElement).focus()
+            querySelectorEl('.edit__item--choose', HTMLLIElement).focus()
 
             return
         }
@@ -370,6 +376,7 @@ export class ActiveListManager {
 
             const li = document.createElement('li')
             li.classList.add('edit__item', 'edit__item-add')
+            li.setAttribute('tabindex', '0')
             li.setAttribute('data-type', type)
             if (attributePowder) li.setAttribute('data-potype', attributePowder)
             
@@ -403,7 +410,10 @@ export class ActiveListManager {
 
         li.remove()
         editList.insertAdjacentHTML('beforeend', createEditMedicationComponent(medication))
-        querySelectorEl('.edit__add-button', HTMLButtonElement).textContent = '+'
+            
+        const btn = querySelectorEl('.edit__add-button', HTMLButtonElement)
+        btn.textContent = '+'
+        btn.ariaLabel = 'Добавить новое лекарство'
     }
 
     createMedOnType(

@@ -1,6 +1,6 @@
 import { DataService } from "../core/dataService.js"
 import { domElements } from "../core/domElements.js"
-import { formatDate, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js"
+import { formatDate, formatDateRu, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js"
 import { getElement } from "../types/types.js"
 import { ModalManager } from "./modal.js"
 
@@ -96,7 +96,7 @@ export class CalendarManager {
         const markedDate = this.dataService.findMarkedDates(dateToString)
 
         return `
-        <div ${!shouldUpdateTaken(date.toISOString()) ? 'tabindex="0"' : ''} class="calendar__day ${
+        <div ${!shouldUpdateTaken(date.toISOString()) ? `tabindex="0"` : ''} class="calendar__day ${
             markedDate && markedDate.taken
             ? 'accepted'
             : isHasDate && isDatePassed(date) && (!markedDate || !markedDate.taken)
@@ -106,6 +106,7 @@ export class CalendarManager {
                     : ''
             }
         ${!shouldUpdateTaken(date.toISOString()) ? 'today' : ''}" style="color: #1e293b;" data-date="${dateToString}">
+        ${!shouldUpdateTaken(date.toISOString()) ? `<span class="visually-hidden">Сегодняшний день ${formatDateRu(date)} ${date?.getFullYear()} год</span>` : ''}
         ${dayNumber}
         </div>
         `

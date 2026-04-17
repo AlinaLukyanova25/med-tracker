@@ -2,9 +2,9 @@ import { formatDate, getTimeReception } from "./dateUtils.js";
 export function sortByOrderHours(arr, medications) {
     const newArr = medications;
     const sortedArr = [];
-    for (let medication of newArr) {
+    for (const medication of newArr) {
         const result = getTimeReception(medication.time);
-        for (let time of result) {
+        for (const time of result) {
             if (medication.takenTimes.includes(time.toISOString()))
                 continue;
             const medAndTime = {
@@ -36,7 +36,7 @@ export function sortStock(arr, medication) {
 }
 export function getActiveDateSet(diseases) {
     const dates = new Set();
-    for (let dis of diseases) {
+    for (const dis of diseases) {
         if (dis.archive)
             continue;
         const firstDay = new Date(dis.dateStart.getFullYear(), dis.dateStart.getMonth(), dis.dateStart.getDate());

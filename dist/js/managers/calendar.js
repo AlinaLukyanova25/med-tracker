@@ -1,5 +1,5 @@
 import { domElements } from "../core/domElements.js";
-import { formatDate, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js";
+import { formatDate, formatDateRu, isDatePassed, shouldUpdateTaken } from "../core/dateUtils.js";
 import { getElement } from "../types/types.js";
 export class CalendarManager {
     constructor(dataService, modal) {
@@ -61,7 +61,7 @@ export class CalendarManager {
         const isHasDate = this.dataService.getSetDiseasesDate().has(dateToString);
         const markedDate = this.dataService.findMarkedDates(dateToString);
         return `
-        <div ${!shouldUpdateTaken(date.toISOString()) ? 'tabindex="0"' : ''} class="calendar__day ${markedDate && markedDate.taken
+        <div ${!shouldUpdateTaken(date.toISOString()) ? `tabindex="0"` : ''} class="calendar__day ${markedDate && markedDate.taken
             ? 'accepted'
             : isHasDate && isDatePassed(date) && (!markedDate || !markedDate.taken)
                 ? 'no-accepted'
@@ -69,6 +69,7 @@ export class CalendarManager {
                     ? 'disease'
                     : ''}
         ${!shouldUpdateTaken(date.toISOString()) ? 'today' : ''}" style="color: #1e293b;" data-date="${dateToString}">
+        ${!shouldUpdateTaken(date.toISOString()) ? `<span class="visually-hidden">Сегодняшний день ${formatDateRu(date)} ${date === null || date === void 0 ? void 0 : date.getFullYear()} год</span>` : ''}
         ${dayNumber}
         </div>
         `;

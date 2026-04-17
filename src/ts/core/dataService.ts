@@ -25,9 +25,9 @@ export class DataService {
     getAllMedications(): MedicationType[] {
         const newArr: MedicationType[] = []
 
-        for (let dis of this.diseases) {
+        for (const dis of this.diseases) {
             if (dis.archive) continue
-            for (let med of dis.medArray) {
+            for (const med of dis.medArray) {
                 newArr.push(med)
             }
         }
@@ -162,7 +162,6 @@ export class DataService {
     loadMarkedDates() {
         const stored = loadFromStorageDates()
         const activeDates = this.getSetDiseasesDate()
-        const now = new Date()
         let changed = false;
 
         this.markedDates = stored.filter(md => {

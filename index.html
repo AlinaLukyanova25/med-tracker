@@ -20,8 +20,8 @@
             </ul>
             <ul class="header-list header-list-mobile">
                 <li class="header-list__item"><a href="#" data-page="main-page" class="header-list__link">Главная</a></li>
-                <div class="header-list__open">
-                    <img src="img/burger.svg" id="menu-img">
+                <div class="header-list__open" aria-hidden="true">
+                    <img src="img/burger.svg" id="menu-img" alt="">
                     <div class="header-list__mobile">
                         <li class="header-list__item"><a href="#" data-page="active" class="header-list__link">Активные</a></li>
                         <li class="header-list__item"><a href="#" data-page="calendar" class="header-list__link">Календарь</a></li>
@@ -32,19 +32,19 @@
         </nav>
     </header>
     <main>
-        <h1 hidden>Умная аптечка</h1>
+        <h1 class="visually-hidden">Умная аптечка</h1>
         <section class="main-page">
-            <h2 hidden>Главная</h2>
+            <h2 class="visually-hidden">Главная</h2>
 
-            <h3 class="list-title">Приём на сегодня</h3>
+            <h3 class="list-title" tabindex="0">Приём на сегодня</h3>
             <ul class="main-page__today reception-list">
             </ul>
 
-            <h3 class="list-title">Пропущенные приёмы</h3>
+            <h3 class="list-title" tabindex="0">Пропущенные приёмы</h3>
             <ul class="main-page__missed missed-list">
             </ul>
 
-            <h3 class="list-title">Скоро закончатся (таблетки и порошки)</h3>
+            <h3 class="list-title" tabindex="0">Скоро закончатся (таблетки и порошки)</h3>
             <ul class="main-page__stock stock-list">
             </ul>
 
@@ -52,7 +52,7 @@
         </section>
 
         <section class="active">
-            <h2 hidden>Активные</h2>
+            <h2 class="visually-hidden">Активные</h2>
             <ul class="active__list">
             </ul>
 
@@ -60,11 +60,12 @@
         </section>
 
         <section class="calendar" id="section-calendar">
-            <h2 class="list-title" style="text-align: center;">Как пользоваться календарем</h2>
-            <p class="calendar__descr">Серым обозначены дни, когда вам нужно принять лекарства. Нажмите на сегодняшнюю дату после того, как примете все, что назначено. Если не нажмёте - завтра она станет красной.</p>
+            <h2 class="visually-hidden">Календарь</h2>
+            <h3 class="list-title" style="text-align: center;">Как пользоваться календарем</h3>
+            <p class="calendar__descr" tabindex="0">Серым обозначены дни, когда вам нужно принять лекарства. Нажмите на сегодняшнюю дату после того, как примете все, что назначено. Если не нажмёте - завтра она станет красной.</p>
             <div class="calendar__header">
             <button class="arrow" id="prev-month" type="button" aria-label="Предыдущий месяц"><img src="img/arrow-left.svg" alt=""></button>
-            <h2 class="list-title" id="current-month">Календарь</h2>
+            <h3 class="list-title calendar__month-title" id="current-month" tabindex="0">Календарь</h3>
             <button class="arrow" id="next-month" type="button" aria-label="Следующий месяц"><img src="img/arrow-right.svg" alt=""></button>
             </div>
 
@@ -84,16 +85,16 @@
         </section>
 
         <section class="archive">
-            <h2 hidden>Архив</h2>
+            <h2 class="visually-hidden">Архив</h2>
             <ul class="archive__list">
             </ul>
 
         </section>
     </main>
 
-    <div id="modal" class="modal hidden">
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
         <div class="modal__content">
-            <span class="close modal__close" role="button" tabindex="0">&times;</span>
+            <span class="close modal__close" role="button" tabindex="0" aria-label="Закрыть модальное окно">&times;</span>
             <h3 class="list-title">Добавить приём</h3>
             <form id="add-reception">
                 <label for="disease-name">Название болезни</label>
@@ -103,7 +104,7 @@
 
                 <label for="medication-name">Название лекарства</label>
                 <input type="text" id="medication-name" placeholder="Введите название">
-                <label for="reception-time" id="time-label">Время приёма <span class="modal__add-more">(Добавить ещё)</span></label>
+                <label for="reception-time" id="time-label" tabindex="0" class="modal__label-time">Время приёма <span class="modal__add-more" tabindex="0" role="button">(Добавить ещё)</span></label>
                 <input type="time" id="reception-time" min="00:00" max="23:59">
 
                 <label for="medication-type">Форма лекарства</label>
@@ -135,9 +136,9 @@
         </div>
     </div>
 
-    <div id="modal-assign-again" class="modal-assign-again hidden">
+    <div id="modal-assign-again" class="modal-assign-again hidden" role="dialog" aria-modal="true">
         <div class="modal-assign-again__content">
-            <span class="close modal-again__close" role="button" tabindex="0">&times;</span>
+            <span class="close modal-again__close" role="button" tabindex="0" aria-label="Закрыть модальное окно">&times;</span>
             <h3 class="list-title">Назначьте приём</h3>
             <form id="add-again">
                 <label for="reception-again-end">Окончание приема</label>
@@ -149,14 +150,14 @@
 
     <div id="modal-warning" class="modal-warning hidden" tabindex="0" role="dialog" aria-modal="true">
         <div class="modal-warning__content">
-            <span class="close modal-warning__close" role="button" tabindex="0">&times;</span>
+            <span class="close modal-warning__close" role="button" tabindex="0" aria-label="Закрыть модальное окно">&times;</span>
             <p class="modal-warning__descr"></p>
         </div>
     </div>
 
-    <div id="modal-confidence" class="modal-confidence hidden">
+    <div id="modal-confidence" class="modal-confidence hidden" role="dialog" aria-modal="true">
         <div class="modal-confidence__content">
-            <span class="close modal-confidence__close" role="button" tabindex="0">&times;</span>
+            <span class="close modal-confidence__close" role="button" tabindex="0" aria-label="Закрыть модальное окно">&times;</span>
             <p class="modal-confidence__descr">Вы точно хотите удалить карточку с лечением?</p>
             <div class="modal-confidence__buttons">
                 <button class="card-button" id="ok">Да</button>
