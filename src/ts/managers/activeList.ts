@@ -25,6 +25,7 @@ import {
   createMedicationComponent,
 } from '../ui/uiComponents.js';
 import { domElements } from '../core/domElements.js';
+import arrowBottom from '../../../img/arrow-bottom.svg';
 
 let changeInputData: (InputDataDis<unknown> | InputDataMed<unknown>)[] = [];
 
@@ -364,7 +365,7 @@ export class ActiveListManager {
     medContent.innerHTML = !isOpen
       ? createMedicationComponent(medication)
       : `<h4 class="item-title active__med-title" data-id="${medication.medId}"tabindex="0" aria-label="Кликабельный заголовок ${medication.medicationName} открыть">
-            ${medication.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;">
+            ${medication.medicationName} <img src="${arrowBottom}" alt="" aria-hidden="true" style="width: 25px;">
             </h4>`;
   }
 

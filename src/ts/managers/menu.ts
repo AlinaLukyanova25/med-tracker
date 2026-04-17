@@ -1,4 +1,6 @@
 import { domElements } from '../core/domElements.js';
+import burgerSvg from '../../../img/burger.svg';
+import xSvg from '../../../img/x.svg';
 
 export class MenuManager {
   private openMenu: boolean = false;
@@ -40,7 +42,7 @@ export class MenuManager {
 
     if (!isDesktop) {
       this.menuList.style.display = 'none';
-      this.imgMenu.src = 'img/burger.svg';
+      this.imgMenu.src = `${burgerSvg}`;
       this.openMenu = false;
     }
   }
@@ -61,7 +63,7 @@ export class MenuManager {
 
   updateBurgerIcon() {
     if (this.imgMenu) {
-      this.imgMenu.src = this.openMenu ? 'img/x.svg' : 'img/burger.svg';
+      this.imgMenu.src = this.openMenu ? `${xSvg}` : `${burgerSvg}`;
     }
   }
 
@@ -76,7 +78,7 @@ export class MenuManager {
       !target.closest('.header-list__open')
     ) {
       this.menuList.style.display = 'none';
-      this.imgMenu.src = 'img/burger.svg';
+      this.imgMenu.src = `${burgerSvg}`;
       this.openMenu = false;
     }
   }

@@ -5,6 +5,9 @@ import {
   SelectPowderType,
   isDosageType,
 } from '../types/types.js';
+import arrowBottom from '../../../img/arrow-bottom.svg';
+import arrowTop from '../../../img/arrow-top.svg';
+import arrowLeft from '../../../img/arrow-left.svg';
 
 export function createDivContainer(
   styleClass: string,
@@ -35,7 +38,7 @@ export function createDiseaseComponent(dis: Disease): string {
             <span class="active__date--start">Назначен: ${formatDateRu(dis.dateStart)}</span>
             <span class="active__date--end">Окончание приёма: ${formatDateRu(dis.dateEnd)}</span>
         </p>
-        ${dis.medArray.length > 0 ? dis.medArray.map((med) => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} открыть">${med.medicationName} <img src="img/arrow-bottom.svg" alt="" aria-hidden="true" style="width: 25px;"></h4></div>`).join('') : ''}
+        ${dis.medArray.length > 0 ? dis.medArray.map((med) => `<div class="active__med-content" data-id="${med.medId}" data-disease="${dis.id}"><h4 class="item-title active__med-title" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} открыть">${med.medicationName} <img src="${arrowBottom}" alt="" aria-hidden="true" style="width: 25px;"></h4></div>`).join('') : ''}
         </li>
     `;
 }
@@ -49,7 +52,7 @@ export function createMedicationComponent(med: MedicationType): string {
   }
 
   return `
-    <h4 class="item-title active__med-title open" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} закрыть">${med.medicationName} <img src="img/arrow-top.svg" alt="" aria-hidden="true" style="width: 25px;"></h4>
+    <h4 class="item-title active__med-title open" data-id="${med.medId}" tabindex="0" aria-label="Кликабельный заголовок ${med.medicationName} закрыть">${med.medicationName} <img src="${arrowTop}" alt="" aria-hidden="true" style="width: 25px;"></h4>
     <div class="active__card-footer">
         ${med.type !== 'Аэрозоль' && med.type !== 'Мазь' ? `<p class="active__dosage">Доза: <span>${med.dosage} ${dosType}</span></p>` : ''}
         ${med.type === 'Таблетка' || med.type === 'Капсула' || (med.type === 'Порошок' && med.dosageType === 'Пакетик') ? `<p class="active__stock">Осталось: <span>${med.stock}</span></p>` : ''}
@@ -182,7 +185,7 @@ export function createEditContainerComponent(dis: Disease): string {
   return `
         <div class="edit">
             <button class="arrow arrow-back" aria-label="Вернуться назад">
-                <img src="img/arrow-left.svg" alt="" aria-hidden="true">
+                <img src="${arrowLeft}" alt="" aria-hidden="true">
             </button>
             <form id="edit-form" class="edit__form">
             <div class="edit__header-content">
