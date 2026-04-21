@@ -1,5 +1,4 @@
 import { MedicationType, Aerosol, Ointment, DosageType } from './data';
-import { ModalManager } from '../managers/modal';
 
 export function getElement<T extends HTMLElement>(
   id: string,
@@ -111,8 +110,7 @@ export function collectsObjectByType(
   medType: SelectMedicationType,
   powderType: string | null,
   dosage: number | null,
-  stock: number | null,
-  modal: ModalManager
+  stock: number | null
 ): MedicationType | 'dosage' | 'stock' {
   const base = {
     medId: crypto.randomUUID(),

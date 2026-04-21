@@ -524,8 +524,7 @@ export class ActiveListManager {
         : null,
       stock instanceof HTMLInputElement && Number(stock.value) > 0
         ? Number(stock.value)
-        : null,
-      this.modal
+        : null
     );
 
     if (base === 'dosage') {

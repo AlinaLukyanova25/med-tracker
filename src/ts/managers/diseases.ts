@@ -278,8 +278,7 @@ export class DiseasesManager {
       medType,
       this.selectPowderType.value,
       dosage,
-      stock,
-      this.modal
+      stock
     );
 
     if (base === 'dosage') {
