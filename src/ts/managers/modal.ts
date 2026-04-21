@@ -201,13 +201,13 @@ export class ModalManager {
     this.modalAgainClose.focus();
   }
 
-  openModalWarning(text: string, e?: MouseEvent, button?: HTMLElement) {
+  openModalWarning(text: string, e?: MouseEvent, element?: HTMLElement) {
     if (e) {
       this.scrollPosition = e.pageY - e.clientY;
     }
 
-    if (button) {
-      this.focusElement = button;
+    if (element) {
+      this.focusElement = element;
     }
 
     this.modalWarning.classList.remove('hidden');

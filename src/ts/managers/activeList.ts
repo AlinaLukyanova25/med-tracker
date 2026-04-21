@@ -115,7 +115,11 @@ export class ActiveListManager {
     }
 
     if (!element.value.trim()) {
-      this.modal.openModalWarning('Введите правильное значение');
+      this.modal.openModalWarning(
+        'Введите правильное значение',
+        undefined,
+        element
+      );
       return;
     }
 
@@ -131,20 +135,22 @@ export class ActiveListManager {
     )
       return;
 
-    if (property === 'dateStart' || property === 'dateEnd') {
-      const newValue = parseRussianDate(
-        element.value,
-        property,
-        id,
-        this.modal
-      );
+    if (
+      element instanceof HTMLInputElement &&
+      (property === 'dateStart' || property === 'dateEnd')
+    ) {
+      const newValue = parseRussianDate(element, property, id, this.modal);
       if (!newValue) return;
 
       this.handleInputChange(property, id, typeofId, newValue);
       return;
     } else if (property === 'dosage') {
       if (Number(element.value) < 0) {
-        this.modal.openModalWarning('Введите корректные значения');
+        this.modal.openModalWarning(
+          'Введите корректные значения',
+          undefined,
+          element
+        );
         return;
       }
 
@@ -153,7 +159,11 @@ export class ActiveListManager {
       return;
     } else if (property === 'stock') {
       if (Number(element.value) < 1) {
-        this.modal.openModalWarning('Введите корректные значения');
+        this.modal.openModalWarning(
+          'Введите корректные значения',
+          undefined,
+          element
+        );
         return;
       }
 
@@ -165,7 +175,11 @@ export class ActiveListManager {
 
       const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
       if (!timesArray.every((t) => timeRegex.test(t))) {
-        this.modal.openModalWarning('Введите корректные данные');
+        this.modal.openModalWarning(
+          'Введите корректное время',
+          undefined,
+          element
+        );
         return;
       }
 
@@ -474,29 +488,19 @@ export class ActiveListManager {
     time: HTMLInputElement
   ): MedicationType | undefined {
     if (!medTitle.value.trim()) {
-      this.modal.openModalWarning('Введите корректное название');
+      this.modal.openModalWarning(
+        'Введите корректное название',
+        undefined,
+        medTitle
+      );
       return;
-    }
-
-    if (dosage instanceof HTMLInputElement) {
-      if (Number(dosage.value) < 0) {
-        this.modal.openModalWarning('Введите корректную дозировку');
-        return;
-      }
-    }
-
-    if (stock instanceof HTMLInputElement) {
-      if (Number(stock.value) < 0) {
-        this.modal.openModalWarning('Введите корректный остаток');
-        return;
-      }
     }
 
     const timesArray = time.value.split(', ');
 
     const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
     if (!timesArray.every((t) => timeRegex.test(t))) {
-      this.modal.openModalWarning('Введите корректное время');
+      this.modal.openModalWarning('Введите корректное время', undefined, time);
       return;
     }
 
@@ -515,12 +519,36 @@ export class ActiveListManager {
       acceptedArray,
       type,
       powderType,
-      dosage instanceof HTMLInputElement ? Number(dosage.value) : null,
-      stock instanceof HTMLInputElement ? Number(stock.value) : null,
+      dosage instanceof HTMLInputElement && Number(dosage.value) > 0
+        ? Number(dosage.value)
+        : null,
+      stock instanceof HTMLInputElement && Number(stock.value) > 0
+        ? Number(stock.value)
+        : null,
       this.modal
     );
 
-    return base ? base : undefined;
+    if (base === 'dosage') {
+      if (dosage) {
+        this.modal.openModalWarning(
+          'Введите корректную дозировку',
+          undefined,
+          dosage
+        );
+      }
+      return;
+    } else if (base === 'stock') {
+      if (stock) {
+        this.modal.openModalWarning(
+          'Введите корректный остаток',
+          undefined,
+          stock
+        );
+      }
+      return;
+    } else {
+      return base;
+    }
   }
 
   handleRemoveDiseaseCard(e: MouseEvent, classButton: DeleteDiseaseButton) {

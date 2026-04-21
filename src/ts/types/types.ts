@@ -113,7 +113,7 @@ export function collectsObjectByType(
   dosage: number | null,
   stock: number | null,
   modal: ModalManager
-): MedicationType | undefined {
+): MedicationType | 'dosage' | 'stock' {
   const base = {
     medId: crypto.randomUUID(),
     medicationName,
@@ -121,18 +121,21 @@ export function collectsObjectByType(
     takenTimes: acceptedArray.length !== 0 ? acceptedArray : [],
     lastTakenUpdate: new Date().toISOString(),
   };
+
   switch (medType) {
     case SelectMedicationType.Pill:
-      if (!dosage || !stock) return showError(modal);
+      if (!dosage) return 'dosage';
+      if (!stock) return 'stock';
       return { ...base, type: 'Таблетка', dosage, stock };
     case SelectMedicationType.Capsule:
-      if (!dosage || !stock) return showError(modal);
+      if (!dosage) return 'dosage';
+      if (!stock) return 'stock';
       return { ...base, type: 'Капсула', dosage, stock };
     case SelectMedicationType.Mixture:
-      if (!dosage) return showError(modal);
+      if (!dosage) return 'dosage';
       return { ...base, type: 'Микстура', dosage };
     case SelectMedicationType.Drops:
-      if (!dosage) return showError(modal);
+      if (!dosage) return 'dosage';
       return { ...base, type: 'Капли', dosage };
     case SelectMedicationType.Aerosol:
       return { ...base, type: 'Аэрозоль' };
@@ -140,7 +143,8 @@ export function collectsObjectByType(
       return { ...base, type: 'Мазь' };
     case SelectMedicationType.Powder:
       if (powderType === SelectPowderType.Sachet) {
-        if (!dosage || !stock) return showError(modal);
+        if (!dosage) return 'dosage';
+        if (!stock) return 'stock';
         return {
           ...base,
           type: 'Порошок',
@@ -149,13 +153,8 @@ export function collectsObjectByType(
           stock,
         };
       } else {
-        if (!dosage) return showError(modal);
+        if (!dosage) return 'dosage';
         return { ...base, type: 'Порошок', dosageType: 'Ложка', dosage };
       }
   }
-}
-
-function showError(modal: ModalManager): undefined {
-  modal.openModalWarning('Введите все значения');
-  return;
 }

@@ -5,6 +5,7 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 0,
     outDir: 'dist',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         entryFileNames: 'js/[name].js',

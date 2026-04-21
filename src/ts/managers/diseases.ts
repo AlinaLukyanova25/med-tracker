@@ -110,12 +110,20 @@ export class DiseasesManager {
     const medType = this.selectType.value;
 
     if (!disName) {
-      this.modal.openModalWarning('Введите корректное болезни');
+      this.modal.openModalWarning(
+        'Введите корректное болезни',
+        undefined,
+        this.diseaseName
+      );
       return;
     }
 
     if (isNaN(dateEnd.getTime())) {
-      this.modal.openModalWarning('Укажите корректную дату окончания');
+      this.modal.openModalWarning(
+        'Укажите корректную дату окончания',
+        undefined,
+        this.dateEnd
+      );
       return;
     }
 
@@ -127,12 +135,20 @@ export class DiseasesManager {
       time
     ) {
       if (!medName) {
-        this.modal.openModalWarning('Введите корректное название лекарства');
+        this.modal.openModalWarning(
+          'Введите корректное название лекарства',
+          undefined,
+          this.medicationName
+        );
         return;
       }
 
       if (!time && this.times.length === 0) {
-        this.modal.openModalWarning('Введите время приёма');
+        this.modal.openModalWarning(
+          'Введите время приёма',
+          undefined,
+          this.time
+        );
         return;
       }
 
@@ -147,7 +163,10 @@ export class DiseasesManager {
         dosage,
         stock
       );
-      if (!medication) return;
+      if (!medication) {
+        if (this.time.value) this.times.pop();
+        return;
+      }
 
       this.medArray.push(medication);
 
@@ -177,6 +196,8 @@ export class DiseasesManager {
     this.modal.addHidden('modal');
     this.addForm.reset();
     this.checkMainPage();
+
+    this.chooseTypeMedication();
   }
 
   handleAddMoreMedication(e: MouseEvent) {
@@ -191,13 +212,26 @@ export class DiseasesManager {
     const time = this.time.value;
     const medType = this.selectType.value;
 
-    if (!disName || !medName) {
-      this.modal.openModalWarning('Введите корректные названия');
+    if (!disName) {
+      this.modal.openModalWarning(
+        'Введите корректное название болезни',
+        undefined,
+        this.diseaseName
+      );
+      return;
+    }
+
+    if (!medName) {
+      this.modal.openModalWarning(
+        'Введите корректное название лекарства',
+        undefined,
+        this.medicationName
+      );
       return;
     }
 
     if (!time && this.times.length === 0) {
-      this.modal.openModalWarning('Введите время приёма');
+      this.modal.openModalWarning('Введите время приёма', undefined, this.time);
       return;
     }
 
@@ -212,7 +246,10 @@ export class DiseasesManager {
       dosage,
       stock
     );
-    if (!medication) return;
+    if (!medication) {
+      if (this.time.value) this.times.pop();
+      return;
+    }
 
     this.medArray.push(medication);
     this.times = [];
@@ -245,7 +282,19 @@ export class DiseasesManager {
       this.modal
     );
 
-    return base ? base : undefined;
+    if (base === 'dosage') {
+      this.modal.openModalWarning('Введите дозировку', undefined, this.dosage);
+      return;
+    } else if (base === 'stock') {
+      this.modal.openModalWarning(
+        'Введите запас лекарства',
+        undefined,
+        this.stock
+      );
+      return;
+    } else {
+      return base;
+    }
   }
 
   private medicationConfig() {
@@ -329,7 +378,11 @@ export class DiseasesManager {
     const dateEnd = new Date(this.againDateEnd.value);
 
     if (isNaN(dateEnd.getTime())) {
-      this.modal.openModalWarning('Укажите корректную дату окончания');
+      this.modal.openModalWarning(
+        'Укажите корректную дату окончания',
+        undefined,
+        this.againDateEnd
+      );
       return;
     }
 

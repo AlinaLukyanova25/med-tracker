@@ -8,6 +8,7 @@
     "sass": "sass src/scss:dist/css --watch",
     "dev": "vite",
     "build": "vite build",
+    "build:watch": "vite build --watch",
     "typecheck": "tsc",
     "lint:css": "stylelint src/scss/**/*.scss",
     "lint:fix:css": "stylelint src/scss/**/*.scss --fix",

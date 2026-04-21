@@ -87,13 +87,14 @@ export function checkRecedptionTime(time: string): boolean {
 }
 
 export function parseRussianDate(
-  value: string,
+  input: HTMLInputElement,
   property: 'dateStart' | 'dateEnd',
   id: string,
   modal: ModalManager
 ): boolean | string {
+  const value = input.value;
   if (value.length > 11) {
-    modal.openModalWarning('Введите корректные данные');
+    modal.openModalWarning('Введите корректные данные', undefined, input);
     return false;
   }
 
@@ -114,7 +115,11 @@ export function parseRussianDate(
   const monthInInput = monthNames.find((m) => value.toLowerCase().includes(m));
 
   if (!monthInInput) {
-    modal.openModalWarning('Введите правильное значение месяца');
+    modal.openModalWarning(
+      'Введите правильное значение месяца',
+      undefined,
+      input
+    );
     return false;
   }
 
@@ -123,12 +128,16 @@ export function parseRussianDate(
   const newValue = `${new Date().getFullYear()}-${String(monthNames.findIndex((m) => m === monthInInput) + 1).padStart(2, '0')}-${String(dateArray[0]).padStart(2, '0')}`;
 
   if (isNaN(new Date(newValue).getTime())) {
-    modal.openModalWarning('Введите корректную дату');
+    modal.openModalWarning('Введите корректную дату', undefined, input);
     return false;
   }
 
   if (property === 'dateEnd' && isDatePassed(new Date(newValue))) {
-    modal.openModalWarning('Дата окончания не может быть прошедшей');
+    modal.openModalWarning(
+      'Дата окончания не может быть прошедшей',
+      undefined,
+      input
+    );
     return false;
   }
 
@@ -144,7 +153,11 @@ export function parseRussianDate(
   const otherDate = `${new Date().getFullYear()}-${String(monthNames.findIndex((m) => m === otherDateArray[1]) + 1).padStart(2, '0')}-${String(otherDateArray[0]).padStart(2, '0')}`;
 
   if (isNaN(new Date(otherDate).getTime())) {
-    modal.openModalWarning('Невозможно сравнивать с некорректной датой');
+    modal.openModalWarning(
+      'Невозможно сравнивать с некорректной датой',
+      undefined,
+      otherInput
+    );
     return false;
   }
 
@@ -153,7 +166,9 @@ export function parseRussianDate(
     isDatePassed(new Date(otherDate), new Date(newValue))
   ) {
     modal.openModalWarning(
-      'Дата назначения не может быть больше даты окончания'
+      'Дата назначения не может быть больше даты окончания',
+      undefined,
+      input
     );
     return false;
   }
@@ -162,7 +177,9 @@ export function parseRussianDate(
     !isDatePassed(new Date(otherDate), new Date(newValue))
   ) {
     modal.openModalWarning(
-      'Дата окончания не может быть меньше даты назначения'
+      'Дата окончания не может быть меньше даты назначения',
+      undefined,
+      input
     );
     return false;
   }
